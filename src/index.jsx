@@ -18,7 +18,7 @@ Sentry.init({
 // إضافة دعم PWA للتطبيق (Progressier)
 window.progressierAppRuntimeSettings = {
   uid: import.meta.env.VITE_PUBLIC_APP_ID,
-  icon512: "https://example.com/icon512.png", // استبدل برابط أيقونة التطبيق
+  icon512: "https://example.com/icon512.png",
   name: "Blind Accessibility",
   shortName: "Blind Access"
 };
