@@ -6,7 +6,7 @@ function App() {
   const openWebsite = () => {
     if (!clicked()) {
       setClicked(true);
-      window.open('https://www.blindaccess.pw', '_blank', 'noopener,noreferrer');
+      window.open('https://www.blindaccess.pw', 'popup', 'width=800,height=600');
     }
   };
 
