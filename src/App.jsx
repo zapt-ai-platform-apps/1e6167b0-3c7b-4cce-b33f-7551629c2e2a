@@ -62,7 +62,7 @@ function App() {
                 <img src="/assets/telegram.svg" alt="تليجرام" class="w-12 h-12" />
               </a>
               <a
-                href="https://wa.me/yournumber"
+                href="https://chat.whatsapp.com/CVW8aHib2SKIXlTroXMxYH"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
