@@ -10,8 +10,15 @@ function App() {
     }
   };
 
+  const openBlog = () => {
+    window.open('https://blindaccess.pw/المدونة/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <div class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900" dir="rtl">
+    <div
+      class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900"
+      dir="rtl"
+    >
       <div class="mx-auto h-full w-full px-4 sm:px-6 lg:px-8">
         <header class="flex justify-between items-center mb-8">
           <h1 class="text-4xl font-bold text-purple-600">Blind Accessibility</h1>
@@ -23,20 +30,28 @@ function App() {
           <p class="text-lg mb-8">
             استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
           </p>
-          <button
-            class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
-              clicked()
-                ? 'bg-blue-400 text-white cursor-not-allowed'
-                : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-105'
-            }`}
-            onClick={openWebsite}
-            disabled={clicked()}
-          >
-            زيارة موقعنا
-          </button>
+          <div class="flex flex-col md:flex-row md:space-x-4 md:space-x-reverse space-y-4 md:space-y-0">
+            <button
+              class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
+                clicked()
+                  ? 'bg-blue-400 text-white cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-105'
+              }`}
+              onClick={openWebsite}
+              disabled={clicked()}
+            >
+              زيارة موقعنا
+            </button>
+            <button
+              class="cursor-pointer px-6 py-3 rounded-lg bg-green-600 text-white hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              onClick={openBlog}
+            >
+              زيارة المدونة
+            </button>
+          </div>
           <div class="mt-8">
             <h2 class="text-2xl font-bold mb-4 text-purple-600">تابعنا على وسائل التواصل الاجتماعي</h2>
-            <div class="flex space-x-4 justify-center">
+            <div class="flex space-x-4 space-x-reverse justify-center">
               <a
                 href="https://www.facebook.com/yourpage"
                 target="_blank"
