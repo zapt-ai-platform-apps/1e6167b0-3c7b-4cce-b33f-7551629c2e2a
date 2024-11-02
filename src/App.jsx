@@ -54,7 +54,7 @@ function App() {
                 <img src="/assets/youtube.svg" alt="يوتيوب" class="w-12 h-12" />
               </a>
               <a
-                href="https://t.me/yourchannel"
+                href="https://t.me/Blindaccessibilitybot"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"

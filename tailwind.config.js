@@ -1,3 +1,5 @@
+import tailwindcssRtl from 'tailwindcss-rtl';
+
 export default {
   content: [
     "./index.html",
@@ -7,6 +9,6 @@ export default {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-rtl'),
+    tailwindcssRtl,
   ],
 };
