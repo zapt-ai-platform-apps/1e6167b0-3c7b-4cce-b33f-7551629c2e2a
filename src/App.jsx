@@ -8,8 +8,8 @@ function App() {
           <h1 class="text-4xl font-bold text-purple-600">Blind Accessibility</h1>
         </header>
         <main>
-          <p class="text-lg mb-4">
-            مرحبًا بك في <span class="font-bold">Blind Accessibility</span>. تطبيق يجمع كل ما يحتاجه المكفوفون في مكان واحد.
+          <p class="text-lg mb-4 font-semibold">
+            انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد
           </p>
           <p class="text-lg">
             استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
