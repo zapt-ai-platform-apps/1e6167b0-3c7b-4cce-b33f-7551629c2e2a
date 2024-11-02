@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@sentry/browser": "^8.35.0",
-    "@solidjs/router": "^0.8.4",
     "@sentry/node": "^8.35.0",
+    "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22"
   },
   "devDependencies": {

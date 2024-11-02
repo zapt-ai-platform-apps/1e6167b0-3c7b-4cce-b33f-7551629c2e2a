@@ -73,7 +73,7 @@ function App() {
             <h2 class="text-2xl font-bold mb-4 text-purple-600">تابعنا على وسائل التواصل الاجتماعي</h2>
             <div class="flex space-x-4 space-x-reverse justify-center">
               <a
-                href="https://www.facebook.com/yourpage"
+                href="https://www.facebook.com/profile.php?id=61550796732035&mibextid=ZbWKwL"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
