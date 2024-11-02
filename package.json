@@ -1,7 +1,7 @@
 {
-  "name": "new-app",
+  "name": "blind-accessibility",
   "version": "1.0.0",
-  "description": "تطبيق يوفر تجربة سهلة للمستخدمين بدون الحاجة إلى تسجيل الدخول.",
+  "description": "تطبيق متخصص في تقديم التقنيات والأدوات التي تساعد المكفوفين في حياتهم اليومية.",
   "type": "module",
   "scripts": {
     "dev": "vite",

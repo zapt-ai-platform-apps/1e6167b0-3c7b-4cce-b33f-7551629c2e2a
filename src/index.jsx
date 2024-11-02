@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/browser";
 Sentry.init({
   dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
   environment: import.meta.env.VITE_PUBLIC_APP_ENV,
+  integrations: [Sentry.browserTracingIntegration()],
   initialScope: {
     tags: {
       type: 'frontend',
@@ -18,8 +19,8 @@ Sentry.init({
 window.progressierAppRuntimeSettings = {
   uid: import.meta.env.VITE_PUBLIC_APP_ID,
   icon512: "https://example.com/icon512.png", // استبدلها بعنوان رمز التطبيق الخاص بك
-  name: "تطبيق جديد",
-  shortName: "تطبيق جديد"
+  name: "إمكانية الوصول للمكفوفين",
+  shortName: "إمكانية الوصول"
 };
 let script = document.createElement('script');
 script.setAttribute('src', 'https://progressier.app/z8yY3IKmfpDIw3mSncPh/script.js');
