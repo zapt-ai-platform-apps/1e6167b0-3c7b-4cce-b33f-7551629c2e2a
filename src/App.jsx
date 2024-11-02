@@ -31,13 +31,13 @@ function App() {
       class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
       dir="rtl"
     >
-      <div class="mx-auto h-full w-full px-4 sm:px-6 lg:px-8 flex-grow">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow h-full">
         <header class="flex justify-between items-center mb-8">
           <h1 class="text-4xl font-bold text-purple-600">Blind Accessibility</h1>
         </header>
         <main class="h-full">
           <p class="text-lg mb-4 font-semibold">
-            انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد
+            انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
           </p>
           <p class="text-lg mb-8">
             استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
