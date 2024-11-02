@@ -1,0 +1,42 @@
+import { render } from 'solid-js/web';
+import { onMount } from 'solid-js';
+import App from './App';
+import './index.css';
+import * as Sentry from "@sentry/browser";
+import { supabase } from './supabaseClient';
+
+Sentry.init({
+  dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
+  environment: import.meta.env.VITE_PUBLIC_APP_ENV,
+  integrations: [Sentry.browserTracingIntegration()],
+  initialScope: {
+    tags: {
+      type: 'frontend',
+      projectId: import.meta.env.VITE_PUBLIC_APP_ID
+    }
+  }
+});
+
+// Add PWA support to the app
+window.progressierAppRuntimeSettings = {
+  uid: import.meta.env.VITE_PUBLIC_APP_ID,
+  icon512: "https://example.com/icon512.png",
+  name: "Blind Accessibility",
+  shortName: "Blind Accessibility"
+};
+let script = document.createElement('script');
+script.setAttribute('src', 'https://progressier.app/z8yY3IKmfpDIw3mSncPh/script.js');
+script.setAttribute('defer', 'true');
+document.querySelector('head').appendChild(script);
+
+onMount(() => {
+  supabase.auth.onAuthStateChange((_, session) => {
+    if (session?.user) {
+      localStorage.setItem('user', JSON.stringify(session.user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  });
+});
+
+render(() => <App />, document.getElementById('root'));

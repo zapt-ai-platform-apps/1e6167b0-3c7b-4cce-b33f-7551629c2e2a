@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for better focus outlines */
+:focus {
+  outline: 2px dashed #2563eb;
+  outline-offset: 2px;
+}
