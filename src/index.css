@@ -4,6 +4,6 @@
 
 /* Custom styles for better focus outlines */
 :focus {
-  outline: 2px dashed #2563eb;
+  outline: 2px dashed #7e22ce;
   outline-offset: 2px;
 }
