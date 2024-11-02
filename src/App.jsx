@@ -14,6 +14,10 @@ function App() {
     window.open('https://blindaccess.pw/المدونة/', '_blank', 'noopener,noreferrer');
   };
 
+  const openForum = () => {
+    window.open('https://blindaccess.pw/المنتدى/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div
       class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900"
@@ -47,6 +51,12 @@ function App() {
               onClick={openBlog}
             >
               زيارة المدونة
+            </button>
+            <button
+              class="cursor-pointer px-6 py-3 rounded-lg bg-yellow-600 text-white hover:bg-yellow-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              onClick={openForum}
+            >
+              زيارة المنتدى
             </button>
           </div>
           <div class="mt-8">
