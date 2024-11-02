@@ -26,9 +26,13 @@ function App() {
     window.open('https://blindaccess.pw/انضم-للفريق/', '_blank', 'noopener,noreferrer');
   };
 
+  const openFeedbackLink = () => {
+    window.open('https://blindaccess.pw/ملاحظات-واقتراحات/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div
-      class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
+      class="h-full bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
       dir="rtl"
     >
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow h-full">
@@ -84,6 +88,19 @@ function App() {
               onClick={openJoinUs}
             >
               انضم الآن
+            </button>
+          </div>
+
+          <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 text-purple-600">شاركنا ملاحظاتك واقتراحاتك</h2>
+            <p class="text-lg mb-6">
+              نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك عبر الرابط التالي.
+            </p>
+            <button
+              class="cursor-pointer px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              onClick={openFeedbackLink}
+            >
+              أرسل ملاحظاتك
             </button>
           </div>
 
