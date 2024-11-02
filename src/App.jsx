@@ -18,6 +18,10 @@ function App() {
     window.open('https://blindaccess.pw/المنتدى/', '_blank', 'noopener,noreferrer');
   };
 
+  const openStore = () => {
+    window.open('https://blindaccess.pw/متجر/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div
       class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900"
@@ -34,7 +38,7 @@ function App() {
           <p class="text-lg mb-8">
             استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
           </p>
-          <div class="flex flex-col md:flex-row md:space-x-4 md:space-x-reverse space-y-4 md:space-y-0">
+          <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:space-x-4 md:space-x-reverse space-y-4 md:space-y-0">
             <button
               class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
                 clicked()
@@ -57,6 +61,12 @@ function App() {
               onClick={openForum}
             >
               زيارة المنتدى
+            </button>
+            <button
+              class="cursor-pointer px-6 py-3 rounded-lg bg-red-600 text-white hover:bg-red-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              onClick={openStore}
+            >
+              زيارة المتجر
             </button>
           </div>
           <div class="mt-8">
