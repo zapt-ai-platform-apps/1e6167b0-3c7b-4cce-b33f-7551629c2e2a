@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for better focus outlines */
+/* تخصيص الأنماط لتحسين تحديد العناصر */
 :focus {
   outline: 2px dashed #7e22ce;
   outline-offset: 2px;

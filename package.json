@@ -1,7 +1,7 @@
 {
   "name": "new-app",
   "version": "1.0.0",
-  "description": "An application providing a user-friendly experience without authentication.",
+  "description": "تطبيق يوفر تجربة سهلة للمستخدمين بدون الحاجة إلى تسجيل الدخول.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,6 +19,7 @@
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.7",
-    "vite-plugin-solid": "^2.10.2"
+    "vite-plugin-solid": "^2.10.2",
+    "tailwindcss-rtl": "^0.9.0"
   }
 }

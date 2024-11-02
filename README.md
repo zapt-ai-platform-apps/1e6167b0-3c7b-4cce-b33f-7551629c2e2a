@@ -1,18 +1,18 @@
-# New App
+# تطبيق جديد
 
-**New App** is a user-friendly application providing a seamless experience without the need for sign-in or authentication.
+**تطبيق جديد** هو تطبيق يوفر تجربة سهلة للمستخدمين بدون الحاجة إلى تسجيل الدخول أو المصادقة.
 
-## User Journeys
+## رحلات المستخدم
 
-### 1. Accessing the App
+### 1. الوصول إلى التطبيق
 
-1. **Open the App**: Users open **New App** in their web browser.
-2. **Welcome Message**: A welcoming message greets the user on the home page.
-3. **Explore Content**: Users can explore the features and content available immediately without any sign-in process.
-4. **Responsive Design**: The app provides a clean and responsive design that adjusts to various screen sizes.
+1. **فتح التطبيق**: يقوم المستخدم بفتح **تطبيق جديد** في متصفح الويب الخاص به.
+2. **رسالة ترحيبية**: تظهر رسالة ترحيبية للمستخدم على الصفحة الرئيسية.
+3. **استكشاف المحتوى**: يمكن للمستخدمين استكشاف الميزات والمحتوى المتاح مباشرةً دون أي عملية تسجيل دخول.
+4. **تصميم متجاوب**: يوفر التطبيق تصميمًا نظيفًا ومتجاوبًا يتكيف مع مختلف أحجام الشاشات.
 
-## Features
+## الميزات
 
-- **Instant Access**: No login required; users can access all features directly.
-- **Modern UI**: A visually appealing interface with smooth gradients and easy navigation.
-- **Responsive Layout**: Optimized for both desktop and mobile devices.
+- **وصول فوري**: لا يتطلب تسجيل دخول؛ يمكن للمستخدمين الوصول مباشرةً إلى جميع الميزات.
+- **واجهة مستخدم حديثة**: واجهة جذابة بصريًا مع تدرجات سلسة وسهولة في التنقل.
+- **تخطيط متجاوب**: مُحسّن لأجهزة سطح المكتب والأجهزة المحمولة.
