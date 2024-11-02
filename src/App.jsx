@@ -24,10 +24,10 @@ function App() {
 
   return (
     <div
-      class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900"
+      class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
       dir="rtl"
     >
-      <div class="mx-auto h-full w-full px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto h-full w-full px-4 sm:px-6 lg:px-8 flex-grow">
         <header class="flex justify-between items-center mb-8">
           <h1 class="text-4xl font-bold text-purple-600">Blind Accessibility</h1>
         </header>
@@ -108,6 +108,9 @@ function App() {
           </div>
         </main>
       </div>
+      <footer class="mt-8 text-center text-gray-700">
+        جميع الحقوق محفوظة © 2023 Blind Accessibility
+      </footer>
     </div>
   );
 }
