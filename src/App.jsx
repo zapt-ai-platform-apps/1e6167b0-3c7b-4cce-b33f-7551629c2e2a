@@ -22,6 +22,10 @@ function App() {
     window.open('https://blindaccess.pw/متجر/', '_blank', 'noopener,noreferrer');
   };
 
+  const openJoinUs = () => {
+    window.open('https://blindaccess.pw/انضم-للفريق/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div
       class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
@@ -69,6 +73,20 @@ function App() {
               زيارة المتجر
             </button>
           </div>
+
+          <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 text-purple-600">انضم لفريقنا</h2>
+            <p class="text-lg mb-6">
+              كن جزءًا من فريق <span class="font-bold">Blind Accessibility</span> وساهم في تحقيق المزيد من الاستقلالية للمكفوفين وضعاف البصر.
+            </p>
+            <button
+              class="cursor-pointer px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              onClick={openJoinUs}
+            >
+              انضم الآن
+            </button>
+          </div>
+
           <div class="mt-8">
             <h2 class="text-2xl font-bold mb-4 text-purple-600">تابعنا على وسائل التواصل الاجتماعي</h2>
             <div class="flex space-x-4 space-x-reverse justify-center">
