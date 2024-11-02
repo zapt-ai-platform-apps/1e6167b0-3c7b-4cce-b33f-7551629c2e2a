@@ -15,12 +15,12 @@ Sentry.init({
   }
 });
 
-// إضافة دعم PWA للتطبيق (Progressier)
+// Add PWA support to the app (Progressier)
 window.progressierAppRuntimeSettings = {
   uid: import.meta.env.VITE_PUBLIC_APP_ID,
-  icon512: "https://example.com/icon512.png", // استبدلها بعنوان رمز التطبيق الخاص بك
-  name: "إمكانية الوصول للمكفوفين",
-  shortName: "إمكانية الوصول"
+  icon512: "https://example.com/icon512.png", // Replace with your app icon URL
+  name: "Blind Accessibility",
+  shortName: "Blind Access"
 };
 let script = document.createElement('script');
 script.setAttribute('src', 'https://progressier.app/z8yY3IKmfpDIw3mSncPh/script.js');

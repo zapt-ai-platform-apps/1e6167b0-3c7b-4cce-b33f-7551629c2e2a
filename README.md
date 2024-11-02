@@ -1,24 +1,26 @@
-# إمكانية الوصول للمكفوفين
+# Blind Accessibility
 
-**إمكانية الوصول للمكفوفين** هو تطبيق متخصص في تقديم التقنيات والأدوات التي تساعد المكفوفين في حياتهم اليومية.
+**Blind Accessibility** is an application dedicated to providing technologies and tools to assist the visually impaired in their daily lives.
 
-## رحلات المستخدم
+## User Journeys
 
-### 1. الوصول إلى التطبيق
+### 1. Accessing the Application
 
-1. **فتح التطبيق**: يقوم المستخدم بفتح **إمكانية الوصول للمكفوفين** في متصفح الويب الخاص به.
-2. **رسالة ترحيبية**: تظهر رسالة ترحيبية للمستخدم على الصفحة الرئيسية تدعو المستخدم لاستكشاف التقنيات المتاحة.
-3. **استكشاف المحتوى**: يمكن للمستخدمين استكشاف الميزات والمحتوى المتاح مباشرةً دون أي عملية تسجيل دخول.
-4. **تصميم متجاوب ومتاح**: يوفر التطبيق تصميمًا مخصصًا للمكفوفين مع تحسين إمكانية الوصول ويتكيف مع مختلف أحجام الشاشات.
+1. **Open the App**: The user opens **Blind Accessibility** in their web browser.
+2. **Welcome Message**: A welcoming message appears on the home page, inviting the user to explore the available technologies.
+3. **Explore Content**: Users can directly explore the features and content without any login process.
+4. **Responsive and Accessible Design**: The app provides a design tailored for the visually impaired with enhanced accessibility, adapting to various screen sizes.
 
-## الميزات
+## Features
 
-- **وصول فوري**: لا يتطلب تسجيل دخول؛ يمكن للمستخدمين الوصول مباشرةً إلى جميع الميزات.
-- **واجهة مستخدم متاحة**: واجهة محسنة بإمكانية وصول محسّنة للأدوات المساعدة مثل قارئات الشاشة.
-- **تخطيط متجاوب**: مُحسّن لأجهزة سطح المكتب والأجهزة المحمولة.
-- **تحسين إمكانية الوصول**: استخدام علامات ARIA والتسميات التوضيحية لتحسين تجربة المستخدمين المكفوفين.
+- **Immediate Access**: No login required; users can access all features directly.
+- **Accessible User Interface**: An interface enhanced with accessibility features, optimized for assistive tools like screen readers.
+- **Responsive Layout**: Optimized for both desktop and mobile devices.
+- **Accessibility Enhancements**: Utilization of ARIA labels and captions to improve the experience for visually impaired users.
 
-## التقنيات الخارجية المستخدمة
+## External Technologies Used
 
-- **Progressier**: لإضافة دعم تطبيق الويب التدريجي (PWA) للتطبيق.
-- **Sentry**: لمراقبة الأخطاء وتتبعها في التطبيق.
+- **Progressier**: To add Progressive Web App (PWA) support to the application.
+- **Sentry**: For monitoring and tracking errors within the application.
+
+**Experience freedom and independence with Blind Accessibility. Empowering the visually impaired through innovative technology solutions.**
