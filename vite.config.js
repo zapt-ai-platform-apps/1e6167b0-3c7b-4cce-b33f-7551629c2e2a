@@ -11,6 +11,6 @@ export default defineConfig({
     conditions: ['development', 'browser'],
   },
   optimizeDeps: {
-    exclude: ['drizzle-orm', '@neondatabase/serverless']
+    exclude: []
   }
 });
