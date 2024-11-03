@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js';
 
 function App() {
   const [clicked, setClicked] = createSignal(false);
+  const [searchQuery, setSearchQuery] = createSignal('');
 
   const openWebsite = () => {
     if (!clicked()) {
@@ -30,6 +31,15 @@ function App() {
     window.open('https://blindaccess.pw/ملاحظات-واقتراحات/', '_blank', 'noopener,noreferrer');
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = searchQuery().trim();
+    if (query) {
+      const searchUrl = `https://blindaccess.pw/?s=${encodeURIComponent(query)}`;
+      window.open(searchUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div
       class="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
@@ -40,6 +50,23 @@ function App() {
           <h1 class="text-4xl font-bold text-purple-600">Blind Accessibility</h1>
         </header>
         <main class="h-full">
+          <form onSubmit={handleSearch} class="mb-8">
+            <div class="flex items-center">
+              <input
+                type="text"
+                placeholder="ابحث هنا..."
+                value={searchQuery()}
+                onInput={(e) => setSearchQuery(e.target.value)}
+                class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+              />
+              <button
+                type="submit"
+                class="cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-r-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+              >
+                بحث
+              </button>
+            </div>
+          </form>
           <p class="text-lg mb-4 font-semibold">
             انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
           </p>
