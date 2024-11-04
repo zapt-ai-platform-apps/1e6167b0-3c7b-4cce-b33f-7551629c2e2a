@@ -1,4 +1,4 @@
-import { createSignal, onMount } from 'solid-js';
+import { createSignal } from 'solid-js';
 
 function App() {
   const [clicked, setClicked] = createSignal(false);
@@ -123,7 +123,7 @@ function App() {
           <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-4 text-purple-600">شاركنا ملاحظاتك واقتراحاتك</h2>
             <p class="text-lg mb-6">
-              نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك عبر الرابط التالي.
+              نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك.
             </p>
             <button
               class="cursor-pointer px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
