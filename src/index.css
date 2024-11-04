@@ -7,3 +7,9 @@
   outline: 2px dashed #7e22ce;
   outline-offset: 2px;
 }
+
+/* تعزيز قابلية الوصول */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

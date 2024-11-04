@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 
 function App() {
   const [clicked, setClicked] = createSignal(false);
@@ -57,22 +57,24 @@ function App() {
                 placeholder="ابحث هنا..."
                 value={searchQuery()}
                 onInput={(e) => setSearchQuery(e.target.value)}
-                class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                class="flex-1 p-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border text-right"
               />
               <button
                 type="submit"
-                class="cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-r-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+                class="cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-l-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
               >
                 بحث
               </button>
             </div>
           </form>
-          <p class="text-lg mb-4 font-semibold">
-            انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
-          </p>
-          <p class="text-lg mb-8">
-            استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
-          </p>
+          <div class="text-center">
+            <p class="text-lg mb-4 font-semibold">
+              انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
+            </p>
+            <p class="text-lg mb-8">
+              استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
+            </p>
+          </div>
           <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:space-x-4 md:space-x-reverse space-y-4 md:space-y-0">
             <button
               class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
@@ -132,7 +134,7 @@ function App() {
           </div>
 
           <div class="mt-8">
-            <h2 class="text-2xl font-bold mb-4 text-purple-600">تابعنا على وسائل التواصل الاجتماعي</h2>
+            <h2 class="text-2xl font-bold mb-4 text-purple-600 text-center">تابعنا على وسائل التواصل الاجتماعي</h2>
             <div class="flex space-x-4 space-x-reverse justify-center">
               <a
                 href="https://www.facebook.com/profile.php?id=61550796732035&mibextid=ZbWKwL"

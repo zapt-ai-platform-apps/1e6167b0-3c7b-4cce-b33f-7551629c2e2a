@@ -1,7 +1,7 @@
 {
   "name": "blind-accessibility",
-  "version": "1.0.0",
-  "description": "An application dedicated to providing technologies and tools to assist the visually impaired in their daily lives.",
+  "version": "1.0.1",
+  "description": "تطبيق مخصص لتوفير التقنيات والأدوات لمساعدة المكفوفين وضعاف البصر في حياتهم اليومية.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@sentry/browser": "^7.59.0",
-    "@sentry/node": "^7.59.0",
+    "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22"
   },
   "devDependencies": {
