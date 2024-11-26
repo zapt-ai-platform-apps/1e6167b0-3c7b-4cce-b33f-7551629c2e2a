@@ -1,54 +1,72 @@
 import { createSignal, createEffect, Show, For } from 'solid-js';
 
 function ArabicRadio() {
-  const [countries, setCountries] = createSignal([]);
+  const [countries] = createSignal([
+    { name: 'الجزائر', code: 'DZ' },
+    { name: 'البحرين', code: 'BH' },
+    { name: 'جزر القمر', code: 'KM' },
+    { name: 'جيبوتي', code: 'DJ' },
+    { name: 'مصر', code: 'EG' },
+    { name: 'العراق', code: 'IQ' },
+    { name: 'الأردن', code: 'JO' },
+    { name: 'الكويت', code: 'KW' },
+    { name: 'لبنان', code: 'LB' },
+    { name: 'ليبيا', code: 'LY' },
+    { name: 'موريتانيا', code: 'MR' },
+    { name: 'المغرب', code: 'MA' },
+    { name: 'عمان', code: 'OM' },
+    { name: 'فلسطين', code: 'PS' },
+    { name: 'قطر', code: 'QA' },
+    { name: 'المملكة العربية السعودية', code: 'SA' },
+    { name: 'الصومال', code: 'SO' },
+    { name: 'السودان', code: 'SD' },
+    { name: 'سوريا', code: 'SY' },
+    { name: 'تونس', code: 'TN' },
+    { name: 'الإمارات العربية المتحدة', code: 'AE' },
+    { name: 'اليمن', code: 'YE' },
+  ]);
   const [stations, setStations] = createSignal([]);
   const [selectedCountry, setSelectedCountry] = createSignal('');
   const [selectedStation, setSelectedStation] = createSignal('');
   const [loadingStations, setLoadingStations] = createSignal(false);
 
-  // بيانات تجريبية لأغراض العرض
-  const radioData = {
-    'مصر': [
-      { name: 'راديو مصر', url: 'https://live.euradio.fr/mfm-aac' },
-      { name: 'نجوم إف إم', url: 'http://live.nogoumfm.net:8000/nogoumfm' },
-    ],
-    'السعودية': [
-      { name: 'راديو الرياض', url: 'http://live.almamlka.net:1935/live/ryadh.sdp/playlist.m3u8' },
-      { name: 'إذاعة جدة', url: 'http://live.almamlka.net:1935/live/jedah.sdp/playlist.m3u8' },
-    ],
-    'لبنان': [
-      { name: 'راديو لبنان', url: 'http://live.streamingfast.net/osmfm' },
-      { name: 'صوت الغد', url: 'http://live.radiovose.com/voiceoflebanon' },
-    ],
-    // يمكن إضافة المزيد من البلدان والمحطات حسب الحاجة
-  };
-
-  createEffect(() => {
-    // تعيين البلدان من مفاتيح radioData
-    setCountries(Object.keys(radioData));
-  });
-
   const handleCountryChange = (e) => {
-    const country = e.target.value;
-    setSelectedCountry(country);
+    const countryCode = e.target.value;
+    setSelectedCountry(countryCode);
     setSelectedStation('');
-    if (country) {
+    setStations([]);
+    if (countryCode) {
       setLoadingStations(true);
-      // محاكاة جلب المحطات
-      setTimeout(() => {
-        setStations(radioData[country]);
-        setLoadingStations(false);
-      }, 500);
+      fetchStations(countryCode);
     } else {
       setStations([]);
+    }
+  };
+
+  const fetchStations = async (countryCode) => {
+    try {
+      const response = await fetch(`https://de1.api.radio-browser.info/json/stations/bycountrycodeexact/${countryCode}`);
+      const data = await response.json();
+      // Filter stations with valid stream URL
+      const validStations = data.filter(station => station.url_resolved && station.name);
+      // Map stations to desired format
+      const formattedStations = validStations.map(station => ({
+        name: station.name,
+        url: station.url_resolved,
+      }));
+      setStations(formattedStations);
+    } catch (error) {
+      console.error('Error fetching stations:', error);
+      alert('حدث خطأ أثناء جلب المحطات. يرجى المحاولة مرة أخرى.');
+    } finally {
+      setLoadingStations(false);
     }
   };
 
   return (
     <div class="flex flex-col items-center justify-center flex-grow px-4">
       <h2 class="text-2xl font-bold mb-4 text-purple-600">الراديو العربي</h2>
-      <p class="text-lg mb-6 text-center">استمع إلى المحطات الإذاعية العربية المفضلة لديك من مختلف البلدان.</p>
+      <p class="text-lg mb-6 text-center">استمع إلى المحطات الإذاعية العربية المفضلة لديك من جميع البلدان العربية.</p>
       <div class="w-full max-w-md space-y-4">
         <div>
           <label for="country" class="block mb-2 text-gray-700 font-semibold">اختر البلد:</label>
@@ -56,12 +74,12 @@ function ArabicRadio() {
             id="country"
             value={selectedCountry()}
             onInput={handleCountryChange}
-            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
           >
             <option value="">اختر البلد</option>
             <For each={countries()}>
               {(country) => (
-                <option value={country}>{country}</option>
+                <option value={country.code}>{country.name}</option>
               )}
             </For>
           </select>
@@ -74,7 +92,7 @@ function ArabicRadio() {
                 id="station"
                 value={selectedStation()}
                 onInput={(e) => setSelectedStation(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
               >
                 <option value="">اختر المحطة</option>
                 <For each={stations()}>
