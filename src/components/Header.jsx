@@ -10,7 +10,7 @@ function Header() {
             <NavLink
               href="/"
               end
-              class="text-gray-800 hover:text-primary-dark cursor-pointer transition duration-300"
+              class="text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
               activeClass="text-primary-dark font-bold"
             >
               الرئيسية
@@ -19,7 +19,7 @@ function Header() {
           <li>
             <NavLink
               href="/services"
-              class="text-gray-800 hover:text-primary-dark cursor-pointer transition duration-300"
+              class="text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
               activeClass="text-primary-dark font-bold"
             >
               خدمات
@@ -28,7 +28,7 @@ function Header() {
           <li>
             <NavLink
               href="/tools"
-              class="text-gray-800 hover:text-primary-dark cursor-pointer transition duration-300"
+              class="text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
               activeClass="text-primary-dark font-bold"
             >
               أدوات

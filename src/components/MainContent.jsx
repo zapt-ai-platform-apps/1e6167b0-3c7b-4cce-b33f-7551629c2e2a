@@ -53,7 +53,7 @@ function MainContent() {
           />
           <button
             type="submit"
-            class="cursor-pointer px-6 py-3 bg-primary-dark text-white rounded-r-lg hover:bg-primary-dark hover:scale-105 transition duration-300 ease-in-out transform box-border"
+            class="cursor-pointer px-6 py-3 bg-primary-dark text-white rounded-r-lg hover:scale-105 transition duration-300 ease-in-out transform box-border"
           >
             بحث
           </button>
@@ -69,10 +69,10 @@ function MainContent() {
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <button
-          class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform ${
+          class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
             clicked()
               ? 'bg-secondary text-white cursor-not-allowed'
-              : 'bg-primary-dark text-white hover:bg-primary-dark hover:scale-105'
+              : 'bg-primary-dark text-white hover:scale-105'
           }`}
           onClick={openWebsite}
           disabled={clicked()}
@@ -80,19 +80,19 @@ function MainContent() {
           زيارة موقعنا
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:bg-secondary-dark hover:scale-105 transition duration-300 ease-in-out transform"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
           onClick={openBlog}
         >
           زيارة المدونة
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary text-white hover:bg-secondary hover:scale-105 transition duration-300 ease-in-out transform"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
           onClick={openForum}
         >
           زيارة المنتدى
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary hover:scale-105 transition duration-300 ease-in-out transform"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-primary text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
           onClick={openStore}
         >
           زيارة المتجر
@@ -105,7 +105,7 @@ function MainContent() {
           كن جزءًا من فريق <span class="font-bold">Blind Accessibility</span> وساهم في تحقيق المزيد من الاستقلالية للمكفوفين وضعاف البصر.
         </p>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-primary-dark text-white hover:bg-primary-dark hover:scale-105 transition duration-300 ease-in-out transform"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-primary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
           onClick={openJoinUs}
         >
           انضم الآن
@@ -118,7 +118,7 @@ function MainContent() {
           نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك.
         </p>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:bg-secondary-dark hover:scale-105 transition duration-300 ease-in-out transform"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
           onClick={openFeedbackLink}
         >
           أرسل ملاحظاتك
