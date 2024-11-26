@@ -1,32 +1,80 @@
+import { createSignal, For, Show } from 'solid-js';
+
 function Tools() {
+  const [selectedCategory, setSelectedCategory] = createSignal('أدوات مساعدة بالذكاء الاصطناعي');
+
+  const categories = [
+    {
+      name: 'أدوات مساعدة بالذكاء الاصطناعي',
+      description: 'استفد من الذكاء الاصطناعي لتعزيز قدراتك وزيادة إنتاجيتك.',
+      tools: [
+        { name: 'مساعد الكتابة الذكي', description: 'احصل على اقتراحات لكتابة أفضل وأسرع.' },
+        { name: 'تحليل البيانات الذكي', description: 'حلل بياناتك بذكاء للوصول إلى رؤى قيمة.' },
+      ],
+    },
+    {
+      name: 'أدوات ترفيهية',
+      description: 'استمتع بوقتك مع مجموعة من الأدوات الترفيهية الممتعة.',
+      tools: [
+        { name: 'لعبة التفكير', description: 'اختبر قدراتك العقلية واستمتع.' },
+        { name: 'مولد النكات', description: 'احصل على نكات عشوائية لترفيهك.' },
+      ],
+    },
+    {
+      name: 'أدوات منشئي المحتوى',
+      description: 'ابتكر محتوى رائع باستخدام أدوات مصممة خصيصًا لمنشئي المحتوى.',
+      tools: [
+        { name: 'محرر الفيديو المتقدم', description: 'حرر فيديوهاتك بسهولة واحترافية.' },
+        { name: 'مصمم الرسومات', description: 'أنشئ تصاميم جذابة لمحتواك.' },
+      ],
+    },
+    {
+      name: 'أدوات للمطورين',
+      description: 'احصل على أدوات متقدمة تساعدك في تطوير مشاريعك البرمجية بكفاءة.',
+      tools: [
+        { name: 'بيئة تطوير متكاملة', description: 'بيئة متكاملة لتطوير التطبيقات بسهولة.' },
+        { name: 'محلل الأكواد', description: 'أداة لتحليل وتحسين أكوادك البرمجية.' },
+      ],
+    },
+  ];
+
+  const currentCategory = () => categories.find(category => category.name === selectedCategory());
+
   return (
     <main class="h-full">
       <div class="text-center">
         <h2 class="text-2xl font-bold mb-4 text-purple-600">أدواتنا</h2>
         <p class="text-lg mb-8">
-          استكشف الأدوات المبتكرة التي تساعدك في الحياة اليومية وتعزز قدراتك.
+          اختر فئة الأدوات التي تهمك واستمتع بمجموعة من الأدوات المصممة خصيصًا لك.
         </p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-2 text-purple-600">أداة 1</h3>
-          <p class="text-gray-700">
-            وصف مختصر لأداة 1 وكيف يمكن أن تفيد المستخدمين.
-          </p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-2 text-purple-600">أداة 2</h3>
-          <p class="text-gray-700">
-            وصف مختصر لأداة 2 وكيف يمكن أن تفيد المستخدمين.
-          </p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-2 text-purple-600">أداة 3</h3>
-          <p class="text-gray-700">
-            وصف مختصر لأداة 3 وكيف يمكن أن تفيد المستخدمين.
-          </p>
-        </div>
+
+      <div class="mb-8 flex justify-center">
+        <select
+          value={selectedCategory()}
+          onInput={(e) => setSelectedCategory(e.target.value)}
+          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+        >
+          <For each={categories}>{(category) => (
+            <option value={category.name}>{category.name}</option>
+          )}</For>
+        </select>
       </div>
+
+      <Show when={currentCategory()}>
+        <div class="mb-4 text-center">
+          <p class="text-lg font-semibold text-purple-600">{currentCategory().description}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <For each={currentCategory().tools}>{(tool) => (
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-bold mb-2 text-purple-600">{tool.name}</h3>
+              <p class="text-gray-700">{tool.description}</p>
+            </div>
+          )}</For>
+        </div>
+      </Show>
     </main>
   );
 }
