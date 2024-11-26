@@ -1,9 +1,9 @@
 import { createSignal, For, Show } from 'solid-js';
-import ChatAssistant from './ChatAssistant';
+import { useNavigate } from '@solidjs/router';
 
 function Tools() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
-  const [showAssistant, setShowAssistant] = createSignal(false);
+  const navigate = useNavigate();
 
   const categories = [
     {
@@ -43,7 +43,7 @@ function Tools() {
 
   const handleToolClick = (toolName) => {
     if (toolName === 'المساعد الذكي') {
-      setShowAssistant(true);
+      navigate('/tools/chat-assistant');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
@@ -56,10 +56,6 @@ function Tools() {
     } else {
       return null;
     }
-  };
-
-  const closeAssistant = () => {
-    setShowAssistant(false);
   };
 
   return (
@@ -103,10 +99,6 @@ function Tools() {
             </div>
           )}</For>
         </div>
-      </Show>
-
-      <Show when={showAssistant()}>
-        <ChatAssistant onClose={closeAssistant} />
       </Show>
     </main>
   );

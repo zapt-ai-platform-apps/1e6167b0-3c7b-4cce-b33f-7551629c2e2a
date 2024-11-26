@@ -3,6 +3,7 @@ import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Services from './components/Services';
 import Tools from './components/Tools';
+import ToolPage from './components/ToolPage';
 import SocialMediaLinks from './components/SocialMediaLinks';
 import BottomNavigation from './components/BottomNavigation';
 import Footer from './components/Footer';
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<MainContent />} />
             <Route path="/services" element={<Services />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/:toolName" element={<ToolPage />} />
           </Routes>
           <SocialMediaLinks />
         </div>
