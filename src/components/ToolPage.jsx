@@ -2,9 +2,6 @@ import { useParams, useNavigate } from '@solidjs/router';
 import ChatAssistant from './ChatAssistant';
 import SmartWritingAssistant from './SmartWritingAssistant';
 import SmartVoiceAssistant from './SmartVoiceAssistant';
-import GuessingGame from './GuessingGame';
-import AudioStories from './AudioStories';
-import JokeGenerator from './JokeGenerator';
 import ArabicRadio from './ArabicRadio';
 
 function ToolPage() {
@@ -50,42 +47,6 @@ function ToolPage() {
           الرجوع
         </button>
         <SmartVoiceAssistant />
-      </div>
-    );
-  } else if (toolName === 'guessing-game') {
-    return (
-      <div class="h-full flex flex-col">
-        <button
-          class="cursor-pointer px-4 py-2 mt-4 ml-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border self-start"
-          onClick={goBack}
-        >
-          الرجوع
-        </button>
-        <GuessingGame />
-      </div>
-    );
-  } else if (toolName === 'audio-stories') {
-    return (
-      <div class="h-full flex flex-col">
-        <button
-          class="cursor-pointer px-4 py-2 mt-4 ml-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border self-start"
-          onClick={goBack}
-        >
-          الرجوع
-        </button>
-        <AudioStories />
-      </div>
-    );
-  } else if (toolName === 'joke-generator') {
-    return (
-      <div class="h-full flex flex-col">
-        <button
-          class="cursor-pointer px-4 py-2 mt-4 ml-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border self-start"
-          onClick={goBack}
-        >
-          الرجوع
-        </button>
-        <JokeGenerator />
       </div>
     );
   } else if (toolName === 'arabic-radio') {

@@ -19,9 +19,6 @@ function Tools() {
       name: 'أدوات ترفيهية',
       description: 'اكتشف أدوات ترفيهية ممتعة ومبتكرة لتحسين تجربتك.',
       tools: [
-        { name: 'لعبة التخمين', description: 'تحدى نفسك في لعبة تخمين الأرقام الممتعة.' },
-        { name: 'قصص مسموعة', description: 'استمع إلى مجموعة من القصص المسموعة الشيقة.' },
-        { name: 'مولد النكات', description: 'استمتع بالنكات المضحكة التي ينشئها الذكاء الاصطناعي لإضفاء البهجة على يومك.' },
         { name: 'الراديو العربي', description: 'استمع إلى المحطات الإذاعية العربية المفضلة لديك من مختلف البلدان.' },
       ],
     },
@@ -35,12 +32,6 @@ function Tools() {
       navigate('/tools/smart-writing-assistant');
     } else if (toolName === 'المساعد الصوتي الذكي') {
       navigate('/tools/smart-voice-assistant');
-    } else if (toolName === 'لعبة التخمين') {
-      navigate('/tools/guessing-game');
-    } else if (toolName === 'قصص مسموعة') {
-      navigate('/tools/audio-stories');
-    } else if (toolName === 'مولد النكات') {
-      navigate('/tools/joke-generator');
     } else if (toolName === 'الراديو العربي') {
       navigate('/tools/arabic-radio');
     } else {
