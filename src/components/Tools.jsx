@@ -1,13 +1,16 @@
 import { createSignal, For, Show } from 'solid-js';
+import ChatAssistant from './ChatAssistant';
 
 function Tools() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
+  const [showAssistant, setShowAssistant] = createSignal(false);
 
   const categories = [
     {
       name: 'أدوات مساعدة بالذكاء الاصطناعي',
       description: 'استفد من الذكاء الاصطناعي لتعزيز قدراتك وزيادة إنتاجيتك.',
       tools: [
+        { name: 'المساعد الذكي', description: 'تفاعل مع المساعد الذكي للحصول على إجابات سريعة ومساعدة فورية.' },
         { name: 'مساعد الكتابة الذكي', description: 'احصل على اقتراحات لكتابة أفضل وأسرع.' },
         { name: 'تحليل البيانات الذكي', description: 'حلل بياناتك بذكاء للوصول إلى رؤى قيمة.' },
       ],
@@ -38,6 +41,14 @@ function Tools() {
     },
   ];
 
+  const handleToolClick = (toolName) => {
+    if (toolName === 'المساعد الذكي') {
+      setShowAssistant(true);
+    } else {
+      alert('هذه الأداة غير متوفرة حاليًا.');
+    }
+  };
+
   const currentCategory = () => {
     const categoryName = selectedCategory();
     if (categoryName) {
@@ -45,6 +56,10 @@ function Tools() {
     } else {
       return null;
     }
+  };
+
+  const closeAssistant = () => {
+    setShowAssistant(false);
   };
 
   return (
@@ -78,10 +93,20 @@ function Tools() {
           <For each={currentCategory().tools}>{(tool) => (
             <div class="bg-white p-6 rounded-lg shadow-md">
               <h3 class="text-xl font-bold mb-2 text-purple-600">{tool.name}</h3>
-              <p class="text-gray-700">{tool.description}</p>
+              <p class="text-gray-700 mb-4">{tool.description}</p>
+              <button
+                class="cursor-pointer px-4 py-2 mt-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+                onClick={() => handleToolClick(tool.name)}
+              >
+                فتح الأداة
+              </button>
             </div>
           )}</For>
         </div>
+      </Show>
+
+      <Show when={showAssistant()}>
+        <ChatAssistant onClose={closeAssistant} />
       </Show>
     </main>
   );
