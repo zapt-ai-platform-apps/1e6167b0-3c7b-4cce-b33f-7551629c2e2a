@@ -16,11 +16,12 @@ function Tools() {
       ],
     },
     {
-      name: 'خدمات ترفيهية',
-      description: 'استمتع بوقتك مع مجموعة من الأدوات الترفيهية المصممة لإسعادك.',
+      name: 'أدوات ترفيهية',
+      description: 'اكتشف أدوات ترفيهية ممتعة ومبتكرة لتحسين تجربتك.',
       tools: [
         { name: 'لعبة التخمين', description: 'تحدى نفسك في لعبة تخمين الأرقام الممتعة.' },
         { name: 'قصص مسموعة', description: 'استمع إلى مجموعة من القصص المسموعة الشيقة.' },
+        { name: 'مولد النكات', description: 'استمتع بالنكات المضحكة التي ينشئها الذكاء الاصطناعي لإضفاء البهجة على يومك.' },
       ],
     },
     // يمكن إضافة فئات أخرى إذا لزم الأمر
@@ -37,6 +38,8 @@ function Tools() {
       navigate('/tools/guessing-game');
     } else if (toolName === 'قصص مسموعة') {
       navigate('/tools/audio-stories');
+    } else if (toolName === 'مولد النكات') {
+      navigate('/tools/joke-generator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
