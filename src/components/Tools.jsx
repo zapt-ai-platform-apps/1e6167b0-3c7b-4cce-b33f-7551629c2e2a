@@ -15,7 +15,15 @@ function Tools() {
         { name: 'المساعد الصوتي الذكي', description: 'تفاعل صوتيًا مع المساعد للحصول على إجابات فورية.' },
       ],
     },
-    // إضافة فئات أخرى إذا لزم الأمر
+    {
+      name: 'خدمات ترفيهية',
+      description: 'استمتع بوقتك مع مجموعة من الأدوات الترفيهية المصممة لإسعادك.',
+      tools: [
+        { name: 'لعبة التخمين', description: 'تحدى نفسك في لعبة تخمين الأرقام الممتعة.' },
+        { name: 'قصص مسموعة', description: 'استمع إلى مجموعة من القصص المسموعة الشيقة.' },
+      ],
+    },
+    // يمكن إضافة فئات أخرى إذا لزم الأمر
   ];
 
   const handleToolClick = (toolName) => {
@@ -25,6 +33,10 @@ function Tools() {
       navigate('/tools/smart-writing-assistant');
     } else if (toolName === 'المساعد الصوتي الذكي') {
       navigate('/tools/smart-voice-assistant');
+    } else if (toolName === 'لعبة التخمين') {
+      navigate('/tools/guessing-game');
+    } else if (toolName === 'قصص مسموعة') {
+      navigate('/tools/audio-stories');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
