@@ -5,7 +5,7 @@ import Services from './components/Services';
 import Tools from './components/Tools';
 import ToolPage from './components/ToolPage';
 import SocialMediaLinks from './components/SocialMediaLinks';
-import BottomNavigation from './components/BottomNavigation';
+// Removed the import of BottomNavigation
 import Footer from './components/Footer';
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
           </Routes>
           <SocialMediaLinks />
         </div>
-        <BottomNavigation />
+        {/* Removed the BottomNavigation component */}
       </Router>
       <Footer />
     </div>
