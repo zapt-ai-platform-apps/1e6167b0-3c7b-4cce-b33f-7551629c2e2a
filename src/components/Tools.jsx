@@ -12,7 +12,6 @@ function Tools() {
       tools: [
         { name: 'المساعد الذكي', description: 'تفاعل مع المساعد الذكي للحصول على إجابات سريعة ومساعدة فورية.' },
         { name: 'مساعد الكتابة الذكي', description: 'أداة متقدمة تستخدم الذكاء الاصطناعي لمساعدتك على تحسين كتاباتك من خلال التصحيح، التلخيص، التحسين، التشكيل، والترجمة.' },
-        { name: 'تحليل البيانات الذكي', description: 'حلل بياناتك بذكاء للوصول إلى رؤى قيمة.' },
       ],
     },
     {
@@ -46,8 +45,6 @@ function Tools() {
       navigate('/tools/chat-assistant');
     } else if (toolName === 'مساعد الكتابة الذكي') {
       navigate('/tools/smart-writing-assistant');
-    } else if (toolName === 'تحليل البيانات الذكي') {
-      navigate('/tools/smart-data-analysis');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
