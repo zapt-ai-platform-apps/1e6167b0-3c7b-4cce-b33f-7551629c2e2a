@@ -3,6 +3,7 @@ import ChatAssistant from './ChatAssistant';
 import SmartWritingAssistant from './SmartWritingAssistant';
 import SmartVoiceAssistant from './SmartVoiceAssistant';
 import ArabicRadio from './ArabicRadio';
+import ArticleGenerator from './ArticleGenerator';
 
 function ToolPage() {
   const params = useParams();
@@ -59,6 +60,18 @@ function ToolPage() {
           الرجوع
         </button>
         <ArabicRadio />
+      </div>
+    );
+  } else if (toolName === 'article-generator') {
+    return (
+      <div class="h-full flex flex-col">
+        <button
+          class="cursor-pointer px-4 py-2 mt-4 ml-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border self-start"
+          onClick={goBack}
+        >
+          الرجوع
+        </button>
+        <ArticleGenerator />
       </div>
     );
   } else {

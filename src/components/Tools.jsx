@@ -22,6 +22,13 @@ function Tools() {
         { name: 'الراديو العربي', description: 'استمع إلى المحطات الإذاعية العربية المفضلة لديك من مختلف البلدان.' },
       ],
     },
+    {
+      name: 'أدوات منشئي المحتوى',
+      description: 'تزويد منشئي المحتوى بالأدوات اللازمة لإنشاء وتحرير المحتوى بسهولة.',
+      tools: [
+        { name: 'مولد المقالات', description: 'أنشئ مقالات عالية الجودة بمساعدة الذكاء الاصطناعي.' },
+      ],
+    },
     // يمكن إضافة فئات أخرى إذا لزم الأمر
   ];
 
@@ -34,6 +41,8 @@ function Tools() {
       navigate('/tools/smart-voice-assistant');
     } else if (toolName === 'الراديو العربي') {
       navigate('/tools/arabic-radio');
+    } else if (toolName === 'مولد المقالات') {
+      navigate('/tools/article-generator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
