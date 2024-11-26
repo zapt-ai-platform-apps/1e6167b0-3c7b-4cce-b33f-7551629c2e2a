@@ -22,6 +22,7 @@ function Tools() {
         { name: 'لعبة التخمين', description: 'تحدى نفسك في لعبة تخمين الأرقام الممتعة.' },
         { name: 'قصص مسموعة', description: 'استمع إلى مجموعة من القصص المسموعة الشيقة.' },
         { name: 'مولد النكات', description: 'استمتع بالنكات المضحكة التي ينشئها الذكاء الاصطناعي لإضفاء البهجة على يومك.' },
+        { name: 'الراديو العربي', description: 'استمع إلى المحطات الإذاعية العربية المفضلة لديك من مختلف البلدان.' },
       ],
     },
     // يمكن إضافة فئات أخرى إذا لزم الأمر
@@ -40,6 +41,8 @@ function Tools() {
       navigate('/tools/audio-stories');
     } else if (toolName === 'مولد النكات') {
       navigate('/tools/joke-generator');
+    } else if (toolName === 'الراديو العربي') {
+      navigate('/tools/arabic-radio');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }

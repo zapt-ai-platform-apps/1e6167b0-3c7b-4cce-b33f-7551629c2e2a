@@ -5,6 +5,7 @@ import SmartVoiceAssistant from './SmartVoiceAssistant';
 import GuessingGame from './GuessingGame';
 import AudioStories from './AudioStories';
 import JokeGenerator from './JokeGenerator';
+import ArabicRadio from './ArabicRadio';
 
 function ToolPage() {
   const params = useParams();
@@ -85,6 +86,18 @@ function ToolPage() {
           الرجوع
         </button>
         <JokeGenerator />
+      </div>
+    );
+  } else if (toolName === 'arabic-radio') {
+    return (
+      <div class="h-full flex flex-col">
+        <button
+          class="cursor-pointer px-4 py-2 mt-4 ml-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border self-start"
+          onClick={goBack}
+        >
+          الرجوع
+        </button>
+        <ArabicRadio />
       </div>
     );
   } else {
