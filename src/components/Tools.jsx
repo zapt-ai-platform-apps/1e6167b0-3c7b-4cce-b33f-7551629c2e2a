@@ -12,6 +12,7 @@ function Tools() {
       tools: [
         { name: 'المساعد الذكي', description: 'تفاعل مع المساعد الذكي للحصول على إجابات سريعة ومساعدة فورية.' },
         { name: 'مساعد الكتابة الذكي', description: 'أداة متقدمة تستخدم الذكاء الاصطناعي لمساعدتك على تحسين كتاباتك.' },
+        { name: 'المساعد الصوتي الذكي', description: 'تفاعل صوتيًا مع المساعد للحصول على إجابات فورية.' },
       ],
     },
     // باقي الفئات
@@ -22,6 +23,8 @@ function Tools() {
       navigate('/tools/chat-assistant');
     } else if (toolName === 'مساعد الكتابة الذكي') {
       navigate('/tools/smart-writing-assistant');
+    } else if (toolName === 'المساعد الصوتي الذكي') {
+      navigate('/tools/smart-voice-assistant');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
