@@ -46,6 +46,8 @@ function Tools() {
       navigate('/tools/chat-assistant');
     } else if (toolName === 'مساعد الكتابة الذكي') {
       navigate('/tools/smart-writing-assistant');
+    } else if (toolName === 'تحليل البيانات الذكي') {
+      navigate('/tools/smart-data-analysis');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
