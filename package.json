@@ -9,7 +9,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@sentry/browser": "^8.35.0",
+    "@sentry/browser": "^7.65.0",
+    "@sentry/tracing": "^7.65.0",
     "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22",
     "@zapt/zapt-js": "^1.0.5",

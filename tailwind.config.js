@@ -1,6 +1,6 @@
-import tailwindcssRtl from 'tailwindcss-rtl';
+const tailwindcssRtl = require('tailwindcss-rtl');
 
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx}"
