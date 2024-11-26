@@ -15,6 +15,7 @@ function Tools() {
         { name: 'تحليل البيانات الذكي', description: 'حلل بياناتك بذكاء للوصول إلى رؤى قيمة.' },
       ],
     },
+    // بقية الفئات تظل كما هي
     {
       name: 'أدوات ترفيهية',
       description: 'استمتع بوقتك مع مجموعة من الأدوات الترفيهية الممتعة.',
@@ -44,6 +45,8 @@ function Tools() {
   const handleToolClick = (toolName) => {
     if (toolName === 'المساعد الذكي') {
       navigate('/tools/chat-assistant');
+    } else if (toolName === 'مساعد الكتابة الذكي') {
+      navigate('/tools/smart-writing-assistant');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
