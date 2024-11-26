@@ -7,8 +7,10 @@ function SmartVoiceAssistant() {
   ]);
   const [listening, setListening] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
+  const [audioUrl, setAudioUrl] = createSignal('');
 
   let recognition;
+  let audioPlayer = new Audio();
 
   if ('webkitSpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -27,12 +29,22 @@ function SmartVoiceAssistant() {
           response_type: 'text',
         });
         setMessages([...messages(), { role: 'assistant', content: response }]);
-        speak(response);
+
+        // Generate AI voice audio
+        const audioResponse = await createEvent('text_to_speech', {
+          text: response,
+        });
+
+        if (audioResponse) {
+          setAudioUrl(audioResponse);
+          playAudio(audioResponse);
+        } else {
+          alert('حدث خطأ أثناء توليد الصوت.');
+        }
       } catch (error) {
         console.error('Error communicating with assistant:', error);
         const errorMessage = 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.';
         setMessages([...messages(), { role: 'assistant', content: errorMessage }]);
-        speak(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -62,14 +74,11 @@ function SmartVoiceAssistant() {
     }
   };
 
-  const speak = (text) => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar-EG';
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('متصفحك لا يدعم تحويل النص إلى كلام.');
-    }
+  const playAudio = (url) => {
+    audioPlayer.src = url;
+    audioPlayer.play().catch((error) => {
+      console.error('Error playing audio:', error);
+    });
   };
 
   onCleanup(() => {
