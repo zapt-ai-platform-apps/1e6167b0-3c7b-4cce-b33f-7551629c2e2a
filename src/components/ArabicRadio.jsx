@@ -29,6 +29,7 @@ function ArabicRadio() {
   const [selectedCountry, setSelectedCountry] = createSignal('');
   const [selectedStation, setSelectedStation] = createSignal('');
   const [loadingStations, setLoadingStations] = createSignal(false);
+  let audioRef;
 
   const handleCountryChange = (e) => {
     const countryCode = e.target.value;
@@ -63,8 +64,24 @@ function ArabicRadio() {
     }
   };
 
+  createEffect(() => {
+    if (selectedStation() && audioRef) {
+      audioRef.src = selectedStation();
+      audioRef.play().catch((error) => {
+        console.error('Error playing audio:', error);
+      });
+    }
+  });
+
+  const handleStop = () => {
+    if (audioRef) {
+      audioRef.pause();
+      audioRef.currentTime = 0;
+    }
+  };
+
   return (
-    <div class="flex flex-col items-center justify-center flex-grow px-4">
+    <div class="flex flex-col items-center justify-center h-full px-4">
       <h2 class="text-2xl font-bold mb-4 text-purple-600">الراديو العربي</h2>
       <p class="text-lg mb-6 text-center">استمع إلى المحطات الإذاعية العربية المفضلة لديك من جميع البلدان العربية.</p>
       <div class="w-full max-w-md space-y-4">
@@ -105,13 +122,19 @@ function ArabicRadio() {
           </div>
         </Show>
         <Show when={selectedStation()}>
-          <div class="mt-4">
-            <audio
-              controls
-              src={selectedStation()}
-              class="w-full"
-            />
+          <div class="mt-4 flex items-center">
+            <button
+              class="cursor-pointer px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform box-border"
+              onClick={handleStop}
+            >
+              إيقاف
+            </button>
           </div>
+          <audio
+            ref={audioRef}
+            src=""
+            class="hidden"
+          />
         </Show>
       </div>
     </div>
