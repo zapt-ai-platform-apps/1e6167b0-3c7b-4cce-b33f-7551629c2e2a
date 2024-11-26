@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div
-      class="h-full bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-gray-900 flex flex-col"
+      class="h-full bg-white text-gray-900 flex flex-col"
       dir="rtl"
     >
       <Router>

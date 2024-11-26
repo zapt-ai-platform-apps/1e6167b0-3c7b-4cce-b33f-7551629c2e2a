@@ -41,7 +41,7 @@ function MainContent() {
   };
 
   return (
-    <main class="h-full">
+    <main class="flex-grow px-4">
       <form onSubmit={handleSearch} class="mb-8">
         <div class="flex items-center">
           <input
@@ -49,11 +49,11 @@ function MainContent() {
             placeholder="ابحث هنا..."
             value={searchQuery()}
             onInput={(e) => setSearchQuery(e.target.value)}
-            class="flex-1 p-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border text-right"
+            class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border text-right"
           />
           <button
             type="submit"
-            class="cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-l-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+            class="cursor-pointer px-6 py-3 bg-primary-dark text-white rounded-r-lg hover:bg-primary-dark hover:scale-105 transition duration-300 ease-in-out transform box-border"
           >
             بحث
           </button>
@@ -67,12 +67,12 @@ function MainContent() {
           استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
         </p>
       </div>
-      <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:space-x-4 md:space-x-reverse space-y-4 md:space-y-0">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <button
-          class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform box-border ${
+          class={`cursor-pointer px-6 py-3 rounded-lg transition duration-300 ease-in-out transform ${
             clicked()
-              ? 'bg-blue-400 text-white cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-105'
+              ? 'bg-secondary text-white cursor-not-allowed'
+              : 'bg-primary-dark text-white hover:bg-primary-dark hover:scale-105'
           }`}
           onClick={openWebsite}
           disabled={clicked()}
@@ -80,19 +80,19 @@ function MainContent() {
           زيارة موقعنا
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-green-600 text-white hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:bg-secondary-dark hover:scale-105 transition duration-300 ease-in-out transform"
           onClick={openBlog}
         >
           زيارة المدونة
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-yellow-600 text-white hover:bg-yellow-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary text-white hover:bg-secondary hover:scale-105 transition duration-300 ease-in-out transform"
           onClick={openForum}
         >
           زيارة المنتدى
         </button>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-red-600 text-white hover:bg-red-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary hover:scale-105 transition duration-300 ease-in-out transform"
           onClick={openStore}
         >
           زيارة المتجر
@@ -100,12 +100,12 @@ function MainContent() {
       </div>
 
       <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-purple-600">انضم لفريقنا</h2>
+        <h2 class="text-2xl font-bold mb-4 text-primary-dark">انضم لفريقنا</h2>
         <p class="text-lg mb-6">
           كن جزءًا من فريق <span class="font-bold">Blind Accessibility</span> وساهم في تحقيق المزيد من الاستقلالية للمكفوفين وضعاف البصر.
         </p>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-primary-dark text-white hover:bg-primary-dark hover:scale-105 transition duration-300 ease-in-out transform"
           onClick={openJoinUs}
         >
           انضم الآن
@@ -113,12 +113,12 @@ function MainContent() {
       </div>
 
       <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-purple-600">شاركنا ملاحظاتك واقتراحاتك</h2>
+        <h2 class="text-2xl font-bold mb-4 text-primary-dark">شاركنا ملاحظاتك واقتراحاتك</h2>
         <p class="text-lg mb-6">
           نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك.
         </p>
         <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:bg-secondary-dark hover:scale-105 transition duration-300 ease-in-out transform"
           onClick={openFeedbackLink}
         >
           أرسل ملاحظاتك

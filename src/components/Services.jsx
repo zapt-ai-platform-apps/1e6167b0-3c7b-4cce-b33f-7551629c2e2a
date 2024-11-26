@@ -2,14 +2,13 @@ import { createSignal, Show, For } from 'solid-js';
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
-  
+
   const categories = [
     {
       name: 'خدمات مجانية',
       services: [
         { name: 'خدمة مجانية 1', description: 'وصف لخدمة مجانية 1.' },
         { name: 'خدمة مجانية 2', description: 'وصف لخدمة مجانية 2.' },
-        // ... أضف المزيد من الخدمات المجانية حسب الحاجة
       ],
     },
     {
@@ -17,7 +16,6 @@ function Services() {
       services: [
         { name: 'خدمة الدعم 1', description: 'وصف لخدمة الدعم 1.' },
         { name: 'خدمة الدعم 2', description: 'وصف لخدمة الدعم 2.' },
-        // ... أضف المزيد من خدمات الدعم حسب الحاجة
       ],
     },
   ];
@@ -32,9 +30,9 @@ function Services() {
   };
 
   return (
-    <main class="h-full">
+    <main class="flex-grow px-4">
       <div class="text-center">
-        <h2 class="text-2xl font-bold mb-4 text-purple-600">خدماتنا</h2>
+        <h2 class="text-2xl font-bold mb-4 text-primary-dark">خدماتنا</h2>
         <p class="text-lg mb-8">
           اكتشف مجموعة الخدمات التي نقدمها لتعزيز استقلاليتك وتسهيل حياتك اليومية.
         </p>
@@ -44,7 +42,7 @@ function Services() {
         <select
           value={selectedCategory()}
           onInput={(e) => setSelectedCategory(e.target.value)}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر الفئة</option>
           <For each={categories}>
@@ -59,8 +57,8 @@ function Services() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <For each={currentCategory().services}>
             {(service) => (
-              <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold mb-2 text-purple-600">{service.name}</h3>
+              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <h3 class="text-xl font-bold mb-2 text-primary-dark">{service.name}</h3>
                 <p class="text-gray-700">
                   {service.description}
                 </p>

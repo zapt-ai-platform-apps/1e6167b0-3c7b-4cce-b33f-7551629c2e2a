@@ -7,22 +7,22 @@ function BottomNavigation() {
         <NavLink
           href="/"
           end
-          class="flex-1 text-center py-2 cursor-pointer hover:bg-purple-100 transition duration-300"
-          activeClass="text-purple-600 font-bold border-t-2 border-purple-600"
+          class="flex-1 text-center py-2 cursor-pointer hover:bg-primary-light transition duration-300"
+          activeClass="text-primary-dark font-bold border-t-2 border-primary-dark"
         >
           الرئيسية
         </NavLink>
         <NavLink
           href="/services"
-          class="flex-1 text-center py-2 cursor-pointer hover:bg-purple-100 transition duration-300"
-          activeClass="text-purple-600 font-bold border-t-2 border-purple-600"
+          class="flex-1 text-center py-2 cursor-pointer hover:bg-primary-light transition duration-300"
+          activeClass="text-primary-dark font-bold border-t-2 border-primary-dark"
         >
           خدمات
         </NavLink>
         <NavLink
           href="/tools"
-          class="flex-1 text-center py-2 cursor-pointer hover:bg-purple-100 transition duration-300"
-          activeClass="text-purple-600 font-bold border-t-2 border-purple-600"
+          class="flex-1 text-center py-2 cursor-pointer hover:bg-primary-light transition duration-300"
+          activeClass="text-primary-dark font-bold border-t-2 border-primary-dark"
         >
           أدوات
         </NavLink>
