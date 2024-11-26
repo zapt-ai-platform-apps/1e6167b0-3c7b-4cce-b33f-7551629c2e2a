@@ -27,6 +27,7 @@ function Tools() {
       description: 'أدوات مخصصة لمساعدتك في إنشاء المحتوى بسهولة وكفاءة.',
       tools: [
         { name: 'منشئ المحتوى النصي', description: 'أنشئ جميع أنواع المحتوى النصي بمساعدة الذكاء الاصطناعي.' },
+        { name: 'منشئ الصور بالذكاء الاصطناعي', description: 'أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.' },
       ],
     },
     // يمكنك إضافة فئات أخرى إذا لزم الأمر
@@ -43,6 +44,8 @@ function Tools() {
       navigate('/tools/arabic-radio');
     } else if (toolName === 'منشئ المحتوى النصي') {
       navigate('/tools/article-generator');
+    } else if (toolName === 'منشئ الصور بالذكاء الاصطناعي') {
+      navigate('/tools/image-generator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
