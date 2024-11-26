@@ -1,7 +1,7 @@
 import { createSignal, For, Show } from 'solid-js';
 
 function Tools() {
-  const [selectedCategory, setSelectedCategory] = createSignal('أدوات مساعدة بالذكاء الاصطناعي');
+  const [selectedCategory, setSelectedCategory] = createSignal('');
 
   const categories = [
     {
@@ -38,7 +38,14 @@ function Tools() {
     },
   ];
 
-  const currentCategory = () => categories.find(category => category.name === selectedCategory());
+  const currentCategory = () => {
+    const categoryName = selectedCategory();
+    if (categoryName) {
+      return categories.find(category => category.name === categoryName);
+    } else {
+      return null;
+    }
+  };
 
   return (
     <main class="h-full">
@@ -55,6 +62,7 @@ function Tools() {
           onInput={(e) => setSelectedCategory(e.target.value)}
           class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
         >
+          <option value="">اختر الفئة</option>
           <For each={categories}>{(category) => (
             <option value={category.name}>{category.name}</option>
           )}</For>
