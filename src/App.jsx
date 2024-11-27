@@ -6,6 +6,9 @@ import Tools from './components/Tools';
 import ToolPage from './components/ToolPage';
 import SocialMediaLinks from './components/SocialMediaLinks';
 import Footer from './components/Footer';
+import Blog from './components/Blog';
+import Store from './components/Store';
+import Forum from './components/Forum';
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolName" element={<ToolPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/forum" element={<Forum />} />
           </Routes>
           <SocialMediaLinks />
         </div>
