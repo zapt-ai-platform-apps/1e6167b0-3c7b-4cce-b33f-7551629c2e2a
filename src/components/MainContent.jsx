@@ -29,7 +29,7 @@ function MainContent() {
           onInput={handleSelectionChange}
           class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
-          <option value="">اختر...</option>
+          <option value="">اختر وجهتك...</option>
           <option value="blog">المدونة</option>
           <option value="store">المتجر</option>
           <option value="forum">المنتدى</option>
