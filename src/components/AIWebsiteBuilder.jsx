@@ -1,12 +1,10 @@
-import { createSignal, Show } from 'solid-js';
-import { createEvent } from '../supabaseClient';
+import { createSignal, Show, For } from 'solid-js';
 
 function AIWebsiteBuilder() {
   const [siteName, setSiteName] = createSignal('');
   const [siteDescription, setSiteDescription] = createSignal('');
   const [siteType, setSiteType] = createSignal('');
   const [preferredColors, setPreferredColors] = createSignal('');
-  const [generatedCode, setGeneratedCode] = createSignal('');
   const [loading, setLoading] = createSignal(false);
 
   const siteTypes = [
@@ -23,39 +21,43 @@ function AIWebsiteBuilder() {
     }
 
     setLoading(true);
-    setGeneratedCode('');
-
-    const prompt = `Please generate the HTML, CSS, and JavaScript code for a ${siteType()} in Arabic named "${siteName()}" with the following description: "${siteDescription()}". Preferred colors: ${preferredColors() || 'Default colors'}. Please provide the code in a zipped file or as separate code snippets for each file.`;
 
     try {
-      const response = await createEvent('chatgpt_request', {
-        prompt: prompt,
-        response_type: 'code', // Assuming 'code' is a valid response type
+      const response = await fetch('/api/generateWebsite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          siteName: siteName(),
+          siteDescription: siteDescription(),
+          siteType: siteType(),
+          preferredColors: preferredColors(),
+        }),
       });
 
-      if (response) {
-        setGeneratedCode(response);
-      } else {
-        alert('حدث خطأ أثناء توليد الموقع.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.error || 'حدث خطأ أثناء توليد الموقع.');
+        setLoading(false);
+        return;
       }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${siteName().replace(/\s+/g, '_') || 'website'}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error generating site:', error);
       alert('حدث خطأ أثناء توليد الموقع. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDownloadSite = () => {
-    if (!generatedCode()) return;
-
-    // Assuming the response includes a downloadable link
-    const link = document.createElement('a');
-    link.href = generatedCode();
-    link.download = `${siteName() || 'website'}.zip`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
@@ -105,18 +107,6 @@ function AIWebsiteBuilder() {
           </Show>
         </button>
       </div>
-      <Show when={generatedCode()}>
-        <div class="mt-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">الموقع المُولد:</h3>
-          {/* هنا يمكن عرض معاينة الموقع أو رابط للتحميل */}
-          <button
-            class="cursor-pointer px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform box-border"
-            onClick={handleDownloadSite}
-          >
-            تحميل ملفات الموقع
-          </button>
-        </div>
-      </Show>
     </div>
   );
 }
