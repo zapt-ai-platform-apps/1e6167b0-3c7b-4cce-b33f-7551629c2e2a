@@ -30,7 +30,13 @@ function Tools() {
         { name: 'منشئ الصور بالذكاء الاصطناعي', description: 'أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.' },
       ],
     },
-    // يمكنك إضافة فئات أخرى إذا لزم الأمر
+    {
+      name: 'أدوات للمطورين',
+      description: 'أدوات مخصصة للمطورين لزيادة الإنتاجية وابتكار حلول برمجية متقدمة.',
+      tools: [
+        { name: 'منشئ مواقع احترافي باستخدام الذكاء الاصطناعي', description: 'أنشئ مواقع ويب احترافية بسهولة باستخدام الذكاء الاصطناعي.' },
+      ],
+    },
   ];
 
   const handleToolClick = (toolName) => {
@@ -46,6 +52,8 @@ function Tools() {
       navigate('/tools/article-generator');
     } else if (toolName === 'منشئ الصور بالذكاء الاصطناعي') {
       navigate('/tools/image-generator');
+    } else if (toolName === 'منشئ مواقع احترافي باستخدام الذكاء الاصطناعي') {
+      navigate('/tools/ai-website-builder');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
