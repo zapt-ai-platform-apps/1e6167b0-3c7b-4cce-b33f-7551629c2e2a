@@ -1,8 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { Configuration, OpenAIApi } from "openai";
 import archiver from "archiver";
-import { pipeline } from 'stream';
-import { promisify } from 'util';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -37,57 +35,73 @@ export default async function handler(req, res) {
     });
     const openai = new OpenAIApi(configuration);
 
-    // Generate the code for index.html
-    const indexPrompt = `Generate the HTML code for the index.html file of a professional ${siteType} in Arabic named "${siteName}" with the following description: "${siteDescription}". Preferred colors: ${preferredColors || 'Default colors'}. Ensure the code is properly formatted and includes professional design elements.`;
+    // Prepare the prompts for the chat model
+    const indexPrompt = `Generate the HTML code for the index.html file of a professional ${siteType} in Arabic named "${siteName}" with the following description: "${siteDescription}". Preferred colors: ${preferredColors || 'Default colors'}. Ensure the code is properly formatted and includes professional design elements. Return only the code and nothing else.`;
 
-    const cssPrompt = `Generate the CSS code for styles.css for the index.html you just generated, with styles matching the description and preferred colors.`;
+    const cssPrompt = `Generate the CSS code for styles.css for the index.html you just generated, with styles matching the description and preferred colors. Return only the code and nothing else.`;
 
-    const jsPrompt = `If needed, generate the JavaScript code for script.js for interactivity in the website.`;
+    const jsPrompt = `If needed, generate the JavaScript code for script.js for interactivity in the website. Return only the code and nothing else. If not needed, respond with an empty string.`;
 
+    // Create chat messages for each prompt
+    const indexMessages = [{ role: 'user', content: indexPrompt }];
+    const cssMessages = [{ role: 'user', content: cssPrompt }];
+    const jsMessages = [{ role: 'user', content: jsPrompt }];
+
+    // Make the API calls
     const [indexResponse, cssResponse, jsResponse] = await Promise.all([
-      openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: indexPrompt,
-        max_tokens: 2000,
-        temperature: 0,
-      }),
-      openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: cssPrompt,
+      openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: indexMessages,
         max_tokens: 1500,
         temperature: 0,
       }),
-      openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: jsPrompt,
+      openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: cssMessages,
         max_tokens: 1000,
+        temperature: 0,
+      }),
+      openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: jsMessages,
+        max_tokens: 500,
         temperature: 0,
       }),
     ]);
 
-    const indexCode = indexResponse.data.choices[0].text.trim();
-    const cssCode = cssResponse.data.choices[0].text.trim();
-    const jsCode = jsResponse.data.choices[0].text.trim();
+    const indexCode = indexResponse.data.choices[0].message.content.trim();
+    const cssCode = cssResponse.data.choices[0].message.content.trim();
+    const jsCode = jsResponse.data.choices[0].message.content.trim();
+
+    // Remove code block markers if present
+    const cleanIndexCode = indexCode.replace(/^```html\s*/, '').replace(/```$/, '');
+    const cleanCssCode = cssCode.replace(/^```css\s*/, '').replace(/```$/, '');
+    const cleanJsCode = jsCode.replace(/^```(javascript|js)\s*/, '').replace(/```$/, '');
 
     // Create a zip file in memory
     const archive = archiver('zip', { zlib: { level: 9 } });
 
+    // Listen for 'error' event
+    archive.on('error', function(err) {
+      throw err;
+    });
+
+    // Pipe archive data to the response
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Disposition', `attachment; filename=${siteName.replace(/\s+/g, '_') || 'website'}.zip`);
 
-    archive.append(indexCode, { name: 'index.html' });
-    if (cssCode && cssCode !== '') {
-      archive.append(cssCode, { name: 'styles.css' });
+    archive.pipe(res);
+
+    archive.append(cleanIndexCode, { name: 'index.html' });
+    if (cleanCssCode && cleanCssCode !== '') {
+      archive.append(cleanCssCode, { name: 'styles.css' });
     }
-    if (jsCode && jsCode !== '') {
-      archive.append(jsCode, { name: 'script.js' });
+    if (cleanJsCode && cleanJsCode !== '') {
+      archive.append(cleanJsCode, { name: 'script.js' });
     }
 
     await archive.finalize();
 
-    // Send the zip file to the client
-    const asyncPipeline = promisify(pipeline);
-    await asyncPipeline(archive, res);
   } catch (error) {
     Sentry.captureException(error);
     console.error('Error generating website:', error);
