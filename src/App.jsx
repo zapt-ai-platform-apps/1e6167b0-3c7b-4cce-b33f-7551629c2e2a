@@ -1,5 +1,6 @@
 import { Router, Routes, Route } from '@solidjs/router';
 import Header from './components/Header';
+import AnnouncementBanner from './components/AnnouncementBanner';
 import MainContent from './components/MainContent';
 import Services from './components/Services';
 import Tools from './components/Tools';
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
           <Header />
+          <AnnouncementBanner />
           <Routes>
             <Route path="/" element={<MainContent />} />
             <Route path="/services" element={<Services />} />
