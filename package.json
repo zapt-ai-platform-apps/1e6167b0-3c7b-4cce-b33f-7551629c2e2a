@@ -15,9 +15,7 @@
     "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22",
     "@zapt/zapt-js": "^1.0.5",
-    "solid-markdown": "^2.0.13",
-    "openai": "^4.10.0",
-    "archiver": "^5.3.1"
+    "solid-markdown": "^2.0.13"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
