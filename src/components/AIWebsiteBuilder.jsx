@@ -5,18 +5,34 @@ function AIWebsiteBuilder() {
   const [siteDescription, setSiteDescription] = createSignal('');
   const [siteType, setSiteType] = createSignal('');
   const [preferredColors, setPreferredColors] = createSignal('');
+  const [errors, setErrors] = createSignal({});
   const [loading, setLoading] = createSignal(false);
 
   const siteTypes = [
-    'مدونة',
-    'متجر إلكتروني',
-    'موقع شخصي',
-    'صفحة هبوط',
+    { value: 'مدونة', label: 'مدونة (Blog)' },
+    { value: 'متجر إلكتروني', label: 'متجر إلكتروني (E-commerce Store)' },
+    { value: 'موقع شخصي', label: 'موقع شخصي (Personal Website)' },
+    { value: 'صفحة هبوط', label: 'صفحة هبوط (Landing Page)' },
   ];
 
   const handleGenerateSite = async () => {
-    if (!siteName() || !siteDescription() || !siteType()) {
-      alert('يرجى ملء جميع الحقول المطلوبة.');
+    // Reset errors
+    setErrors({});
+
+    // Validate fields
+    let currentErrors = {};
+    if (!siteName()) {
+      currentErrors.siteName = 'يرجى إدخال اسم الموقع.';
+    }
+    if (!siteDescription()) {
+      currentErrors.siteDescription = 'يرجى إدخال وصف الموقع.';
+    }
+    if (!siteType()) {
+      currentErrors.siteType = 'يرجى اختيار نوع الموقع.';
+    }
+
+    if (Object.keys(currentErrors).length > 0) {
+      setErrors(currentErrors);
       return;
     }
 
@@ -62,51 +78,87 @@ function AIWebsiteBuilder() {
 
   return (
     <div class="flex flex-col flex-grow px-4 h-full">
-      <div class="flex flex-col items-center mb-4">
-        <h2 class="text-2xl font-bold text-purple-600 mb-2">منشئ مواقع احترافي باستخدام الذكاء الاصطناعي</h2>
+      <div class="flex flex-col items-center mb-8">
+        <h2 class="text-3xl font-bold text-primary-dark mb-4">منشئ مواقع احترافي باستخدام الذكاء الاصطناعي</h2>
         <p class="text-lg text-center text-gray-700">أدخل تفاصيل الموقع لإنشاء موقع ويب احترافي بسهولة</p>
       </div>
-      <div class="flex flex-col mb-4 space-y-4">
-        <input
-          type="text"
-          value={siteName()}
-          onInput={(e) => setSiteName(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-          placeholder="اسم الموقع"
-        />
-        <textarea
-          value={siteDescription()}
-          onInput={(e) => setSiteDescription(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32"
-          placeholder="وصف موجز للموقع..."
-        ></textarea>
-        <select
-          value={siteType()}
-          onInput={(e) => setSiteType(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
-        >
-          <option value="">اختر نوع الموقع</option>
-          <For each={siteTypes}>{(type) => (
-            <option value={type}>{type}</option>
-          )}</For>
-        </select>
-        <input
-          type="text"
-          value={preferredColors()}
-          onInput={(e) => setPreferredColors(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-          placeholder="الألوان المفضلة (اختياري)"
-        />
-        <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={handleGenerateSite}
-          disabled={loading()}
-        >
-          <Show when={!loading()} fallback="جاري التوليد...">
-            إنشاء الموقع
+      <form class="w-full max-w-lg mx-auto space-y-6" onSubmit={(e) => { e.preventDefault(); handleGenerateSite(); }}>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="siteName">
+            اسم الموقع<span class="text-red-500">*</span>
+          </label>
+          <input
+            id="siteName"
+            type="text"
+            value={siteName()}
+            onInput={(e) => setSiteName(e.target.value)}
+            class={`block w-full p-3 border ${errors().siteName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border`}
+            placeholder="أدخل اسم الموقع"
+          />
+          <Show when={errors().siteName}>
+            <p class="text-red-500 text-sm mt-1">{errors().siteName}</p>
           </Show>
-        </button>
-      </div>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="siteDescription">
+            وصف الموقع<span class="text-red-500">*</span>
+          </label>
+          <textarea
+            id="siteDescription"
+            value={siteDescription()}
+            onInput={(e) => setSiteDescription(e.target.value)}
+            class={`block w-full p-3 border ${errors().siteDescription ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border resize-none h-32`}
+            placeholder="أدخل وصفًا موجزًا للموقع..."
+          ></textarea>
+          <Show when={errors().siteDescription}>
+            <p class="text-red-500 text-sm mt-1">{errors().siteDescription}</p>
+          </Show>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="siteType">
+            نوع الموقع<span class="text-red-500">*</span>
+          </label>
+          <select
+            id="siteType"
+            value={siteType()}
+            onInput={(e) => setSiteType(e.target.value)}
+            class={`block w-full p-3 border ${errors().siteType ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer`}
+          >
+            <option value="">اختر نوع الموقع</option>
+            <For each={siteTypes}>{(type) => (
+              <option value={type.value}>{type.label}</option>
+            )}</For>
+          </select>
+          <Show when={errors().siteType}>
+            <p class="text-red-500 text-sm mt-1">{errors().siteType}</p>
+          </Show>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="preferredColors">
+            الألوان المفضلة
+          </label>
+          <input
+            id="preferredColors"
+            type="text"
+            value={preferredColors()}
+            onInput={(e) => setPreferredColors(e.target.value)}
+            class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+            placeholder="أدخل الألوان المفضلة (اختياري)"
+          />
+          <p class="text-gray-500 text-sm mt-1">يمكنك تحديد ألوان مفضلة مثل "أزرق، أخضر، بنفسجي"</p>
+        </div>
+        <div class="text-center">
+          <button
+            type="submit"
+            class={`cursor-pointer inline-flex items-center px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-primary transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}`}
+            disabled={loading()}
+          >
+            <Show when={!loading()} fallback={<span>جاري التوليد...</span>}>
+              إنشاء الموقع
+            </Show>
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
