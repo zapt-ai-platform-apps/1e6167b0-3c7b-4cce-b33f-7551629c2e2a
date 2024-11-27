@@ -11,18 +11,6 @@ function MainContent() {
     }
   };
 
-  const openBlog = () => {
-    window.open('https://blindaccess.pw/المدونة/', '_blank', 'noopener,noreferrer');
-  };
-
-  const openForum = () => {
-    window.open('https://blindaccess.pw/المنتدى/', '_blank', 'noopener,noreferrer');
-  };
-
-  const openStore = () => {
-    window.open('https://blindaccess.pw/متجر/', '_blank', 'noopener,noreferrer');
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
     const query = searchQuery().trim();
@@ -70,24 +58,6 @@ function MainContent() {
           disabled={clicked()}
         >
           زيارة موقعنا
-        </button>
-        <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
-          onClick={openBlog}
-        >
-          زيارة المدونة
-        </button>
-        <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
-          onClick={openForum}
-        >
-          زيارة المنتدى
-        </button>
-        <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-primary text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
-          onClick={openStore}
-        >
-          زيارة المتجر
         </button>
       </div>
     </main>
