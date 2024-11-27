@@ -47,6 +47,15 @@ function ImageGenerator() {
     }
   };
 
+  const handleDownloadImage = () => {
+    const link = document.createElement('a');
+    link.href = generatedImage();
+    link.download = title() ? `${title()}.${format().toLowerCase()}` : `image.${format().toLowerCase()}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div class="flex flex-col flex-grow px-4 h-full">
       <div class="flex flex-col items-center mb-4">
@@ -100,7 +109,13 @@ function ImageGenerator() {
       <Show when={generatedImage()}>
         <div class="mt-4">
           <h3 class="text-lg font-bold mb-2 text-purple-600">الصورة المُولدة:</h3>
-          <img src={generatedImage()} alt="الصورة المولدة" class="w-full rounded-lg shadow-md" />
+          <img src={generatedImage()} alt="الصورة المولدة" class="w-full rounded-lg shadow-md mb-4" />
+          <button
+            class="cursor-pointer px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform box-border"
+            onClick={handleDownloadImage}
+          >
+            تحميل الصورة
+          </button>
         </div>
       </Show>
     </div>
