@@ -23,14 +23,6 @@ function MainContent() {
     window.open('https://blindaccess.pw/متجر/', '_blank', 'noopener,noreferrer');
   };
 
-  const openJoinUs = () => {
-    window.open('https://blindaccess.pw/انضم-للفريق/', '_blank', 'noopener,noreferrer');
-  };
-
-  const openFeedbackLink = () => {
-    window.open('https://blindaccess.pw/ملاحظات-واقتراحات/', '_blank', 'noopener,noreferrer');
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
     const query = searchQuery().trim();
@@ -96,32 +88,6 @@ function MainContent() {
           onClick={openStore}
         >
           زيارة المتجر
-        </button>
-      </div>
-
-      <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-primary-dark">انضم لفريقنا</h2>
-        <p class="text-lg mb-6">
-          كن جزءًا من فريق <span class="font-bold">Blind Accessibility</span> وساهم في تحقيق المزيد من الاستقلالية للمكفوفين وضعاف البصر.
-        </p>
-        <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-primary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
-          onClick={openJoinUs}
-        >
-          انضم الآن
-        </button>
-      </div>
-
-      <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-primary-dark">شاركنا ملاحظاتك واقتراحاتك</h2>
-        <p class="text-lg mb-6">
-          نود سماع آرائك لتحسين خدماتنا وتقديم الأفضل لك. تفضل بمشاركة ملاحظاتك واقتراحاتك.
-        </p>
-        <button
-          class="cursor-pointer px-6 py-3 rounded-lg bg-secondary-dark text-white hover:scale-105 transition duration-300 ease-in-out transform box-border"
-          onClick={openFeedbackLink}
-        >
-          أرسل ملاحظاتك
         </button>
       </div>
     </main>
