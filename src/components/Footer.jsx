@@ -9,7 +9,7 @@ function Footer() {
           rel="noopener noreferrer"
           class="text-blue-500 hover:underline"
         >
-          Made on ZAPT
+          تم الإنشاء باستخدام ZAPT
         </a>
       </div>
     </footer>
