@@ -31,8 +31,6 @@ function MainContent() {
         >
           <option value="">اختر وجهتك...</option>
           <option value="blog">المدونة</option>
-          <option value="store">المتجر</option>
-          <option value="forum">المنتدى</option>
         </select>
       </div>
     </main>

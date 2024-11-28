@@ -11,8 +11,6 @@ import SocialMediaLinks from './components/SocialMediaLinks';
 import Footer from './components/Footer';
 import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
-import Store from './components/Store';
-import Forum from './components/Forum';
 import Account from './components/Account';
 import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
@@ -68,8 +66,6 @@ function App() {
               <Route path="/tools/:toolName" element={<ToolPage />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/store" element={<Store />} />
-              <Route path="/forum" element={<Forum />} />
               <Route path="/account" element={<Account user={user()} />} />
               <Route path="/admin" element={
                 isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
