@@ -98,7 +98,31 @@ function Account(props) {
   return (
     <main class="flex-grow px-4">
       <div class="max-w-md mx-auto">
-        <h2 class="text-2xl font-bold mb-4 text-primary-dark text-center">إدارة حسابي</h2>
+        <h2 class="text-2xl font-bold mb-4 text-primary-dark text-center">صفحة الحساب</h2>
+        <p class="text-lg mb-4 text-center">هنا يمكنك إدارة حسابك وتحديث معلوماتك</p>
+
+        <div class="mb-6 text-center">
+          <p class="text-xl text-gray-800">مرحباً، {userData()?.user_metadata.full_name}!</p>
+        </div>
+
+        <div class="mb-6">
+          <select
+            value=""
+            onInput={(e) => {
+              if (e.target.value === 'manage-account') {
+                setEditing(true);
+              } else if (e.target.value === 'change-password') {
+                handlePasswordReset();
+              }
+            }}
+            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+          >
+            <option value="">اختر إجراء</option>
+            <option value="manage-account">إدارة حسابي</option>
+            <option value="change-password">تغيير كلمة المرور</option>
+          </select>
+        </div>
+
         <Show when={!editing()}>
           <div class="mb-4">
             <p class="text-gray-700 font-semibold">الإسم الكامل: {userData()?.user_metadata.full_name}</p>
@@ -187,17 +211,6 @@ function Account(props) {
             </button>
           </div>
         </Show>
-        <button
-          class={`cursor-pointer px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform box-border w-full mt-4 ${
-            loading() ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-          onClick={handlePasswordReset}
-          disabled={loading()}
-        >
-          <Show when={!loading()} fallback="جاري الإرسال...">
-            تغيير كلمة المرور
-          </Show>
-        </button>
         <Show when={message()}>
           <div class="mt-4 text-center text-green-600 font-semibold">
             {message()}
