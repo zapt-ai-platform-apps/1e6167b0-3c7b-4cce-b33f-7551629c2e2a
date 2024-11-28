@@ -94,7 +94,13 @@ function Account(props) {
       });
 
       if (error) {
-        setMessage(`حدث خطأ أثناء تغيير كلمة المرور: ${error.message}`);
+        if (error.message === 'New password should be different from the old password.') {
+          setMessage('يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور القديمة.');
+        } else if (error.message === 'Password should be at least 6 characters') {
+          setMessage('يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل.');
+        } else {
+          setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
+        }
       } else {
         setMessage('تم تغيير كلمة المرور بنجاح.');
         setCurrentPassword('');
@@ -103,7 +109,7 @@ function Account(props) {
       }
     } catch (error) {
       console.error('Error changing password:', error);
-      setMessage(`حدث خطأ أثناء تغيير كلمة المرور: ${error.message}`);
+      setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
     } finally {
       setLoading(false);
     }
