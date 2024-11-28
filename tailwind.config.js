@@ -9,14 +9,14 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#B3E5FC', // أزرق فاتح
-          DEFAULT: '#0288D1', // أزرق معتدل
-          dark: '#01579B', // أزرق داكن
+          light: '#B3E5FC',
+          DEFAULT: '#0288D1',
+          dark: '#01579B',
         },
         secondary: {
-          light: '#C8E6C9', // أخضر فاتح
-          DEFAULT: '#43A047', // أخضر معتدل
-          dark: '#2E7D32', // أخضر داكن
+          light: '#C8E6C9',
+          DEFAULT: '#43A047',
+          dark: '#2E7D32',
         },
         neutral: {
           light: '#F5F5F5',
@@ -30,6 +30,9 @@ export default {
           600: '#FFB300',
           800: '#F57F17',
         },
+        background: {
+          DEFAULT: '#F9FAFB',
+        },
       },
       fontFamily: {
         sans: ['Noto Kufi Arabic', 'Tahoma', 'Arial', 'sans-serif'],
@@ -39,4 +42,10 @@ export default {
   plugins: [
     tailwindcssRtl,
   ],
+  variants: {
+    extend: {
+      transform: ['hover', 'focus'],
+      scale: ['active', 'group-hover'],
+    },
+  },
 };

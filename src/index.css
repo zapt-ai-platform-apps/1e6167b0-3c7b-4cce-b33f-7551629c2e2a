@@ -2,27 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* تخصيص الأنماط لتعزيز تركيز العناصر */
+/* تخصيص الأنماط لتحسين المظهر */
 :focus {
-  outline: 2px dashed #01579B; /* اللون الأساسي الداكن */
+  outline: 2px dashed #01579B;
   outline-offset: 2px;
 }
 
-/* تعزيز قابلية الوصول */
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* تخصيص الخط */
 body {
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
-  color: #424242; /* اللون المحايد الداكن للنص */
+  color: #424242;
+  background-color: #F9FAFB;
 }
 
-/* تخصيص الروابط */
 a {
-  color: #0288D1; /* اللون الأساسي المعتدل */
+  color: #0288D1;
   text-decoration: none;
 }
 
@@ -30,29 +23,31 @@ a:hover {
   text-decoration: underline;
 }
 
-/* تخصيص العناوين */
 h1, h2, h3, h4, h5, h6 {
-  color: #01579B; /* اللون الأساسي الداكن */
+  color: #01579B;
   font-weight: bold;
 }
 
-/* تخصيص إعلان العشوائي */
-.bg-yellow-100 {
-  background-color: #FFF8E1; /* لون الخلفية للإعلان */
+button {
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-.border-yellow-400 {
-  border-color: #FFCA28; /* لون الحدود للإعلان */
+button:hover {
+  transform: scale(1.05);
 }
 
-.text-yellow-800 {
-  color: #F57F17; /* لون النص للإعلان */
+input, textarea, select, button {
+  box-sizing: border-box;
 }
 
-.bg-yellow-500 {
-  background-color: #FFC107; /* لون الزر في الإعلان */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #0288D1;
+  box-shadow: 0 0 0 2px rgba(2, 136, 209, 0.2);
 }
 
-.bg-yellow-600 {
-  background-color: #FFB300; /* لون الزر عند التحويم في الإعلان */
+/* تحسين الأزرار */
+button {
+  cursor: pointer;
+  box-border: border-box;
 }

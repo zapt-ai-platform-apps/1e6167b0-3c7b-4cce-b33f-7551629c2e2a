@@ -24,11 +24,43 @@ function Services() {
         },
       ],
     },
+    {
+      name: 'خدمات تطويرية',
+      services: [
+        {
+          name: 'تصميم المواقع',
+          description: 'نقدم خدمة تصميم مواقع احترافية تلبي احتياجاتك.',
+          link: null,
+        },
+        {
+          name: 'تطوير التطبيقات',
+          description: 'نساعدك في تطوير تطبيقات مخصصة لمنصات مختلفة.',
+          link: null,
+        },
+      ],
+    },
+    {
+      name: 'خدمات استشارية',
+      services: [
+        {
+          name: 'تقييم إمكانية الوصول',
+          description: 'نقدم تقييمًا شاملاً لموقعك أو تطبيقك من حيث إمكانية الوصول.',
+          link: null,
+        },
+        {
+          name: 'تدريب فرق العمل',
+          description: 'نوفر دورات تدريبية لفرقك للتوعية بأهمية إمكانية الوصول.',
+          link: null,
+        },
+      ],
+    },
   ];
 
   const handleServiceClick = (service) => {
     if (service.link) {
       navigate(service.link);
+    } else {
+      handleRequestService(service);
     }
   };
 
@@ -51,7 +83,7 @@ function Services() {
   };
 
   return (
-    <main class="flex-grow px-4">
+    <main class="flex-grow px-4 h-full">
       <div class="text-center">
         <h2 class="text-2xl font-bold mb-4 text-primary-dark">خدماتنا</h2>
         <p class="text-lg mb-8">
@@ -63,7 +95,7 @@ function Services() {
         <select
           value={selectedCategory()}
           onInput={handleSelectionChange}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
+          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer box-border"
         >
           <option value="">اختر الفئة</option>
           <For each={categories}>
@@ -78,27 +110,17 @@ function Services() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <For each={currentCategory().services}>
             {(service) => (
-              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
                 <h3 class="text-xl font-bold mb-2 text-primary-dark">{service.name}</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                   {service.description}
                 </p>
-                <Show when={service.link}>
-                  <button
-                    class="cursor-pointer px-4 py-2 mt-2 bg-primary-dark text-white rounded-lg hover:scale-105 transition duration-300 ease-in-out"
-                    onClick={() => handleServiceClick(service)}
-                  >
-                    عرض الخدمة
-                  </button>
-                </Show>
-                <Show when={!service.link}>
-                  <button
-                    class="cursor-pointer px-4 py-2 mt-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform"
-                    onClick={() => handleRequestService(service)}
-                  >
-                    طلب الخدمة
-                  </button>
-                </Show>
+                <button
+                  class="cursor-pointer px-4 py-2 bg-primary-dark text-white rounded-lg hover:bg-primary-light transition duration-300 ease-in-out transform hover:scale-105 box-border"
+                  onClick={() => handleServiceClick(service)}
+                >
+                  {service.link ? 'عرض الخدمة' : 'طلب الخدمة'}
+                </button>
               </div>
             )}
           </For>
