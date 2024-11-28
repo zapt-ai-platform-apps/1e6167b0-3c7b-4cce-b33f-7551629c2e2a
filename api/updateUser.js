@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/node";
 import supabaseAdmin from './_supabaseAdminClient';
-import supabase from './_supabaseClient';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -28,7 +27,6 @@ export default async function handler(req, res) {
     const token = authorization.split(' ')[1];
 
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-
     if (error || !user) {
       return res.status(401).json({ error: 'غير مصرح' });
     }
@@ -41,7 +39,7 @@ export default async function handler(req, res) {
     const { id, email, user_metadata } = req.body;
 
     // تحديث المستخدم
-    const { data, error: updateError } = await supabaseAdmin.auth.admin.updateUserById(id, {
+    const { data: updatedUser, error: updateError } = await supabaseAdmin.auth.admin.updateUserById(id, {
       email,
       user_metadata,
     });
@@ -52,7 +50,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'حدث خطأ أثناء تحديث المستخدم.' });
     }
 
-    res.status(200).json({ message: 'تم تحديث المستخدم بنجاح.' });
+    res.status(200).json({ message: 'تم تحديث المستخدم بنجاح.', user: updatedUser });
   } catch (error) {
     console.error('Error:', error);
     Sentry.captureException(error);

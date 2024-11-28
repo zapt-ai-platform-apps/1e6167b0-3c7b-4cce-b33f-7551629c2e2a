@@ -5,12 +5,14 @@ function UserManagement() {
   const [users, setUsers] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [error, setError] = createSignal('');
+  const [message, setMessage] = createSignal('');
   const [selectedUser, setSelectedUser] = createSignal(null);
   const [searchText, setSearchText] = createSignal('');
 
   const fetchUsers = async () => {
     setLoading(true);
     setError('');
+    setMessage('');
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch('/api/getUsers', {
@@ -34,11 +36,14 @@ function UserManagement() {
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
+    setError('');
+    setMessage('');
   };
 
   const handleUserUpdate = async () => {
     setLoading(true);
     setError('');
+    setMessage('');
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch('/api/updateUser', {
@@ -55,7 +60,7 @@ function UserManagement() {
       });
       const result = await response.json();
       if (response.ok) {
-        setError('تم تحديث المستخدم بنجاح.');
+        setMessage('تم تحديث المستخدم بنجاح.');
       } else {
         setError(result.error || 'حدث خطأ أثناء تحديث المستخدم.');
       }
@@ -73,6 +78,7 @@ function UserManagement() {
 
     setLoading(true);
     setError('');
+    setMessage('');
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch('/api/deleteUser', {
@@ -89,7 +95,7 @@ function UserManagement() {
       if (response.ok) {
         setUsers(users().filter(user => user.id !== selectedUser().id));
         setSelectedUser(null);
-        setError('تم حذف المستخدم بنجاح.');
+        setMessage('تم حذف المستخدم بنجاح.');
       } else {
         setError(result.error || 'حدث خطأ أثناء حذف المستخدم.');
       }
@@ -184,10 +190,16 @@ function UserManagement() {
           <Show when={error()}>
             <p class="mt-4 text-center text-red-600">{error()}</p>
           </Show>
+          <Show when={message()}>
+            <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
+          </Show>
         </div>
       </Show>
-      <Show when={error()}>
+      <Show when={error() && !selectedUser()}>
         <p class="mt-4 text-center text-red-600">{error()}</p>
+      </Show>
+      <Show when={message() && !selectedUser()}>
+        <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
       </Show>
     </div>
   );

@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/node";
 import supabaseAdmin from './_supabaseAdminClient';
-import supabase from './_supabaseClient';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
     const token = authorization.split(' ')[1];
 
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-
     if (error || !user) {
       return res.status(401).json({ error: 'غير مصرح' });
     }
