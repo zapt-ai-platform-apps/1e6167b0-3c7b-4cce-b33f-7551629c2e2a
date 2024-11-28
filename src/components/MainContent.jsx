@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import AdvertisementBanner from './AdvertisementBanner';
 
 function MainContent() {
   const [selectedOption, setSelectedOption] = createSignal('');
