@@ -35,3 +35,24 @@ h1, h2, h3, h4, h5, h6 {
   color: #01579B; /* اللون الأساسي الداكن */
   font-weight: bold;
 }
+
+/* تخصيص إعلان العشوائي */
+.bg-yellow-100 {
+  background-color: #FFF8E1; /* لون الخلفية للإعلان */
+}
+
+.border-yellow-400 {
+  border-color: #FFCA28; /* لون الحدود للإعلان */
+}
+
+.text-yellow-800 {
+  color: #F57F17; /* لون النص للإعلان */
+}
+
+.bg-yellow-500 {
+  background-color: #FFC107; /* لون الزر في الإعلان */
+}
+
+.bg-yellow-600 {
+  background-color: #FFB300; /* لون الزر عند التحويم في الإعلان */
+}

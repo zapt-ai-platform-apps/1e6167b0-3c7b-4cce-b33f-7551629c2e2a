@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import AdvertisementBanner from './AdvertisementBanner';
 
 function MainContent() {
   const [selectedOption, setSelectedOption] = createSignal('');
@@ -14,7 +15,8 @@ function MainContent() {
   };
 
   return (
-    <main class="flex-grow px-4">
+    <main class="flex-grow px-4 h-full">
+      <AdvertisementBanner />
       <div class="text-center">
         <p class="text-lg mb-4 font-semibold">
           انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
@@ -27,10 +29,12 @@ function MainContent() {
         <select
           value={selectedOption()}
           onInput={handleSelectionChange}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
+          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer box-border"
         >
           <option value="">اختر وجهتك...</option>
           <option value="blog">المدونة</option>
+          <option value="services">الخدمات</option>
+          <option value="tools">الأدوات</option>
         </select>
       </div>
     </main>

@@ -23,6 +23,13 @@ export default {
           DEFAULT: '#9E9E9E',
           dark: '#424242',
         },
+        yellow: {
+          100: '#FFF8E1',
+          400: '#FFCA28',
+          500: '#FFC107',
+          600: '#FFB300',
+          800: '#F57F17',
+        },
       },
       fontFamily: {
         sans: ['Noto Kufi Arabic', 'Tahoma', 'Arial', 'sans-serif'],
