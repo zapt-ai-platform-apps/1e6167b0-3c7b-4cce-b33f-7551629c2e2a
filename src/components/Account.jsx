@@ -16,6 +16,7 @@ function Account(props) {
   const [country, setCountry] = createSignal('');
 
   // Password fields
+  const [currentPassword, setCurrentPassword] = createSignal('');
   const [newPassword, setNewPassword] = createSignal('');
   const [confirmPassword, setConfirmPassword] = createSignal('');
 
@@ -87,12 +88,25 @@ function Account(props) {
       return;
     }
     try {
+      // Reauthenticate user with current password
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: userData().email,
+        password: currentPassword(),
+      });
+
+      if (signInError) {
+        setMessage('كلمة المرور الحالية غير صحيحة.');
+        setLoading(false);
+        return;
+      }
+
+      // Proceed to update password
       const { data, error } = await supabase.auth.updateUser({
         password: newPassword(),
       });
 
       if (error) {
-        setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
+        setMessage(`حدث خطأ أثناء تغيير كلمة المرور: ${error.message}`);
       } else {
         setMessage('تم تغيير كلمة المرور بنجاح.');
         setChangingPassword(false);
@@ -100,7 +114,7 @@ function Account(props) {
       }
     } catch (error) {
       console.error('Error changing password:', error);
-      setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
+      setMessage(`حدث خطأ أثناء تغيير كلمة المرور: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -238,6 +252,16 @@ function Account(props) {
 
         <Show when={changingPassword()}>
           <div class="space-y-4">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الحالية</label>
+              <input
+                type="password"
+                value={currentPassword()}
+                onInput={(e) => setCurrentPassword(e.target.value)}
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                placeholder="أدخل كلمة المرور الحالية"
+              />
+            </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الجديدة</label>
               <input
