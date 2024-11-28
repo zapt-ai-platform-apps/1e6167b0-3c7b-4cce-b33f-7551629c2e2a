@@ -1,12 +1,10 @@
 import { createSignal, Show } from 'solid-js';
-import UserManagement from './admin/UserManagement';
 import BlogManagement from './admin/BlogManagement';
 
 function AdminDashboard() {
-  const [selectedTab, setSelectedTab] = createSignal('user-management');
+  const [selectedTab, setSelectedTab] = createSignal('blog-management');
 
   const tabs = [
-    { name: 'إدارة المستخدمين', value: 'user-management' },
     { name: 'إدارة المدونة', value: 'blog-management' },
   ];
 
@@ -15,7 +13,7 @@ function AdminDashboard() {
       <div class="text-center">
         <h2 class="text-2xl font-bold mb-4 text-primary-dark">لوحة تحكم المشرف</h2>
         <p class="text-lg mb-8">
-          مرحباً بك في لوحة التحكم، يمكنك إدارة المستخدمين والمدونة من هنا.
+          مرحباً بك في لوحة التحكم، يمكنك إدارة المدونة من هنا.
         </p>
       </div>
 
@@ -37,9 +35,6 @@ function AdminDashboard() {
       </div>
 
       <div class="h-full">
-        <Show when={selectedTab() === 'user-management'}>
-          <UserManagement />
-        </Show>
         <Show when={selectedTab() === 'blog-management'}>
           <BlogManagement />
         </Show>
