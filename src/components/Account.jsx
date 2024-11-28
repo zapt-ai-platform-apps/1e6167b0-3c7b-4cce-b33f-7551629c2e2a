@@ -4,8 +4,7 @@ import { supabase } from '../supabaseClient';
 function Account(props) {
   const [userData, setUserData] = createSignal(null);
   const [loading, setLoading] = createSignal(false);
-  const [editing, setEditing] = createSignal(false);
-  const [changingPassword, setChangingPassword] = createSignal(false);
+  const [activeTab, setActiveTab] = createSignal('overview');
   const [message, setMessage] = createSignal('');
 
   // Editable fields
@@ -68,7 +67,6 @@ function Account(props) {
         setMessage('حدث خطأ أثناء تحديث الحساب.');
       } else {
         setMessage('تم تحديث الحساب بنجاح.');
-        setEditing(false);
         fetchUserData();
       }
     } catch (error) {
@@ -109,8 +107,9 @@ function Account(props) {
         setMessage(`حدث خطأ أثناء تغيير كلمة المرور: ${error.message}`);
       } else {
         setMessage('تم تغيير كلمة المرور بنجاح.');
-        setChangingPassword(false);
-        // Optionally log the user out or prompt them to re-authenticate
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
       }
     } catch (error) {
       console.error('Error changing password:', error);
@@ -125,189 +124,186 @@ function Account(props) {
   });
 
   return (
-    <main class="flex-grow px-4">
-      <div class="max-w-md mx-auto">
-        <h2 class="text-2xl font-bold mb-4 text-primary-dark text-center">صفحة الحساب</h2>
-        <p class="text-lg mb-4 text-center">هنا يمكنك إدارة حسابك وتحديث معلوماتك</p>
-
-        <div class="mb-6 text-center">
-          <p class="text-xl text-gray-800">مرحباً، {userData()?.user_metadata.full_name}!</p>
+    <main class="flex-grow h-full px-4">
+      <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-primary-dark text-white p-6">
+          <h2 class="text-3xl font-bold mb-2 text-center">حسابي</h2>
+          <p class="text-center text-base">مرحباً، {userData()?.user_metadata.full_name}!</p>
         </div>
-
-        <div class="mb-6">
-          <select
-            value=""
-            onInput={(e) => {
-              if (e.target.value === 'manage-account') {
-                setEditing(true);
-                setChangingPassword(false);
-              } else if (e.target.value === 'change-password') {
-                setEditing(false);
-                setChangingPassword(true);
-              } else {
-                setEditing(false);
-                setChangingPassword(false);
-              }
-            }}
-            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
-          >
-            <option value="">اختر إجراء</option>
-            <option value="manage-account">إدارة حسابي</option>
-            <option value="change-password">تغيير كلمة المرور</option>
-          </select>
-        </div>
-
-        <Show when={!editing() && !changingPassword()}>
-          <div class="mb-4">
-            <p class="text-gray-700 font-semibold">الإسم الكامل: {userData()?.user_metadata.full_name}</p>
-            <p class="text-gray-700 font-semibold">اسم المستخدم: {userData()?.user_metadata.username}</p>
-            <p class="text-gray-700 font-semibold">البريد الإلكتروني: {userData()?.email}</p>
-            <p class="text-gray-700 font-semibold">رقم الهاتف: {userData()?.user_metadata.phone_number}</p>
-            <p class="text-gray-700 font-semibold">الجنس: {userData()?.user_metadata.gender}</p>
-            <p class="text-gray-700 font-semibold">الدولة: {userData()?.user_metadata.country}</p>
-          </div>
+        <div class="flex border-b border-gray-200">
           <button
-            class="cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out transform box-border w-full mb-4"
-            onClick={() => setEditing(true)}
+            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+              activeTab() === 'overview' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
+            }`}
+            onClick={() => { setActiveTab('overview'); setMessage(''); }}
+          >
+            نظرة عامة
+          </button>
+          <button
+            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+              activeTab() === 'edit-profile' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
+            }`}
+            onClick={() => { setActiveTab('edit-profile'); setMessage(''); }}
           >
             تعديل الملف الشخصي
           </button>
-        </Show>
+          <button
+            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+              activeTab() === 'change-password' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
+            }`}
+            onClick={() => { setActiveTab('change-password'); setMessage(''); }}
+          >
+            تغيير كلمة المرور
+          </button>
+        </div>
 
-        <Show when={editing()}>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">الإسم الكامل</label>
-              <input
-                type="text"
-                value={fullName()}
-                onInput={(e) => setFullName(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-              />
+        <div class="p-6">
+          <Show when={activeTab() === 'overview'}>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">الإسم الكامل:</span>
+                <span class="text-gray-900">{userData()?.user_metadata.full_name}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">اسم المستخدم:</span>
+                <span class="text-gray-900">{userData()?.user_metadata.username}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">البريد الإلكتروني:</span>
+                <span class="text-gray-900">{userData()?.email}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">رقم الهاتف:</span>
+                <span class="text-gray-900">{userData()?.user_metadata.phone_number}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">الجنس:</span>
+                <span class="text-gray-900">{userData()?.user_metadata.gender}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-32 text-gray-700 font-semibold">الدولة:</span>
+                <span class="text-gray-900">{userData()?.user_metadata.country}</span>
+              </div>
             </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">اسم المستخدم</label>
-              <input
-                type="text"
-                value={username()}
-                onInput={(e) => setUsername(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label>
-              <input
-                type="tel"
-                value={phoneNumber()}
-                onInput={(e) => setPhoneNumber(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">الجنس</label>
-              <select
-                value={gender()}
-                onInput={(e) => setGender(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+          </Show>
+
+          <Show when={activeTab() === 'edit-profile'}>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">الإسم الكامل</label>
+                <input
+                  type="text"
+                  value={fullName()}
+                  onInput={(e) => setFullName(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">اسم المستخدم</label>
+                <input
+                  type="text"
+                  value={username()}
+                  onInput={(e) => setUsername(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label>
+                <input
+                  type="tel"
+                  value={phoneNumber()}
+                  onInput={(e) => setPhoneNumber(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">الجنس</label>
+                <select
+                  value={gender()}
+                  onInput={(e) => setGender(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer"
+                >
+                  <option value="">اختر الجنس</option>
+                  {genders.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">الدولة</label>
+                <select
+                  value={country()}
+                  onInput={(e) => setCountry(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer"
+                >
+                  <option value="">اختر الدولة</option>
+                  {countries.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </select>
+              </div>
+              <button
+                class={`cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border w-full ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={handleUpdateProfile}
+                disabled={loading()}
               >
-                <option value="">اختر الجنس</option>
-                {genders.map((item) => (
-                  <option value={item}>{item}</option>
-                ))}
-              </select>
+                {loading() ? 'جاري التحديث...' : 'حفظ التغييرات'}
+              </button>
             </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">الدولة</label>
-              <select
-                value={country()}
-                onInput={(e) => setCountry(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+          </Show>
+
+          <Show when={activeTab() === 'change-password'}>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الحالية</label>
+                <input
+                  type="password"
+                  value={currentPassword()}
+                  onInput={(e) => setCurrentPassword(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  placeholder="أدخل كلمة المرور الحالية"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الجديدة</label>
+                <input
+                  type="password"
+                  value={newPassword()}
+                  onInput={(e) => setNewPassword(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  placeholder="أدخل كلمة المرور الجديدة"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">تأكيد كلمة المرور الجديدة</label>
+                <input
+                  type="password"
+                  value={confirmPassword()}
+                  onInput={(e) => setConfirmPassword(e.target.value)}
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  placeholder="أعد كتابة كلمة المرور الجديدة"
+                />
+              </div>
+              <button
+                class={`cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border w-full ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={handlePasswordChange}
+                disabled={loading()}
               >
-                <option value="">اختر الدولة</option>
-                {countries.map((item) => (
-                  <option value={item}>{item}</option>
-                ))}
-              </select>
+                {loading() ? 'جاري التحديث...' : 'تغيير كلمة المرور'}
+              </button>
             </div>
-            <button
-              class={`cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border w-full ${
-                loading() ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              onClick={handleUpdateProfile}
-              disabled={loading()}
-            >
-              {loading() ? 'جاري التحديث...' : 'حفظ التغييرات'}
-            </button>
-            <button
-              class="cursor-pointer px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out transform box-border w-full"
-              onClick={() => {
-                setEditing(false);
-                setMessage('');
-              }}
-            >
-              إلغاء
-            </button>
-          </div>
-        </Show>
+          </Show>
 
-        <Show when={changingPassword()}>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الحالية</label>
-              <input
-                type="password"
-                value={currentPassword()}
-                onInput={(e) => setCurrentPassword(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-                placeholder="أدخل كلمة المرور الحالية"
-              />
+          <Show when={message()}>
+            <div class="mt-4 text-center text-green-600 font-semibold">
+              {message()}
             </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الجديدة</label>
-              <input
-                type="password"
-                value={newPassword()}
-                onInput={(e) => setNewPassword(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-                placeholder="أدخل كلمة المرور الجديدة"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">تأكيد كلمة المرور الجديدة</label>
-              <input
-                type="password"
-                value={confirmPassword()}
-                onInput={(e) => setConfirmPassword(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-                placeholder="أعد كتابة كلمة المرور الجديدة"
-              />
-            </div>
-            <button
-              class={`cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border w-full ${
-                loading() ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              onClick={handlePasswordChange}
-              disabled={loading()}
-            >
-              {loading() ? 'جاري التحديث...' : 'تغيير كلمة المرور'}
-            </button>
-            <button
-              class="cursor-pointer px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out transform box-border w-full"
-              onClick={() => {
-                setChangingPassword(false);
-                setMessage('');
-              }}
-            >
-              إلغاء
-            </button>
-          </div>
-        </Show>
-
-        <Show when={message()}>
-          <div class="mt-4 text-center text-green-600 font-semibold">
-            {message()}
-          </div>
-        </Show>
+          </Show>
+        </div>
       </div>
     </main>
   );
