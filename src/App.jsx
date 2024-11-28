@@ -14,6 +14,7 @@ import BlogPost from './components/BlogPost';
 import Account from './components/Account';
 import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
+import FreeCourses from './components/FreeCourses';
 
 function App() {
   const [user, setUser] = createSignal(null);
@@ -54,6 +55,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainContent />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/free-courses" element={<FreeCourses />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolName" element={<ToolPage />} />
             <Route path="/blog" element={<Blog />} />

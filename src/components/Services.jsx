@@ -1,14 +1,24 @@
 import { createSignal, Show, For } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
+  const navigate = useNavigate();
 
   const categories = [
     {
       name: 'خدمات مجانية',
       services: [
-        { name: 'استشارات تقنية مجانية', description: 'نقدم استشارات تقنية لمساعدتك في اختيار الأجهزة والتطبيقات المناسبة.' },
-        { name: 'دورات تدريبية مجانية', description: 'انضم لدوراتنا التدريبية المجانية لتحسين مهاراتك.' },
+        {
+          name: 'استشارات تقنية مجانية',
+          description: 'نقدم استشارات تقنية لمساعدتك في اختيار الأجهزة والتطبيقات المناسبة.',
+          link: null,
+        },
+        {
+          name: 'دورات تدريبية مجانية',
+          description: 'انضم لدوراتنا التدريبية المجانية لتحسين مهاراتك.',
+          link: '/services/free-courses',
+        },
       ],
     },
   ];
@@ -23,6 +33,12 @@ function Services() {
       return categories.find(category => category.name === categoryName);
     } else {
       return null;
+    }
+  };
+
+  const handleServiceClick = (service) => {
+    if (service.link) {
+      navigate(service.link);
     }
   };
 
@@ -54,7 +70,10 @@ function Services() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <For each={currentCategory().services}>
             {(service) => (
-              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div
+                class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                onClick={() => handleServiceClick(service)}
+              >
                 <h3 class="text-xl font-bold mb-2 text-primary-dark">{service.name}</h3>
                 <p class="text-gray-700">
                   {service.description}
