@@ -1,36 +1,67 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
+import { supabase } from '../../supabaseClient';
 
 function ForumManagement() {
   const [threads, setThreads] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [selectedThread, setSelectedThread] = createSignal(null);
   const [searchText, setSearchText] = createSignal('');
+  const [message, setMessage] = createSignal('');
 
-  // Mock functions to simulate API calls
   const fetchThreads = async () => {
     setLoading(true);
-    // Replace with actual API call
-    setTimeout(() => {
-      setThreads([
-        { id: 1, title: 'موضوع النقاش الأول' },
-        { id: 2, title: 'موضوع النقاش الثاني' },
-      ]);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('threads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching threads:', error);
+        setMessage('حدث خطأ أثناء جلب المواضيع.');
+      } else {
+        setThreads(data);
+      }
+    } catch (err) {
+      console.error('Error fetching threads:', err);
+      setMessage('حدث خطأ أثناء جلب المواضيع.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const handleThreadClick = (thread) => {
     setSelectedThread(thread);
+    setMessage('');
   };
 
   const handleThreadDelete = async () => {
     const confirmation = confirm('هل أنت متأكد من حذف هذا الموضوع؟ لا يمكن التراجع عن هذه العملية.');
     if (!confirmation) return;
 
-    // Implement delete logic here
-    setThreads(threads().filter(thread => thread.id !== selectedThread().id));
-    setSelectedThread(null);
-    alert('تم حذف الموضوع بنجاح.');
+    setLoading(true);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('threads')
+        .delete()
+        .eq('id', selectedThread().id);
+
+      if (error) {
+        console.error('Error deleting thread:', error);
+        setMessage('حدث خطأ أثناء حذف الموضوع.');
+      } else {
+        setMessage('تم حذف الموضوع بنجاح.');
+        fetchThreads();
+        setSelectedThread(null);
+      }
+    } catch (err) {
+      console.error('Error deleting thread:', err);
+      setMessage('حدث خطأ أثناء حذف الموضوع.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   onMount(() => {
@@ -38,7 +69,9 @@ function ForumManagement() {
   });
 
   const filteredThreads = () => {
-    return threads().filter(thread => thread.title.includes(searchText()));
+    return threads().filter((thread) =>
+      thread.title.includes(searchText())
+    );
   };
 
   return (
@@ -71,22 +104,35 @@ function ForumManagement() {
         <div class="mt-6 p-4 border border-gray-300 rounded-lg bg-white">
           <h4 class="text-lg font-bold mb-2">تفاصيل الموضوع</h4>
           <p>عنوان الموضوع: {selectedThread().title}</p>
+          <p>محتوى الموضوع: {selectedThread().content}</p>
           {/* يمكن إضافة المزيد من التفاصيل حسب الحاجة */}
           <div class="flex space-x-4 space-x-reverse mt-4">
             <button
-              class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border"
+              class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${
+                loading() ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               onClick={handleThreadDelete}
+              disabled={loading()}
             >
-              حذف الموضوع
+              {loading() ? 'جاري الحذف...' : 'حذف الموضوع'}
             </button>
             <button
               class="cursor-pointer px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform box-border"
-              onClick={() => setSelectedThread(null)}
+              onClick={() => {
+                setSelectedThread(null);
+                setMessage('');
+              }}
             >
               إغلاق
             </button>
           </div>
+          <Show when={message()}>
+            <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
+          </Show>
         </div>
+      </Show>
+      <Show when={message() && !selectedThread()}>
+        <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
       </Show>
     </div>
   );

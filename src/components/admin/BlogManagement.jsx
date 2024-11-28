@@ -1,57 +1,140 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
+import { supabase } from '../../supabaseClient';
 
 function BlogManagement() {
   const [posts, setPosts] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [selectedPost, setSelectedPost] = createSignal(null);
   const [searchText, setSearchText] = createSignal('');
+  const [message, setMessage] = createSignal('');
 
-  // Mock functions to simulate API calls
   const fetchPosts = async () => {
     setLoading(true);
-    // Replace with actual API call
-    setTimeout(() => {
-      setPosts([
-        { id: 1, title: 'عنوان المقال الأول', content: 'محتوى المقال الأول' },
-        { id: 2, title: 'عنوان المقال الثاني', content: 'محتوى المقال الثاني' },
-      ]);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching posts:', error);
+        setMessage('حدث خطأ أثناء جلب المقالات.');
+      } else {
+        setPosts(data);
+      }
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+      setMessage('حدث خطأ أثناء جلب المقالات.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
+    setMessage('');
   };
 
   const handlePostUpdate = async () => {
-    // Implement update logic here
-    alert('تم تحديث المقال بنجاح.');
+    setLoading(true);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .update({
+          title: selectedPost().title,
+          content: selectedPost().content,
+        })
+        .eq('id', selectedPost().id);
+
+      if (error) {
+        console.error('Error updating post:', error);
+        setMessage('حدث خطأ أثناء تحديث المقال.');
+      } else {
+        setMessage('تم تحديث المقال بنجاح.');
+        fetchPosts();
+        setSelectedPost(null);
+      }
+    } catch (err) {
+      console.error('Error updating post:', err);
+      setMessage('حدث خطأ أثناء تحديث المقال.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePostDelete = async () => {
     const confirmation = confirm('هل أنت متأكد من حذف هذا المقال؟ لا يمكن التراجع عن هذه العملية.');
     if (!confirmation) return;
 
-    // Implement delete logic here
-    setPosts(posts().filter(post => post.id !== selectedPost().id));
-    setSelectedPost(null);
-    alert('تم حذف المقال بنجاح.');
+    setLoading(true);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', selectedPost().id);
+
+      if (error) {
+        console.error('Error deleting post:', error);
+        setMessage('حدث خطأ أثناء حذف المقال.');
+      } else {
+        setMessage('تم حذف المقال بنجاح.');
+        fetchPosts();
+        setSelectedPost(null);
+      }
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      setMessage('حدث خطأ أثناء حذف المقال.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePostCreate = () => {
     setSelectedPost({ id: null, title: '', content: '' });
+    setMessage('');
   };
 
   const handlePostSave = async () => {
+    if (!selectedPost().title || !selectedPost().content) {
+      setMessage('يرجى ملء جميع الحقول المطلوبة.');
+      return;
+    }
+
     if (selectedPost().id) {
       // Update existing post
       handlePostUpdate();
     } else {
       // Create new post
-      // Implement create logic here
-      setPosts([...posts(), { ...selectedPost(), id: Date.now() }]);
-      setSelectedPost(null);
-      alert('تم إنشاء المقال بنجاح.');
+      setLoading(true);
+      setMessage('');
+      try {
+        const { data, error } = await supabase
+          .from('posts')
+          .insert([
+            {
+              title: selectedPost().title,
+              content: selectedPost().content,
+              created_at: new Date(),
+            },
+          ]);
+
+        if (error) {
+          console.error('Error creating post:', error);
+          setMessage('حدث خطأ أثناء إنشاء المقال.');
+        } else {
+          setMessage('تم إنشاء المقال بنجاح.');
+          fetchPosts();
+          setSelectedPost(null);
+        }
+      } catch (err) {
+        console.error('Error creating post:', err);
+        setMessage('حدث خطأ أثناء إنشاء المقال.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -60,7 +143,7 @@ function BlogManagement() {
   });
 
   const filteredPosts = () => {
-    return posts().filter(post => post.title.includes(searchText()));
+    return posts().filter((post) => post.title.includes(searchText()));
   };
 
   return (
@@ -97,14 +180,18 @@ function BlogManagement() {
       </Show>
       <Show when={selectedPost()}>
         <div class="mt-6 p-4 border border-gray-300 rounded-lg bg-white">
-          <h4 class="text-lg font-bold mb-2">{selectedPost().id ? 'تعديل المقال' : 'إنشاء مقال جديد'}</h4>
+          <h4 class="text-lg font-bold mb-2">
+            {selectedPost().id ? 'تعديل المقال' : 'إنشاء مقال جديد'}
+          </h4>
           <div class="space-y-4">
             <div>
               <label class="block text-gray-700 font-semibold mb-1">عنوان المقال</label>
               <input
                 type="text"
                 value={selectedPost().title}
-                onInput={(e) => setSelectedPost({ ...selectedPost(), title: e.target.value })}
+                onInput={(e) =>
+                  setSelectedPost({ ...selectedPost(), title: e.target.value })
+                }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
               />
             </div>
@@ -112,34 +199,51 @@ function BlogManagement() {
               <label class="block text-gray-700 font-semibold mb-1">محتوى المقال</label>
               <textarea
                 value={selectedPost().content}
-                onInput={(e) => setSelectedPost({ ...selectedPost(), content: e.target.value })}
+                onInput={(e) =>
+                  setSelectedPost({ ...selectedPost(), content: e.target.value })
+                }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border h-40 resize-none"
               ></textarea>
             </div>
             <div class="flex space-x-4 space-x-reverse">
               <button
-                class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
+                class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 onClick={handlePostSave}
+                disabled={loading()}
               >
-                حفظ
+                {loading() ? 'جاري الحفظ...' : 'حفظ'}
               </button>
               <Show when={selectedPost().id}>
                 <button
-                  class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border"
+                  class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${
+                    loading() ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   onClick={handlePostDelete}
+                  disabled={loading()}
                 >
-                  حذف
+                  {loading() ? 'جاري الحذف...' : 'حذف'}
                 </button>
               </Show>
               <button
                 class="cursor-pointer px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform box-border"
-                onClick={() => setSelectedPost(null)}
+                onClick={() => {
+                  setSelectedPost(null);
+                  setMessage('');
+                }}
               >
                 إلغاء
               </button>
             </div>
+            <Show when={message()}>
+              <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
+            </Show>
           </div>
         </div>
+      </Show>
+      <Show when={message() && !selectedPost()}>
+        <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
       </Show>
     </div>
   );

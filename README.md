@@ -25,7 +25,8 @@
 
 # External APIs Used
 
-- **Supabase Auth**: نستخدم Supabase لإدارة عمليات تسجيل الدخول وإنشاء الحسابات وتخزين بيانات المستخدمين بشكل آمن.
+- **Supabase Auth and Database**: نستخدم Supabase لإدارة عمليات تسجيل الدخول وإنشاء الحسابات وتخزين بيانات المستخدمين والمحتوى.
+- **Supabase Database**: نستخدم قاعدة بيانات Supabase لتخزين وإدارة البيانات الخاصة بالمدونة، المتجر، والمنتدى.
 - **OpenAI API**: نستخدم OpenAI لتشغيل ميزات الذكاء الاصطناعي مثل مساعد الكتابة ومنشئ المحتوى.
 - **Radio-Browser API**: لجلب المحطات الإذاعية العربية في أداة الراديو العربي.
 
@@ -36,8 +37,13 @@
 - `VITE_PUBLIC_APP_ID`: Your ZAPT App ID.
 - `VITE_PUBLIC_UMAMI_WEBSITE_ID`: Your Umami Website ID for analytics.
 - `OPENAI_API_KEY`: Your OpenAI API Key.
+- `SUPABASE_URL`: Your Supabase Project URL.
+- `SUPABASE_ANON_KEY`: Your Supabase Anonymous Public API Key.
+- `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase Service Role API Key.
+- `SUPABASE_JWT_SECRET`: Your Supabase JWT Secret.
 
 # Notes
 
 - تأكد من إضافة قيم المتغيرات البيئية في ملف `.env` لضمان عمل التطبيق بشكل صحيح.
 - التطبيق يدعم اللغة العربية بالكامل ويوفر تجربة مستخدم سلسة للمكفوفين وضعاف البصر.
+- تم الآن ربط التطبيق بقاعدة بيانات Supabase لتخزين المحتوى وإدارته.

@@ -1,57 +1,142 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
+import { supabase } from '../../supabaseClient';
 
 function StoreManagement() {
   const [products, setProducts] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [selectedProduct, setSelectedProduct] = createSignal(null);
   const [searchText, setSearchText] = createSignal('');
+  const [message, setMessage] = createSignal('');
 
-  // Mock functions to simulate API calls
   const fetchProducts = async () => {
     setLoading(true);
-    // Replace with actual API call
-    setTimeout(() => {
-      setProducts([
-        { id: 1, name: 'المنتج الأول', description: 'وصف المنتج الأول', price: 100 },
-        { id: 2, name: 'المنتج الثاني', description: 'وصف المنتج الثاني', price: 200 },
-      ]);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching products:', error);
+        setMessage('حدث خطأ أثناء جلب المنتجات.');
+      } else {
+        setProducts(data);
+      }
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setMessage('حدث خطأ أثناء جلب المنتجات.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
+    setMessage('');
   };
 
   const handleProductUpdate = async () => {
-    // Implement update logic here
-    alert('تم تحديث المنتج بنجاح.');
+    setLoading(true);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .update({
+          name: selectedProduct().name,
+          description: selectedProduct().description,
+          price: selectedProduct().price,
+        })
+        .eq('id', selectedProduct().id);
+
+      if (error) {
+        console.error('Error updating product:', error);
+        setMessage('حدث خطأ أثناء تحديث المنتج.');
+      } else {
+        setMessage('تم تحديث المنتج بنجاح.');
+        fetchProducts();
+        setSelectedProduct(null);
+      }
+    } catch (err) {
+      console.error('Error updating product:', err);
+      setMessage('حدث خطأ أثناء تحديث المنتج.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleProductDelete = async () => {
     const confirmation = confirm('هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذه العملية.');
     if (!confirmation) return;
 
-    // Implement delete logic here
-    setProducts(products().filter(product => product.id !== selectedProduct().id));
-    setSelectedProduct(null);
-    alert('تم حذف المنتج بنجاح.');
+    setLoading(true);
+    setMessage('');
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', selectedProduct().id);
+
+      if (error) {
+        console.error('Error deleting product:', error);
+        setMessage('حدث خطأ أثناء حذف المنتج.');
+      } else {
+        setMessage('تم حذف المنتج بنجاح.');
+        fetchProducts();
+        setSelectedProduct(null);
+      }
+    } catch (err) {
+      console.error('Error deleting product:', err);
+      setMessage('حدث خطأ أثناء حذف المنتج.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleProductCreate = () => {
     setSelectedProduct({ id: null, name: '', description: '', price: 0 });
+    setMessage('');
   };
 
   const handleProductSave = async () => {
+    if (!selectedProduct().name || !selectedProduct().description) {
+      setMessage('يرجى ملء جميع الحقول المطلوبة.');
+      return;
+    }
+
     if (selectedProduct().id) {
       // Update existing product
       handleProductUpdate();
     } else {
       // Create new product
-      // Implement create logic here
-      setProducts([...products(), { ...selectedProduct(), id: Date.now() }]);
-      setSelectedProduct(null);
-      alert('تم إنشاء المنتج بنجاح.');
+      setLoading(true);
+      setMessage('');
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .insert([
+            {
+              name: selectedProduct().name,
+              description: selectedProduct().description,
+              price: selectedProduct().price,
+              created_at: new Date(),
+            },
+          ]);
+
+        if (error) {
+          console.error('Error creating product:', error);
+          setMessage('حدث خطأ أثناء إنشاء المنتج.');
+        } else {
+          setMessage('تم إنشاء المنتج بنجاح.');
+          fetchProducts();
+          setSelectedProduct(null);
+        }
+      } catch (err) {
+        console.error('Error creating product:', err);
+        setMessage('حدث خطأ أثناء إنشاء المنتج.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -60,7 +145,9 @@ function StoreManagement() {
   });
 
   const filteredProducts = () => {
-    return products().filter(product => product.name.includes(searchText()));
+    return products().filter((product) =>
+      product.name.includes(searchText())
+    );
   };
 
   return (
@@ -98,14 +185,18 @@ function StoreManagement() {
       </Show>
       <Show when={selectedProduct()}>
         <div class="mt-6 p-4 border border-gray-300 rounded-lg bg-white">
-          <h4 class="text-lg font-bold mb-2">{selectedProduct().id ? 'تعديل المنتج' : 'إضافة منتج جديد'}</h4>
+          <h4 class="text-lg font-bold mb-2">
+            {selectedProduct().id ? 'تعديل المنتج' : 'إضافة منتج جديد'}
+          </h4>
           <div class="space-y-4">
             <div>
               <label class="block text-gray-700 font-semibold mb-1">اسم المنتج</label>
               <input
                 type="text"
                 value={selectedProduct().name}
-                onInput={(e) => setSelectedProduct({ ...selectedProduct(), name: e.target.value })}
+                onInput={(e) =>
+                  setSelectedProduct({ ...selectedProduct(), name: e.target.value })
+                }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
               />
             </div>
@@ -113,7 +204,9 @@ function StoreManagement() {
               <label class="block text-gray-700 font-semibold mb-1">وصف المنتج</label>
               <textarea
                 value={selectedProduct().description}
-                onInput={(e) => setSelectedProduct({ ...selectedProduct(), description: e.target.value })}
+                onInput={(e) =>
+                  setSelectedProduct({ ...selectedProduct(), description: e.target.value })
+                }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border h-32 resize-none"
               ></textarea>
             </div>
@@ -122,34 +215,51 @@ function StoreManagement() {
               <input
                 type="number"
                 value={selectedProduct().price}
-                onInput={(e) => setSelectedProduct({ ...selectedProduct(), price: parseFloat(e.target.value) })}
+                onInput={(e) =>
+                  setSelectedProduct({ ...selectedProduct(), price: parseFloat(e.target.value) })
+                }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
               />
             </div>
             <div class="flex space-x-4 space-x-reverse">
               <button
-                class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
+                class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 onClick={handleProductSave}
+                disabled={loading()}
               >
-                حفظ
+                {loading() ? 'جاري الحفظ...' : 'حفظ'}
               </button>
               <Show when={selectedProduct().id}>
                 <button
-                  class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border"
+                  class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${
+                    loading() ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   onClick={handleProductDelete}
+                  disabled={loading()}
                 >
-                  حذف
+                  {loading() ? 'جاري الحذف...' : 'حذف'}
                 </button>
               </Show>
               <button
                 class="cursor-pointer px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform box-border"
-                onClick={() => setSelectedProduct(null)}
+                onClick={() => {
+                  setSelectedProduct(null);
+                  setMessage('');
+                }}
               >
                 إلغاء
               </button>
             </div>
+            <Show when={message()}>
+              <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
+            </Show>
           </div>
         </div>
+      </Show>
+      <Show when={message() && !selectedProduct()}>
+        <p class="mt-4 text-center text-green-600 font-semibold">{message()}</p>
       </Show>
     </div>
   );
