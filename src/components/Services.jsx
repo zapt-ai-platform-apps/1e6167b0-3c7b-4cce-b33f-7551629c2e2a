@@ -1,8 +1,11 @@
 import { createSignal, Show, For } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import ServiceRequestForm from './ServiceRequestForm';
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
+  const [showRequestForm, setShowRequestForm] = createSignal(false);
+  const [selectedService, setSelectedService] = createSignal(null);
   const navigate = useNavigate();
 
   const categories = [
@@ -23,6 +26,17 @@ function Services() {
     },
   ];
 
+  const handleServiceClick = (service) => {
+    if (service.link) {
+      navigate(service.link);
+    }
+  };
+
+  const handleRequestService = (service) => {
+    setSelectedService(service);
+    setShowRequestForm(true);
+  };
+
   const handleSelectionChange = (e) => {
     setSelectedCategory(e.target.value);
   };
@@ -33,12 +47,6 @@ function Services() {
       return categories.find(category => category.name === categoryName);
     } else {
       return null;
-    }
-  };
-
-  const handleServiceClick = (service) => {
-    if (service.link) {
-      navigate(service.link);
     }
   };
 
@@ -70,18 +78,38 @@ function Services() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <For each={currentCategory().services}>
             {(service) => (
-              <div
-                class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                onClick={() => handleServiceClick(service)}
-              >
+              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <h3 class="text-xl font-bold mb-2 text-primary-dark">{service.name}</h3>
                 <p class="text-gray-700">
                   {service.description}
                 </p>
+                <Show when={service.link}>
+                  <button
+                    class="cursor-pointer px-4 py-2 mt-2 bg-primary-dark text-white rounded-lg hover:scale-105 transition duration-300 ease-in-out"
+                    onClick={() => handleServiceClick(service)}
+                  >
+                    عرض الخدمة
+                  </button>
+                </Show>
+                <Show when={!service.link}>
+                  <button
+                    class="cursor-pointer px-4 py-2 mt-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform"
+                    onClick={() => handleRequestService(service)}
+                  >
+                    طلب الخدمة
+                  </button>
+                </Show>
               </div>
             )}
           </For>
         </div>
+      </Show>
+
+      <Show when={showRequestForm()}>
+        <ServiceRequestForm
+          service={selectedService()}
+          onClose={() => setShowRequestForm(false)}
+        />
       </Show>
     </main>
   );
