@@ -29,8 +29,3 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
-/* تصحيح ترتيب الـ @import */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
