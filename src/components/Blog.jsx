@@ -1,5 +1,6 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
 import { supabase } from '../supabaseClient';
+import { Link } from '@solidjs/router';
 
 function Blog() {
   const [posts, setPosts] = createSignal([]);
@@ -72,7 +73,11 @@ function Blog() {
           <For each={posts()}>
             {(post) => (
               <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                <h3 class="text-xl font-bold mb-2 text-primary-dark">{post.title}</h3>
+                <h3 class="text-xl font-bold mb-2 text-primary-dark">
+                  <Link href={`/blog/${post.id}`} class="hover:underline">
+                    {post.title}
+                  </Link>
+                </h3>
                 <p class="text-sm text-gray-600 mb-2">{post.category}</p>
                 <p class="text-gray-700">{post.description}</p>
               </div>
