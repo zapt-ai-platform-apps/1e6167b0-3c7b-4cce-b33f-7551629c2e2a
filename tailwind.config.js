@@ -11,12 +11,12 @@ export default {
         primary: {
           light: '#B3E5FC', // أزرق فاتح
           DEFAULT: '#0288D1', // أزرق معتدل
-          dark: '#01579B', // أزرق غامق
+          dark: '#01579B', // أزرق داكن
         },
         secondary: {
           light: '#C8E6C9', // أخضر فاتح
           DEFAULT: '#43A047', // أخضر معتدل
-          dark: '#2E7D32', // أخضر غامق
+          dark: '#2E7D32', // أخضر داكن
         },
         neutral: {
           light: '#F5F5F5',

@@ -4,7 +4,7 @@
 
 /* تخصيص الأنماط لتعزيز تركيز العناصر */
 :focus {
-  outline: 2px dashed #01579B; /* Updated to primary.dark color */
+  outline: 2px dashed #01579B; /* اللون الأساسي الداكن */
   outline-offset: 2px;
 }
 
@@ -17,15 +17,21 @@ button:disabled {
 /* تخصيص الخط */
 body {
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
-  color: #424242;
+  color: #424242; /* اللون المحايد الداكن للنص */
 }
 
 /* تخصيص الروابط */
 a {
-  color: #0288D1; /* Updated to primary.DEFAULT color */
+  color: #0288D1; /* اللون الأساسي المعتدل */
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+/* تخصيص العناوين */
+h1, h2, h3, h4, h5, h6 {
+  color: #01579B; /* اللون الأساسي الداكن */
+  font-weight: bold;
 }
