@@ -43,18 +43,21 @@ function AuthPage(props) {
     setMessage('');
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email(),
-        password: password(),
-      }, {
-        data: {
-          full_name: fullName(),
-          username: username(),
-          phone_number: `${countryCode()}${phoneNumber()}`,
-          gender: gender(),
-          country: country(),
+      const { data, error } = await supabase.auth.signUp(
+        {
+          email: email(),
+          password: password(),
         },
-      });
+        {
+          data: {
+            full_name: fullName(),
+            username: username(),
+            phone_number: `${countryCode()}${phoneNumber()}`,
+            gender: gender(),
+            country: country(),
+          },
+        }
+      );
 
       if (error) {
         setMessage('حدث خطأ أثناء إنشاء الحساب.');
@@ -114,14 +117,6 @@ function AuthPage(props) {
         <h2 class="text-3xl font-bold mb-6 text-center text-purple-600">
           {showSignUp() ? 'إنشاء حساب جديد' : 'تسجيل الدخول باستخدام ZAPT'}
         </h2>
-        <a
-          href="https://www.zapt.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-blue-500 hover:underline mb-6 block text-center"
-        >
-          تعرف على ZAPT
-        </a>
         <form onSubmit={showSignUp() ? handleSignUp : handleSignIn} class="space-y-4">
           <Show when={showSignUp()}>
             <div>
