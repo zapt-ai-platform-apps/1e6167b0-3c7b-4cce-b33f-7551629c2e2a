@@ -30,12 +30,6 @@ function AdvertisementBanner() {
       buttonText: 'أنشئ صورة',
       link: '/tools/image-generator',
     },
-    {
-      title: 'خدمات الدعم',
-      description: 'نقدم دعمًا فنيًا لحل المشكلات التقنية التي تواجهك.',
-      buttonText: 'احصل على الدعم',
-      link: '/services',
-    },
     // يمكنك إضافة المزيد من الإعلانات هنا
   ];
 
