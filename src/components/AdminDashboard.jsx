@@ -1,4 +1,8 @@
 import { createSignal, Show } from 'solid-js';
+import UserManagement from './admin/UserManagement';
+import BlogManagement from './admin/BlogManagement';
+import StoreManagement from './admin/StoreManagement';
+import ForumManagement from './admin/ForumManagement';
 
 function AdminDashboard() {
   const [selectedOption, setSelectedOption] = createSignal('');
@@ -12,7 +16,7 @@ function AdminDashboard() {
       <div class="text-center">
         <h2 class="text-2xl font-bold mb-4 text-primary-dark">لوحة تحكم المشرف</h2>
         <p class="text-lg mb-8">
-          مرحباً بك في لوحة التحكم، يمكنك إدارة المستخدمين، المدونة، والمتجر من هنا.
+          مرحباً بك في لوحة التحكم، يمكنك إدارة المستخدمين، المدونة، المتجر، والمنتدى من هنا.
         </p>
       </div>
 
@@ -26,18 +30,25 @@ function AdminDashboard() {
           <option value="user-management">إدارة المستخدمين</option>
           <option value="blog-management">إدارة المدونة</option>
           <option value="store-management">إدارة المتجر</option>
+          <option value="forum-management">إدارة المنتدى</option>
         </select>
       </div>
 
       <div>
         <Show when={selectedOption() === 'user-management'}>
-          <p class="text-center">هنا يمكنك إدارة المستخدمين.</p>
+          <UserManagement />
         </Show>
         <Show when={selectedOption() === 'blog-management'}>
-          <p class="text-center">هنا يمكنك إدارة المدونة.</p>
+          <BlogManagement />
         </Show>
         <Show when={selectedOption() === 'store-management'}>
-          <p class="text-center">هنا يمكنك إدارة المتجر.</p>
+          <StoreManagement />
+        </Show>
+        <Show when={selectedOption() === 'forum-management'}>
+          <ForumManagement />
+        </Show>
+        <Show when={!selectedOption()}>
+          <p class="text-center text-gray-700">يرجى اختيار قسم من القائمة أعلاه لبدء الإدارة.</p>
         </Show>
       </div>
     </main>
