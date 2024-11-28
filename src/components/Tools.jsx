@@ -34,7 +34,7 @@ function Tools() {
       name: 'أدوات للمطورين',
       description: 'أدوات مخصصة للمطورين لزيادة الإنتاجية وابتكار حلول برمجية متقدمة.',
       tools: [
-        // حاليًا لا توجد أدوات في هذه الفئة
+        { name: 'منشئ المواقع الذكي', description: 'قم بتوليد موقع احترافي متكامل وبتنسيق ومظهر احترافي.' },
       ],
     },
   ];
@@ -52,6 +52,8 @@ function Tools() {
       navigate('/tools/article-generator');
     } else if (toolName === 'منشئ الصور بالذكاء الاصطناعي') {
       navigate('/tools/image-generator');
+    } else if (toolName === 'منشئ المواقع الذكي') {
+      navigate('/tools/website-builder');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
