@@ -14,6 +14,8 @@
     "@sentry/tracing": "^7.65.0",
     "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22",
+    "@supabase/auth-ui-solid": "^0.3.8",
+    "@supabase/auth-ui-shared": "^0.1.8",
     "@zapt/zapt-js": "^1.0.5",
     "solid-markdown": "^2.0.13"
   },
