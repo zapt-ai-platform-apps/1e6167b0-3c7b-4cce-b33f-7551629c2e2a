@@ -1,9 +1,12 @@
-import { createSignal, onCleanup } from 'solid-js';
+import { createSignal, onMount, onCleanup } from 'solid-js';
 import { createEvent } from '../supabaseClient';
 
 function SmartVoiceAssistant() {
   const [messages, setMessages] = createSignal([
-    { role: 'assistant', content: 'مرحباً! أنا المساعد الصوتي الذكي. كيف يمكنني مساعدتك اليوم؟' },
+    {
+      role: 'assistant',
+      content: 'مرحباً! أنا المساعد الصوتي الذكي. كيف يمكنني مساعدتك اليوم؟',
+    },
   ]);
   const [listening, setListening] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
@@ -12,55 +15,67 @@ function SmartVoiceAssistant() {
   let recognition;
   let audioPlayer = new Audio();
 
-  if ('webkitSpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'ar-EG';
-    recognition.continuous = false;
-    recognition.interimResults = false;
+  onMount(() => {
+    if ('webkitSpeechRecognition' in window) {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'ar-EG';
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-    recognition.onresult = async function(event) {
-      const transcript = event.results[0][0].transcript;
-      setMessages([...messages(), { role: 'user', content: transcript }]);
-      setLoading(true);
-      try {
-        const response = await createEvent('chatgpt_request', {
-          prompt: transcript,
-          response_type: 'text',
-        });
-        setMessages([...messages(), { role: 'assistant', content: response }]);
+      recognition.onresult = async function (event) {
+        const transcript = event.results[0][0].transcript;
+        setMessages([...messages(), { role: 'user', content: transcript }]);
+        setLoading(true);
+        try {
+          const response = await createEvent('chatgpt_request', {
+            prompt: transcript,
+            response_type: 'text',
+          });
+          setMessages([
+            ...messages(),
+            { role: 'assistant', content: response },
+          ]);
 
-        // Generate AI voice audio
-        const audioResponse = await createEvent('text_to_speech', {
-          text: response,
-        });
+          // Generate AI voice audio
+          const audioResponse = await createEvent('text_to_speech', {
+            text: response,
+          });
 
-        if (audioResponse) {
-          setAudioUrl(audioResponse);
-          playAudio(audioResponse);
-        } else {
-          alert('حدث خطأ أثناء توليد الصوت.');
+          if (audioResponse) {
+            setAudioUrl(audioResponse);
+            playAudio(audioResponse);
+          } else {
+            alert('حدث خطأ أثناء توليد الصوت.');
+          }
+        } catch (error) {
+          console.error('Error communicating with assistant:', error);
+          setMessages([
+            ...messages(),
+            {
+              role: 'assistant',
+              content:
+                'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.',
+            },
+          ]);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error communicating with assistant:', error);
-        const errorMessage = 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.';
-        setMessages([...messages(), { role: 'assistant', content: errorMessage }]);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    recognition.onerror = function(event) {
-      console.error('Speech recognition error:', event.error);
-      setListening(false);
-    };
+      recognition.onerror = function (event) {
+        console.error('Speech recognition error:', event.error);
+        setListening(false);
+      };
 
-    recognition.onend = function() {
-      setListening(false);
-    };
-  } else {
-    alert('متصفحك لا يدعم التعرف على الصوت.');
-  }
+      recognition.onend = function () {
+        setListening(false);
+      };
+    } else {
+      alert('متصفحك لا يدعم التعرف على الصوت.');
+    }
+  });
 
   const handleListen = () => {
     if (recognition) {
@@ -76,9 +91,11 @@ function SmartVoiceAssistant() {
 
   const playAudio = (url) => {
     audioPlayer.src = url;
-    audioPlayer.play().catch((error) => {
-      console.error('Error playing audio:', error);
-    });
+    audioPlayer
+      .play()
+      .catch((error) => {
+        console.error('Error playing audio:', error);
+      });
   };
 
   onCleanup(() => {
@@ -94,8 +111,18 @@ function SmartVoiceAssistant() {
       </div>
       <div class="flex-grow overflow-y-auto mb-4 p-2 border border-gray-300 rounded">
         {messages().map((message) => (
-          <div class={`mb-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
-            <div class={`inline-block px-3 py-2 rounded-lg ${message.role === 'user' ? 'bg-blue-100 text-gray-800' : 'bg-gray-100 text-gray-800'}`}>
+          <div
+            class={`mb-2 ${
+              message.role === 'user' ? 'text-right' : 'text-left'
+            }`}
+          >
+            <div
+              class={`inline-block px-3 py-2 rounded-lg ${
+                message.role === 'user'
+                  ? 'bg-blue-100 text-gray-800'
+                  : 'bg-gray-100 text-gray-800'
+              }`}
+            >
               {message.content}
             </div>
           </div>
@@ -110,7 +137,9 @@ function SmartVoiceAssistant() {
       </div>
       <div class="flex justify-center">
         <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition duration-300 ease-in-out transform box-border ${listening() ? 'bg-red-600 hover:bg-red-700' : ''}`}
+          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition duration-300 ease-in-out transform box-border ${
+            listening() ? 'bg-red-600 hover:bg-red-700' : ''
+          }`}
           onClick={handleListen}
           disabled={loading()}
         >
