@@ -1,5 +1,5 @@
 import { createSignal, onMount, createEffect, Show } from 'solid-js';
-import { Router, Routes, Route } from '@solidjs/router';
+import { Router, Routes, Route, Navigate } from '@solidjs/router';
 import { supabase } from './supabaseClient';
 import Header from './components/Header';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -13,16 +13,19 @@ import Blog from './components/Blog';
 import Store from './components/Store';
 import Forum from './components/Forum';
 import Account from './components/Account';
+import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
 
 function App() {
   const [user, setUser] = createSignal(null);
+  const [isAdmin, setIsAdmin] = createSignal(false);
   const [currentPage, setCurrentPage] = createSignal('login');
 
   const checkUserSignedIn = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       setUser(user);
+      setIsAdmin(user.email === 'daoudi.abdennour@gmail.com');
       setCurrentPage('homePage');
     }
   };
@@ -33,9 +36,11 @@ function App() {
     const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.user) {
         setUser(session.user);
+        setIsAdmin(session.user.email === 'daoudi.abdennour@gmail.com');
         setCurrentPage('homePage');
       } else {
         setUser(null);
+        setIsAdmin(false);
         setCurrentPage('login');
       }
     });
@@ -53,7 +58,7 @@ function App() {
       >
         <Router>
           <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
-            <Header user={user()} />
+            <Header user={user()} isAdmin={isAdmin()} />
             <AnnouncementBanner />
             <Routes>
               <Route path="/" element={<MainContent />} />
@@ -64,6 +69,9 @@ function App() {
               <Route path="/store" element={<Store />} />
               <Route path="/forum" element={<Forum />} />
               <Route path="/account" element={<Account user={user()} />} />
+              <Route path="/admin" element={
+                isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
+              } />
             </Routes>
             <SocialMediaLinks />
           </div>
