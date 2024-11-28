@@ -54,6 +54,17 @@ function AdminDashboard() {
           <ForumManagement />
         </Show>
       </div>
+
+      <div class="mt-8 text-center text-gray-700">
+        <a
+          href="https://www.zapt.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-500 hover:underline"
+        >
+          تم الإنشاء باستخدام ZAPT
+        </a>
+      </div>
     </main>
   );
 }
