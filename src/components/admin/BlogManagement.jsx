@@ -8,6 +8,13 @@ function BlogManagement() {
   const [searchText, setSearchText] = createSignal('');
   const [message, setMessage] = createSignal('');
 
+  const categories = [
+    'أخبار ومستجدات',
+    'التطوير والبرمجة',
+    'العمل والربح من الأنترنت',
+    'تطبيقات وبرامج',
+  ];
+
   const fetchPosts = async () => {
     setLoading(true);
     setMessage('');
@@ -40,11 +47,13 @@ function BlogManagement() {
     setLoading(true);
     setMessage('');
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('posts')
         .update({
           title: selectedPost().title,
+          description: selectedPost().description,
           content: selectedPost().content,
+          category: selectedPost().category,
         })
         .eq('id', selectedPost().id);
 
@@ -71,7 +80,7 @@ function BlogManagement() {
     setLoading(true);
     setMessage('');
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('posts')
         .delete()
         .eq('id', selectedPost().id);
@@ -93,30 +102,32 @@ function BlogManagement() {
   };
 
   const handlePostCreate = () => {
-    setSelectedPost({ id: null, title: '', content: '' });
+    setSelectedPost({ id: null, title: '', description: '', content: '', category: categories[0] });
     setMessage('');
   };
 
   const handlePostSave = async () => {
-    if (!selectedPost().title || !selectedPost().content) {
+    if (!selectedPost().title || !selectedPost().content || !selectedPost().category) {
       setMessage('يرجى ملء جميع الحقول المطلوبة.');
       return;
     }
 
     if (selectedPost().id) {
       // Update existing post
-      handlePostUpdate();
+      await handlePostUpdate();
     } else {
       // Create new post
       setLoading(true);
       setMessage('');
       try {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('posts')
           .insert([
             {
               title: selectedPost().title,
+              description: selectedPost().description,
               content: selectedPost().content,
+              category: selectedPost().category,
               created_at: new Date(),
             },
           ]);
@@ -143,7 +154,9 @@ function BlogManagement() {
   });
 
   const filteredPosts = () => {
-    return posts().filter((post) => post.title.includes(searchText()));
+    return posts().filter((post) =>
+      post.title.includes(searchText()) || post.category.includes(searchText())
+    );
   };
 
   return (
@@ -173,6 +186,7 @@ function BlogManagement() {
                 onClick={() => handlePostClick(post)}
               >
                 <h4 class="font-semibold">{post.title}</h4>
+                <p class="text-sm text-gray-600">{post.category}</p>
               </div>
             )}
           </For>
@@ -196,6 +210,16 @@ function BlogManagement() {
               />
             </div>
             <div>
+              <label class="block text-gray-700 font-semibold mb-1">وصف قصير</label>
+              <textarea
+                value={selectedPost().description}
+                onInput={(e) =>
+                  setSelectedPost({ ...selectedPost(), description: e.target.value })
+                }
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border h-24 resize-none"
+              ></textarea>
+            </div>
+            <div>
               <label class="block text-gray-700 font-semibold mb-1">محتوى المقال</label>
               <textarea
                 value={selectedPost().content}
@@ -204,6 +228,22 @@ function BlogManagement() {
                 }
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border h-40 resize-none"
               ></textarea>
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-1">التصنيف</label>
+              <select
+                value={selectedPost().category}
+                onInput={(e) =>
+                  setSelectedPost({ ...selectedPost(), category: e.target.value })
+                }
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer"
+              >
+                <For each={categories}>
+                  {(category) => (
+                    <option value={category}>{category}</option>
+                  )}
+                </For>
+              </select>
             </div>
             <div class="flex space-x-4 space-x-reverse">
               <button
