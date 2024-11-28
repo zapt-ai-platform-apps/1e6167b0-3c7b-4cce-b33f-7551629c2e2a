@@ -12,8 +12,9 @@ function Header() {
     <header class="flex justify-between items-center mb-8 relative">
       <h1 class="text-4xl font-bold text-primary-dark">Blind Accessibility</h1>
       <button
+        aria-label="القائمة"
         onClick={toggleMenu}
-        class="md:hidden cursor-pointer p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-dark"
+        class="md:hidden cursor-pointer p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-dark flex items-center"
       >
         <svg
           class="h-6 w-6 text-gray-800"
@@ -41,6 +42,7 @@ function Header() {
             />
           </Show>
         </svg>
+        <span class="mr-2">القائمة</span>
       </button>
       <nav
         class={`absolute top-full right-0 mt-2 w-full bg-white shadow-md md:static md:mt-0 md:w-auto md:flex md:items-center ${
