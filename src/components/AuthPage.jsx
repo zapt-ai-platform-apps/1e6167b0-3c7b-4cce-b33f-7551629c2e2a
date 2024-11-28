@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { supabase } from '../supabaseClient';
 
 function AuthPage(props) {
@@ -115,8 +115,11 @@ function AuthPage(props) {
     <div class="flex items-center justify-center min-h-screen">
       <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
         <h2 class="text-3xl font-bold mb-6 text-center text-purple-600">
-          {showSignUp() ? 'إنشاء حساب جديد' : 'تسجيل الدخول باستخدام ZAPT'}
+          {showSignUp() ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
         </h2>
+        <p class="text-lg mb-8 text-center text-gray-700">
+          انطلق نحو الاستقلالية مع تطبيق Blind Accessibility – انضم إلينا للحصول على تجربة سلسة وسهلة الوصول.
+        </p>
         <form onSubmit={showSignUp() ? handleSignUp : handleSignIn} class="space-y-4">
           <Show when={showSignUp()}>
             <div>
