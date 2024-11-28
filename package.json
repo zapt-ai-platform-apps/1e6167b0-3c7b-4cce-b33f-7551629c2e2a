@@ -8,6 +8,9 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@sentry/browser": "^7.65.0",
     "@sentry/node": "^7.65.0",
