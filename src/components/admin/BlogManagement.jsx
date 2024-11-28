@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, onMount, Show, For } from 'solid-js';
 import { supabase, createEvent } from '../../supabaseClient';
 
@@ -166,7 +165,7 @@ function BlogManagement() {
     setGenerating(true);
     setMessage('');
     try {
-      const prompt = `يرجى توليد مقال شامل ومفصل حول الموضوع التالي: "${aiTopic()}" وتقديمه بصيغة JSON بالهيكل التالي: { "title": "عنوان المقال", "description": "وصف قصير للمقال", "content": "محتوى المقال" }`;
+      const prompt = `يرجى توليد مقال شامل ومفصل حول الموضوع التالي: \"${aiTopic()}\" وتقديمه بصيغة JSON بالهيكل التالي: { \"title\": \"عنوان المقال\", \"description\": \"وصف قصير للمقال\", \"content\": \"محتوى المقال\" }`;
       const response = await createEvent('chatgpt_request', {
         prompt: prompt,
         response_type: 'json',
@@ -351,4 +350,3 @@ function BlogManagement() {
 }
 
 export default BlogManagement;
-```
