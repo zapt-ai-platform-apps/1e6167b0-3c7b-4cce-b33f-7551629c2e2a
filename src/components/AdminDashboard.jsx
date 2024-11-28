@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, Show } from 'solid-js';
 import UserManagement from './admin/UserManagement';
 import BlogManagement from './admin/BlogManagement';
@@ -60,4 +59,3 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
-```
