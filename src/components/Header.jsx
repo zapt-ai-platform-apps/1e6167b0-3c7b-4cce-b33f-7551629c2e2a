@@ -118,6 +118,18 @@ function Header(props) {
               </button>
             </li>
           </Show>
+          <Show when={!props.user}>
+            <li>
+              <NavLink
+                href="/login"
+                class="block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
+                activeClass="text-primary-dark font-bold"
+                onClick={() => setMenuOpen(false)}
+              >
+                تسجيل الدخول
+              </NavLink>
+            </li>
+          </Show>
         </ul>
       </nav>
     </header>

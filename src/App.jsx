@@ -1,4 +1,4 @@
-import { createSignal, onMount, createEffect, Show } from 'solid-js';
+import { createSignal, onMount, createEffect } from 'solid-js';
 import { Router, Routes, Route, Navigate } from '@solidjs/router';
 import { supabase } from './supabaseClient';
 import Header from './components/Header';
@@ -18,14 +18,12 @@ import AuthPage from './components/AuthPage';
 function App() {
   const [user, setUser] = createSignal(null);
   const [isAdmin, setIsAdmin] = createSignal(false);
-  const [currentPage, setCurrentPage] = createSignal('login');
 
   const checkUserSignedIn = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       setUser(user);
       setIsAdmin(user.email === 'daoudi.abdennour@gmail.com');
-      setCurrentPage('homePage');
     }
   };
 
@@ -36,11 +34,9 @@ function App() {
       if (session?.user) {
         setUser(session.user);
         setIsAdmin(session.user.email === 'daoudi.abdennour@gmail.com');
-        setCurrentPage('homePage');
       } else {
         setUser(null);
         setIsAdmin(false);
-        setCurrentPage('login');
       }
     });
 
@@ -51,31 +47,29 @@ function App() {
 
   return (
     <div class="min-h-screen h-full bg-white text-gray-900 flex flex-col" dir="rtl">
-      <Show
-        when={currentPage() === 'homePage'}
-        fallback={<AuthPage setUser={setUser} setCurrentPage={setCurrentPage} />}
-      >
-        <Router>
-          <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
-            <Header user={user()} isAdmin={isAdmin()} />
-            <AnnouncementBanner />
-            <Routes>
-              <Route path="/" element={<MainContent />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/tools/:toolName" element={<ToolPage />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/account" element={<Account user={user()} />} />
-              <Route path="/admin" element={
-                isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
-              } />
-            </Routes>
-            <SocialMediaLinks />
-          </div>
-        </Router>
-        <Footer />
-      </Show>
+      <Router>
+        <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
+          <Header user={user()} isAdmin={isAdmin()} />
+          <AnnouncementBanner />
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/:toolName" element={<ToolPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/account" element={
+              user() ? <Account user={user()} /> : <Navigate href="/login" />
+            } />
+            <Route path="/admin" element={
+              isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
+            } />
+            <Route path="/login" element={<AuthPage />} />
+          </Routes>
+          <SocialMediaLinks />
+        </div>
+      </Router>
+      <Footer />
     </div>
   );
 }

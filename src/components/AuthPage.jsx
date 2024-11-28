@@ -1,7 +1,9 @@
 import { createSignal, Show } from 'solid-js';
 import { supabase } from '../supabaseClient';
+import { useNavigate } from '@solidjs/router';
 
-function AuthPage(props) {
+function AuthPage() {
+  const navigate = useNavigate();
   const [showSignUp, setShowSignUp] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [message, setMessage] = createSignal('');
@@ -86,8 +88,7 @@ function AuthPage(props) {
       if (error) {
         setMessage('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
       } else {
-        props.setUser(data.user);
-        props.setCurrentPage('homePage');
+        navigate('/');
       }
     } catch (error) {
       console.error('Error signing in:', error);
