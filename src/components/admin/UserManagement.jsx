@@ -112,17 +112,26 @@ function UserManagement() {
   });
 
   const filteredUsers = () => {
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
     return users().filter(user => {
       const fullName = user.user_metadata.full_name || '';
       const email = user.email || '';
       const search = searchText().toLowerCase();
-      return fullName.toLowerCase().includes(search) || email.toLowerCase().includes(search);
+
+      const lastSignInAt = user.last_sign_in_at ? new Date(user.last_sign_in_at) : null;
+      const signedInRecently = lastSignInAt && lastSignInAt > thirtyMinutesAgo;
+
+      return (
+        signedInRecently &&
+        (fullName.toLowerCase().includes(search) || email.toLowerCase().includes(search))
+      );
     });
   };
 
   return (
     <div>
       <h3 class="text-xl font-bold mb-4 text-primary-dark">إدارة المستخدمين</h3>
+      <p class="mb-4">عرض المستخدمين الذين قاموا بتسجيل الدخول خلال آخر 30 دقيقة.</p>
       <div class="mb-4">
         <input
           type="text"
@@ -146,6 +155,9 @@ function UserManagement() {
             )}
           </For>
         </div>
+        <Show when={filteredUsers().length === 0}>
+          <p class="mt-4 text-center text-gray-600">لا يوجد مستخدمون مسجلون دخولهم حالياً.</p>
+        </Show>
       </Show>
       <Show when={selectedUser()}>
         <div class="mt-6 p-4 border border-gray-300 rounded-lg bg-white">
@@ -172,14 +184,18 @@ function UserManagement() {
             {/* يمكن إضافة المزيد من الحقول حسب الحاجة */}
             <div class="flex space-x-4 space-x-reverse">
               <button
-                class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 onClick={handleUserUpdate}
                 disabled={loading()}
               >
                 {loading() ? 'جاري التحديث...' : 'تحديث'}
               </button>
               <button
-                class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${
+                  loading() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 onClick={handleUserDelete}
                 disabled={loading()}
               >

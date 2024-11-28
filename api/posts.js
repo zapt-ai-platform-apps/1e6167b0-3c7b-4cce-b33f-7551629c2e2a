@@ -1,5 +1,6 @@
 import supabaseAdmin from './_supabaseAdminClient';
 import * as Sentry from "@sentry/node";
+import jwt from 'jsonwebtoken';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -16,16 +17,16 @@ export default async function handler(req, res) {
   try {
     const { authorization } = req.headers;
 
-    // Verify user authentication
     let user = null;
     if (authorization) {
       const token = authorization.split(' ')[1];
-      const { data, error } = await supabaseAdmin.auth.getUser(token);
-      if (error) {
-        console.error('Error fetching user:', error);
-        Sentry.captureException(error);
-      } else {
-        user = data.user;
+      const SECRET = process.env.SUPABASE_JWT_SECRET;
+
+      try {
+        user = jwt.verify(token, SECRET);
+      } catch (err) {
+        console.error('Token verification failed:', err);
+        Sentry.captureException(err);
       }
     }
 

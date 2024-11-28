@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/node";
 import supabaseAdmin from './_supabaseAdminClient';
+import jwt from 'jsonwebtoken';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -20,10 +21,16 @@ export default async function handler(req, res) {
     }
 
     const token = authorization.split(' ')[1];
+    const SECRET = process.env.SUPABASE_JWT_SECRET;
 
-    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-    if (error || !user) {
-      return res.status(401).json({ error: 'غير مصرح' });
+    let user;
+
+    try {
+      user = jwt.verify(token, SECRET);
+    } catch (err) {
+      console.error('Token verification failed:', err);
+      Sentry.captureException(err);
+      return res.status(401).json({ error: 'فشل التحقق من الهوية' });
     }
 
     // التحقق من أن المستخدم هو المدير
