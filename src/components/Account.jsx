@@ -5,6 +5,7 @@ function Account(props) {
   const [userData, setUserData] = createSignal(null);
   const [loading, setLoading] = createSignal(false);
   const [editing, setEditing] = createSignal(false);
+  const [changingPassword, setChangingPassword] = createSignal(false);
   const [message, setMessage] = createSignal('');
 
   // Editable fields
@@ -13,6 +14,10 @@ function Account(props) {
   const [phoneNumber, setPhoneNumber] = createSignal('');
   const [gender, setGender] = createSignal('');
   const [country, setCountry] = createSignal('');
+
+  // Password fields
+  const [newPassword, setNewPassword] = createSignal('');
+  const [confirmPassword, setConfirmPassword] = createSignal('');
 
   const genders = ['ذكر', 'أنثى', 'آخر'];
 
@@ -73,19 +78,29 @@ function Account(props) {
     }
   };
 
-  const handlePasswordReset = async () => {
+  const handlePasswordChange = async () => {
     setLoading(true);
     setMessage('');
+    if (newPassword() !== confirmPassword()) {
+      setMessage('كلمتا المرور غير متطابقتين.');
+      setLoading(false);
+      return;
+    }
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(props.user.email);
+      const { data, error } = await supabase.auth.updateUser({
+        password: newPassword(),
+      });
+
       if (error) {
-        setMessage('حدث خطأ أثناء إرسال رابط إعادة تعيين كلمة المرور.');
+        setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
       } else {
-        setMessage('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.');
+        setMessage('تم تغيير كلمة المرور بنجاح.');
+        setChangingPassword(false);
+        // Optionally log the user out or prompt them to re-authenticate
       }
     } catch (error) {
-      console.error('Error resetting password:', error);
-      setMessage('حدث خطأ أثناء إرسال رابط إعادة تعيين كلمة المرور.');
+      console.error('Error changing password:', error);
+      setMessage('حدث خطأ أثناء تغيير كلمة المرور.');
     } finally {
       setLoading(false);
     }
@@ -111,8 +126,13 @@ function Account(props) {
             onInput={(e) => {
               if (e.target.value === 'manage-account') {
                 setEditing(true);
+                setChangingPassword(false);
               } else if (e.target.value === 'change-password') {
-                handlePasswordReset();
+                setEditing(false);
+                setChangingPassword(true);
+              } else {
+                setEditing(false);
+                setChangingPassword(false);
               }
             }}
             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
@@ -123,7 +143,7 @@ function Account(props) {
           </select>
         </div>
 
-        <Show when={!editing()}>
+        <Show when={!editing() && !changingPassword()}>
           <div class="mb-4">
             <p class="text-gray-700 font-semibold">الإسم الكامل: {userData()?.user_metadata.full_name}</p>
             <p class="text-gray-700 font-semibold">اسم المستخدم: {userData()?.user_metadata.username}</p>
@@ -139,6 +159,7 @@ function Account(props) {
             تعديل الملف الشخصي
           </button>
         </Show>
+
         <Show when={editing()}>
           <div class="space-y-4">
             <div>
@@ -205,12 +226,59 @@ function Account(props) {
             </button>
             <button
               class="cursor-pointer px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out transform box-border w-full"
-              onClick={() => setEditing(false)}
+              onClick={() => {
+                setEditing(false);
+                setMessage('');
+              }}
             >
               إلغاء
             </button>
           </div>
         </Show>
+
+        <Show when={changingPassword()}>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الجديدة</label>
+              <input
+                type="password"
+                value={newPassword()}
+                onInput={(e) => setNewPassword(e.target.value)}
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                placeholder="أدخل كلمة المرور الجديدة"
+              />
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">تأكيد كلمة المرور الجديدة</label>
+              <input
+                type="password"
+                value={confirmPassword()}
+                onInput={(e) => setConfirmPassword(e.target.value)}
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                placeholder="أعد كتابة كلمة المرور الجديدة"
+              />
+            </div>
+            <button
+              class={`cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border w-full ${
+                loading() ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              onClick={handlePasswordChange}
+              disabled={loading()}
+            >
+              {loading() ? 'جاري التحديث...' : 'تغيير كلمة المرور'}
+            </button>
+            <button
+              class="cursor-pointer px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out transform box-border w-full"
+              onClick={() => {
+                setChangingPassword(false);
+                setMessage('');
+              }}
+            >
+              إلغاء
+            </button>
+          </div>
+        </Show>
+
         <Show when={message()}>
           <div class="mt-4 text-center text-green-600 font-semibold">
             {message()}
