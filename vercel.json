@@ -11,7 +11,8 @@
   ],
   "functions": {
     "api/*.js": {
-      "runtime": "vercel-nodejs@18.x"
+      "includeFiles": "../drizzle/schema.js",
+      "runtime": "nodejs18.x"
     }
   }
 }
