@@ -7,16 +7,36 @@
 ## كيفية استخدام التطبيق
 
 1. [البداية](docs/journeys/getting-started.md) - البدء في استخدام التطبيق والوصول إلى المحتوى الرئيسي.
-2. [تسجيل الدخول وإنشاء حساب](docs/journeys/login-signup.md) - تسجيل الدخول وإنشاء حساب جديد للوصول إلى مزايا إضافية.
-3. [إعادة تعيين كلمة المرور](docs/journeys/reset-password.md) - استعادة الوصول إلى حسابك في حال نسيت كلمة المرور.
-4. [إدارة حساب المستخدم](docs/journeys/manage-account.md) - تحديث معلومات حسابك الشخصي وإعداداتك.
-5. [استكشاف الخدمات](docs/journeys/explore-services.md) - تصفّح واختيار الخدمات حسب الفئة لتعزيز استقلاليتك.
-6. [استكشاف الأدوات](docs/journeys/explore-tools.md) - اختر فئة الأدوات التي تهمك واستمتع بمجموعة من الأدوات المصممة خصيصًا لك.
-7. [استخدام منشئ الصور بالذكاء الاصطناعي](docs/journeys/use-ai-image-generator.md) - أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.
-8. [البحث عن محتوى](docs/journeys/search-content.md) - البحث عن مواضيع أو مقالات معينة على موقعنا.
-9. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md) - تواصل معنا عبر منصات التواصل الاجتماعي.
-10. [استكشاف المدونة، المتجر، والمنتدى](docs/journeys/explore-blog-store-forum.md) - اكتشف المزيد من خلال أقسام المدونة، المتجر، والمنتدى.
+2. [إنشاء حساب](docs/journeys/signup.md) - إنشاء حساب جديد للوصول إلى مزايا إضافية.
+3. [تسجيل الدخول](docs/journeys/login.md) - تسجيل الدخول إلى حسابك.
+4. [إعادة تعيين كلمة المرور](docs/journeys/reset-password.md) - استعادة الوصول إلى حسابك في حال نسيت كلمة المرور.
+5. [إدارة حساب المستخدم](docs/journeys/manage-account.md) - تحديث معلومات حسابك الشخصي وإعداداتك.
+6. [استكشاف الخدمات](docs/journeys/explore-services.md) - تصفّح واختيار الخدمات حسب الفئة لتعزيز استقلاليتك.
+7. [استكشاف الأدوات](docs/journeys/explore-tools.md) - اختر فئة الأدوات التي تهمك واستمتع بمجموعة من الأدوات المصممة خصيصًا لك.
+8. [استخدام منشئ الصور بالذكاء الاصطناعي](docs/journeys/use-ai-image-generator.md) - أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.
+9. [البحث عن محتوى](docs/journeys/search-content.md) - البحث عن مواضيع أو مقالات معينة على موقعنا.
+10. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md) - تواصل معنا عبر منصات التواصل الاجتماعي.
+11. [استكشاف المدونة، المتجر، والمنتدى](docs/journeys/explore-blog-store-forum.md) - اكتشف المزيد من خلال أقسام المدونة، المتجر، والمنتدى.
 
 **ملاحظة:** على الأجهزة المحمولة، استخدم زر القائمة في أعلى الصفحة لفتح أو إغلاق قائمة التنقل.
 
 **شكراً لانضمامك إلينا في رحلتك نحو المزيد من الحرية والاستقلالية.**
+
+# External APIs Used
+
+- **Supabase Auth**: نستخدم Supabase لإدارة عمليات تسجيل الدخول وإنشاء الحسابات وتخزين بيانات المستخدمين بشكل آمن.
+- **OpenAI API**: نستخدم OpenAI لتشغيل ميزات الذكاء الاصطناعي مثل مساعد الكتابة ومنشئ المحتوى.
+- **Radio-Browser API**: لجلب المحطات الإذاعية العربية في أداة الراديو العربي.
+
+# Required Environment Variables
+
+- `VITE_PUBLIC_SENTRY_DSN`: Your Sentry DSN for error reporting.
+- `VITE_PUBLIC_APP_ENV`: The application environment (e.g., production).
+- `VITE_PUBLIC_APP_ID`: Your ZAPT App ID.
+- `VITE_PUBLIC_UMAMI_WEBSITE_ID`: Your Umami Website ID for analytics.
+- `OPENAI_API_KEY`: Your OpenAI API Key.
+
+# Notes
+
+- تأكد من إضافة قيم المتغيرات البيئية في ملف `.env` لضمان عمل التطبيق بشكل صحيح.
+- التطبيق يدعم اللغة العربية بالكامل ويوفر تجربة مستخدم سلسة للمكفوفين وضعاف البصر.
