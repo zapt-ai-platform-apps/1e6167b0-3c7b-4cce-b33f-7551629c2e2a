@@ -1,11 +1,16 @@
 import { NavLink } from '@solidjs/router';
 import { createSignal, Show } from 'solid-js';
+import { supabase } from '../supabaseClient';
 
-function Header() {
+function Header(props) {
   const [menuOpen, setMenuOpen] = createSignal(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen());
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
@@ -81,6 +86,26 @@ function Header() {
               أدوات
             </NavLink>
           </li>
+          <Show when={props.user}>
+            <li>
+              <NavLink
+                href="/account"
+                class="block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
+                activeClass="text-primary-dark font-bold"
+                onClick={() => setMenuOpen(false)}
+              >
+                حسابي
+              </NavLink>
+            </li>
+            <li>
+              <button
+                class="block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer focus:outline-none"
+                onClick={handleSignOut}
+              >
+                تسجيل الخروج
+              </button>
+            </li>
+          </Show>
         </ul>
       </nav>
     </header>
