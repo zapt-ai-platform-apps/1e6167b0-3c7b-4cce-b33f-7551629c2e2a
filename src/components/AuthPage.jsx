@@ -43,12 +43,10 @@ function AuthPage(props) {
     setMessage('');
 
     try {
-      const { data, error } = await supabase.auth.signUp(
-        {
-          email: email(),
-          password: password(),
-        },
-        {
+      const { data, error } = await supabase.auth.signUp({
+        email: email(),
+        password: password(),
+        options: {
           data: {
             full_name: fullName(),
             username: username(),
@@ -56,8 +54,8 @@ function AuthPage(props) {
             gender: gender(),
             country: country(),
           },
-        }
-      );
+        },
+      });
 
       if (error) {
         setMessage('حدث خطأ أثناء إنشاء الحساب.');
@@ -92,6 +90,28 @@ function AuthPage(props) {
     } catch (error) {
       console.error('Error signing in:', error);
       setMessage('حدث خطأ أثناء تسجيل الدخول.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+
+      if (error) {
+        setMessage('حدث خطأ أثناء تسجيل الدخول باستخدام حساب Google.');
+      } else {
+        // User will be redirected to Google sign-in page
+      }
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+      setMessage('حدث خطأ أثناء تسجيل الدخول باستخدام حساب Google.');
     } finally {
       setLoading(false);
     }
@@ -225,6 +245,17 @@ function AuthPage(props) {
             {loading() ? 'جاري المعالجة...' : showSignUp() ? 'إنشاء حساب' : 'تسجيل الدخول'}
           </button>
         </form>
+        <Show when={!showSignUp()}>
+          <button
+            class={`cursor-pointer w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border mt-4 ${
+              loading() ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            onClick={handleGoogleSignIn}
+            disabled={loading()}
+          >
+            {loading() ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول باستخدام حساب Google'}
+          </button>
+        </Show>
         <div class="mt-4 text-center">
           <button
             onClick={toggleForm}
