@@ -12,11 +12,17 @@ function UserManagement() {
     setLoading(true);
     setError('');
     try {
-      let { data, error } = await supabase.auth.admin.listUsers();
-      if (error) {
-        setError('حدث خطأ أثناء جلب المستخدمين.');
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch('/api/getUsers', {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setUsers(result.users);
       } else {
-        setUsers(data.users);
+        setError(result.error || 'حدث خطأ أثناء جلب المستخدمين.');
       }
     } catch (err) {
       console.error('Error fetching users:', err);
@@ -34,14 +40,24 @@ function UserManagement() {
     setLoading(true);
     setError('');
     try {
-      const { error } = await supabase.auth.admin.updateUserById(selectedUser().id, {
-        email: selectedUser().email,
-        user_metadata: selectedUser().user_metadata,
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch('/api/updateUser', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: selectedUser().id,
+          email: selectedUser().email,
+          user_metadata: selectedUser().user_metadata
+        })
       });
-      if (error) {
-        setError('حدث خطأ أثناء تحديث المستخدم.');
-      } else {
+      const result = await response.json();
+      if (response.ok) {
         setError('تم تحديث المستخدم بنجاح.');
+      } else {
+        setError(result.error || 'حدث خطأ أثناء تحديث المستخدم.');
       }
     } catch (err) {
       console.error('Error updating user:', err);
@@ -58,13 +74,24 @@ function UserManagement() {
     setLoading(true);
     setError('');
     try {
-      const { error } = await supabase.auth.admin.deleteUser(selectedUser().id);
-      if (error) {
-        setError('حدث خطأ أثناء حذف المستخدم.');
-      } else {
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch('/api/deleteUser', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: selectedUser().id
+        })
+      });
+      const result = await response.json();
+      if (response.ok) {
         setUsers(users().filter(user => user.id !== selectedUser().id));
         setSelectedUser(null);
         setError('تم حذف المستخدم بنجاح.');
+      } else {
+        setError(result.error || 'حدث خطأ أثناء حذف المستخدم.');
       }
     } catch (err) {
       console.error('Error deleting user:', err);
@@ -139,14 +166,14 @@ function UserManagement() {
             {/* يمكن إضافة المزيد من الحقول حسب الحاجة */}
             <div class="flex space-x-4 space-x-reverse">
               <button
-                class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
+                class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleUserUpdate}
                 disabled={loading()}
               >
                 {loading() ? 'جاري التحديث...' : 'تحديث'}
               </button>
               <button
-                class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border"
+                class={`cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleUserDelete}
                 disabled={loading()}
               >
