@@ -242,7 +242,7 @@ function AuthPage(props) {
             }`}
             disabled={loading()}
           >
-            {loading() ? 'جاري المعالجة...' : showSignUp() ? 'إنشاء حساب' : 'تسجيل الدخول'}
+            {loading() ? 'جاري المعالجة...' : (showSignUp() ? 'إنشاء حساب' : 'تسجيل الدخول')}
           </button>
         </form>
         <Show when={!showSignUp()}>
