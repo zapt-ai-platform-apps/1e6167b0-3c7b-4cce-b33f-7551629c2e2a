@@ -1,5 +1,6 @@
+```jsx
 import { createSignal, onMount, Show, For } from 'solid-js';
-import { supabase } from '../../supabaseClient';
+import { supabase, createEvent } from '../../supabaseClient';
 
 function BlogManagement() {
   const [posts, setPosts] = createSignal([]);
@@ -7,6 +8,8 @@ function BlogManagement() {
   const [selectedPost, setSelectedPost] = createSignal(null);
   const [searchText, setSearchText] = createSignal('');
   const [message, setMessage] = createSignal('');
+  const [generating, setGenerating] = createSignal(false);
+  const [aiTopic, setAiTopic] = createSignal('');
 
   const categories = [
     'أخبار ومستجدات',
@@ -41,9 +44,11 @@ function BlogManagement() {
   const handlePostClick = (post) => {
     setSelectedPost(post);
     setMessage('');
+    setAiTopic('');
   };
 
   const handlePostUpdate = async () => {
+    if (loading()) return;
     setLoading(true);
     setMessage('');
     try {
@@ -77,6 +82,7 @@ function BlogManagement() {
     const confirmation = confirm('هل أنت متأكد من حذف هذا المقال؟ لا يمكن التراجع عن هذه العملية.');
     if (!confirmation) return;
 
+    if (loading()) return;
     setLoading(true);
     setMessage('');
     try {
@@ -104,6 +110,7 @@ function BlogManagement() {
   const handlePostCreate = () => {
     setSelectedPost({ id: null, title: '', description: '', content: '', category: categories[0] });
     setMessage('');
+    setAiTopic('');
   };
 
   const handlePostSave = async () => {
@@ -112,13 +119,14 @@ function BlogManagement() {
       return;
     }
 
+    if (loading()) return;
+    setLoading(true);
+    setMessage('');
     if (selectedPost().id) {
       // Update existing post
       await handlePostUpdate();
     } else {
       // Create new post
-      setLoading(true);
-      setMessage('');
       try {
         const { error } = await supabase
           .from('posts')
@@ -146,6 +154,39 @@ function BlogManagement() {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handleGenerateArticle = async () => {
+    if (generating()) return;
+    if (!aiTopic()) {
+      setMessage('يرجى إدخال موضوع المقال.');
+      return;
+    }
+    setGenerating(true);
+    setMessage('');
+    try {
+      const prompt = `يرجى توليد مقال شامل ومفصل حول الموضوع التالي: "${aiTopic()}" وتقديمه بصيغة JSON بالهيكل التالي: { "title": "عنوان المقال", "description": "وصف قصير للمقال", "content": "محتوى المقال" }`;
+      const response = await createEvent('chatgpt_request', {
+        prompt: prompt,
+        response_type: 'json',
+      });
+      if (response && response.title && response.description && response.content) {
+        setSelectedPost({
+          ...selectedPost(),
+          title: response.title,
+          description: response.description,
+          content: response.content,
+        });
+        setMessage('تم إنشاء المقال باستخدام الذكاء الاصطناعي. يرجى مراجعته وتعديله إذا لزم الأمر.');
+      } else {
+        setMessage('لم يتمكن الذكاء الاصطناعي من إنشاء المقال. يرجى المحاولة مرة أخرى.');
+      }
+    } catch (error) {
+      console.error('Error generating article:', error);
+      setMessage('حدث خطأ أثناء إنشاء المقال.');
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -245,7 +286,26 @@ function BlogManagement() {
                 </For>
               </select>
             </div>
-            <div class="flex space-x-4 space-x-reverse">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-1">موضوع المقال</label>
+              <input
+                type="text"
+                value={aiTopic()}
+                onInput={(e) => setAiTopic(e.target.value)}
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                placeholder="أدخل موضوع المقال لتوليده بواسطة الذكاء الاصطناعي"
+              />
+            </div>
+            <button
+              class={`cursor-pointer px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out transform box-border ${
+                generating() ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              onClick={handleGenerateArticle}
+              disabled={generating()}
+            >
+              {generating() ? 'جاري إنشاء المقال...' : 'إنشاء المقال باستخدام الذكاء الاصطناعي'}
+            </button>
+            <div class="flex space-x-4 space-x-reverse mt-4">
               <button
                 class={`cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border ${
                   loading() ? 'opacity-50 cursor-not-allowed' : ''
@@ -271,6 +331,7 @@ function BlogManagement() {
                 onClick={() => {
                   setSelectedPost(null);
                   setMessage('');
+                  setAiTopic('');
                 }}
               >
                 إلغاء
@@ -290,3 +351,4 @@ function BlogManagement() {
 }
 
 export default BlogManagement;
+```
