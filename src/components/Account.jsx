@@ -50,6 +50,7 @@ function Account(props) {
   };
 
   const handleUpdateProfile = async () => {
+    if (loading()) return;
     setLoading(true);
     setMessage('');
     try {
@@ -78,6 +79,7 @@ function Account(props) {
   };
 
   const handlePasswordChange = async () => {
+    if (loading()) return;
     setLoading(true);
     setMessage('');
     if (newPassword() !== confirmPassword()) {
@@ -86,18 +88,6 @@ function Account(props) {
       return;
     }
     try {
-      // Reauthenticate user with current password
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: userData().email,
-        password: currentPassword(),
-      });
-
-      if (signInError) {
-        setMessage('كلمة المرور الحالية غير صحيحة.');
-        setLoading(false);
-        return;
-      }
-
       // Proceed to update password
       const { data, error } = await supabase.auth.updateUser({
         password: newPassword(),
@@ -132,7 +122,7 @@ function Account(props) {
         </div>
         <div class="flex border-b border-gray-200">
           <button
-            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+            class={`cursor-pointer flex-1 text-center py-4 focus:outline-none ${
               activeTab() === 'overview' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
             }`}
             onClick={() => { setActiveTab('overview'); setMessage(''); }}
@@ -140,7 +130,7 @@ function Account(props) {
             نظرة عامة
           </button>
           <button
-            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+            class={`cursor-pointer flex-1 text-center py-4 focus:outline-none ${
               activeTab() === 'edit-profile' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
             }`}
             onClick={() => { setActiveTab('edit-profile'); setMessage(''); }}
@@ -148,7 +138,7 @@ function Account(props) {
             تعديل الملف الشخصي
           </button>
           <button
-            class={`flex-1 text-center py-4 cursor-pointer focus:outline-none ${
+            class={`cursor-pointer flex-1 text-center py-4 focus:outline-none ${
               activeTab() === 'change-password' ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'
             }`}
             onClick={() => { setActiveTab('change-password'); setMessage(''); }}
@@ -195,7 +185,7 @@ function Account(props) {
                   type="text"
                   value={fullName()}
                   onInput={(e) => setFullName(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 />
               </div>
               <div>
@@ -204,7 +194,7 @@ function Account(props) {
                   type="text"
                   value={username()}
                   onInput={(e) => setUsername(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 />
               </div>
               <div>
@@ -213,7 +203,7 @@ function Account(props) {
                   type="tel"
                   value={phoneNumber()}
                   onInput={(e) => setPhoneNumber(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 />
               </div>
               <div>
@@ -221,7 +211,7 @@ function Account(props) {
                 <select
                   value={gender()}
                   onInput={(e) => setGender(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 >
                   <option value="">اختر الجنس</option>
                   {genders.map((item) => (
@@ -234,7 +224,7 @@ function Account(props) {
                 <select
                   value={country()}
                   onInput={(e) => setCountry(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border cursor-pointer"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 >
                   <option value="">اختر الدولة</option>
                   {countries.map((item) => (
@@ -243,7 +233,7 @@ function Account(props) {
                 </select>
               </div>
               <button
-                class={`cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border w-full ${
+                class={`cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform w-full ${
                   loading() ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 onClick={handleUpdateProfile}
@@ -257,22 +247,12 @@ function Account(props) {
           <Show when={activeTab() === 'change-password'}>
             <div class="space-y-4">
               <div>
-                <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الحالية</label>
-                <input
-                  type="password"
-                  value={currentPassword()}
-                  onInput={(e) => setCurrentPassword(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
-                  placeholder="أدخل كلمة المرور الحالية"
-                />
-              </div>
-              <div>
                 <label class="block text-gray-700 font-semibold mb-2">كلمة المرور الجديدة</label>
                 <input
                   type="password"
                   value={newPassword()}
                   onInput={(e) => setNewPassword(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                   placeholder="أدخل كلمة المرور الجديدة"
                 />
               </div>
@@ -282,12 +262,12 @@ function Account(props) {
                   type="password"
                   value={confirmPassword()}
                   onInput={(e) => setConfirmPassword(e.target.value)}
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent box-border"
+                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                   placeholder="أعد كتابة كلمة المرور الجديدة"
                 />
               </div>
               <button
-                class={`cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border w-full ${
+                class={`cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform w-full ${
                   loading() ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 onClick={handlePasswordChange}

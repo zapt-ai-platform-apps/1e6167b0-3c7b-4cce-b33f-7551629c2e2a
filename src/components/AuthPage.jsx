@@ -39,6 +39,7 @@ function AuthPage(props) {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (loading()) return;
     setLoading(true);
     setMessage('');
 
@@ -72,6 +73,7 @@ function AuthPage(props) {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if (loading()) return;
     setLoading(true);
     setMessage('');
 
@@ -96,6 +98,7 @@ function AuthPage(props) {
   };
 
   const handleGoogleSignIn = async () => {
+    if (loading()) return;
     setLoading(true);
     setMessage('');
 
@@ -132,9 +135,9 @@ function AuthPage(props) {
   };
 
   return (
-    <div class="flex items-center justify-center min-h-screen">
+    <div class="flex items-center justify-center min-h-screen bg-neutral-light">
       <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-        <h2 class="text-3xl font-bold mb-6 text-center text-purple-600">
+        <h2 class="text-3xl font-bold mb-6 text-center text-primary-dark">
           {showSignUp() ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
         </h2>
         <p class="text-lg mb-8 text-center text-gray-700">
@@ -148,7 +151,7 @@ function AuthPage(props) {
                 type="text"
                 value={fullName()}
                 onInput={(e) => setFullName(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 required
               />
             </div>
@@ -158,7 +161,7 @@ function AuthPage(props) {
                 type="text"
                 value={username()}
                 onInput={(e) => setUsername(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 required
               />
             </div>
@@ -169,7 +172,7 @@ function AuthPage(props) {
               type="email"
               value={email()}
               onInput={(e) => setEmail(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
               required
             />
           </div>
@@ -179,7 +182,7 @@ function AuthPage(props) {
               type="password"
               value={password()}
               onInput={(e) => setPassword(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
               required
             />
           </div>
@@ -190,7 +193,7 @@ function AuthPage(props) {
                 <select
                   value={countryCode()}
                   onInput={(e) => setCountryCode(e.target.value)}
-                  class="p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+                  class="box-border p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 >
                   <option value="">كود الدولة</option>
                   {countryCodes.map((item) => (
@@ -201,7 +204,7 @@ function AuthPage(props) {
                   type="tel"
                   value={phoneNumber()}
                   onInput={(e) => setPhoneNumber(e.target.value)}
-                  class="flex-grow p-3 border-t border-r border-b border-gray-300 rounded-r-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                  class="box-border flex-grow p-3 border-t border-r border-b border-gray-300 rounded-r-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                   required
                 />
               </div>
@@ -211,7 +214,7 @@ function AuthPage(props) {
               <select
                 value={gender()}
                 onInput={(e) => setGender(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 required
               >
                 <option value="">اختر الجنس</option>
@@ -225,7 +228,7 @@ function AuthPage(props) {
               <select
                 value={country()}
                 onInput={(e) => setCountry(e.target.value)}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 required
               >
                 <option value="">اختر الدولة</option>
@@ -237,7 +240,7 @@ function AuthPage(props) {
           </Show>
           <button
             type="submit"
-            class={`cursor-pointer w-full px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out transform box-border ${
+            class={`cursor-pointer w-full px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-primary-light transition duration-300 ease-in-out transform ${
               loading() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={loading()}
@@ -247,7 +250,7 @@ function AuthPage(props) {
         </form>
         <Show when={!showSignUp()}>
           <button
-            class={`cursor-pointer w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform box-border mt-4 ${
+            class={`cursor-pointer w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform mt-4 ${
               loading() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             onClick={handleGoogleSignIn}

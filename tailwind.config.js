@@ -9,14 +9,14 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#E3F2FD',
-          DEFAULT: '#64B5F6',
-          dark: '#1976D2',
+          light: '#B3E5FC', // أزرق فاتح
+          DEFAULT: '#0288D1', // أزرق معتدل
+          dark: '#01579B', // أزرق غامق
         },
         secondary: {
-          light: '#E8F5E9',
-          DEFAULT: '#81C784',
-          dark: '#388E3C',
+          light: '#C8E6C9', // أخضر فاتح
+          DEFAULT: '#43A047', // أخضر معتدل
+          dark: '#2E7D32', // أخضر غامق
         },
         neutral: {
           light: '#F5F5F5',
@@ -25,7 +25,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Tahoma', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['Noto Kufi Arabic', 'Tahoma', 'Arial', 'sans-serif'],
       },
     },
   },

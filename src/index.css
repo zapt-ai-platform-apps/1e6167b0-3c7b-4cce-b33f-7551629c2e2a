@@ -4,7 +4,7 @@
 
 /* تخصيص الأنماط لتعزيز تركيز العناصر */
 :focus {
-  outline: 2px dashed #1976D2;
+  outline: 2px dashed #01579B; /* Updated to primary.dark color */
   outline-offset: 2px;
 }
 
@@ -16,13 +16,13 @@ button:disabled {
 
 /* تخصيص الخط */
 body {
-  font-family: 'Tahoma', sans-serif;
+  font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
   color: #424242;
 }
 
 /* تخصيص الروابط */
 a {
-  color: #1976D2;
+  color: #0288D1; /* Updated to primary.DEFAULT color */
   text-decoration: none;
 }
 
