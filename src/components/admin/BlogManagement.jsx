@@ -46,32 +46,47 @@ function BlogManagement() {
     setAiTopic('');
   };
 
-  const handlePostUpdate = async () => {
+  const handlePostSave = async () => {
+    if (!selectedPost().title || !selectedPost().content || !selectedPost().category) {
+      setMessage('يرجى ملء جميع الحقول المطلوبة.');
+      return;
+    }
+
     if (loading()) return;
     setLoading(true);
     setMessage('');
+
     try {
-      const { error } = await supabase
-        .from('posts')
-        .update({
+      const { data: { session } } = await supabase.auth.getSession();
+
+      const response = await fetch('/api/posts', {
+        method: selectedPost().id ? 'PUT' : 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: selectedPost().id,
           title: selectedPost().title,
           description: selectedPost().description,
           content: selectedPost().content,
           category: selectedPost().category,
-        })
-        .eq('id', selectedPost().id);
+        }),
+      });
 
-      if (error) {
-        console.error('Error updating post:', error);
-        setMessage('حدث خطأ أثناء تحديث المقال.');
-      } else {
-        setMessage('تم تحديث المقال بنجاح.');
+      const result = await response.json();
+
+      if (response.ok) {
+        setMessage(result.message);
         fetchPosts();
         setSelectedPost(null);
+      } else {
+        console.error('Error saving post:', result.error);
+        setMessage(result.error || 'حدث خطأ أثناء حفظ المقال.');
       }
-    } catch (err) {
-      console.error('Error updating post:', err);
-      setMessage('حدث خطأ أثناء تحديث المقال.');
+    } catch (error) {
+      console.error('Error saving post:', error);
+      setMessage('حدث خطأ أثناء حفظ المقال.');
     } finally {
       setLoading(false);
     }
@@ -85,18 +100,28 @@ function BlogManagement() {
     setLoading(true);
     setMessage('');
     try {
-      const { error } = await supabase
-        .from('posts')
-        .delete()
-        .eq('id', selectedPost().id);
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (error) {
-        console.error('Error deleting post:', error);
-        setMessage('حدث خطأ أثناء حذف المقال.');
-      } else {
-        setMessage('تم حذف المقال بنجاح.');
+      const response = await fetch('/api/posts', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: selectedPost().id,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setMessage(result.message);
         fetchPosts();
         setSelectedPost(null);
+      } else {
+        console.error('Error deleting post:', result.error);
+        setMessage(result.error || 'حدث خطأ أثناء حذف المقال.');
       }
     } catch (err) {
       console.error('Error deleting post:', err);
@@ -110,50 +135,6 @@ function BlogManagement() {
     setSelectedPost({ id: null, title: '', description: '', content: '', category: categories[0] });
     setMessage('');
     setAiTopic('');
-  };
-
-  const handlePostSave = async () => {
-    if (!selectedPost().title || !selectedPost().content || !selectedPost().category) {
-      setMessage('يرجى ملء جميع الحقول المطلوبة.');
-      return;
-    }
-
-    if (loading()) return;
-    setLoading(true);
-    setMessage('');
-    if (selectedPost().id) {
-      // Update existing post
-      await handlePostUpdate();
-    } else {
-      // Create new post
-      try {
-        const { error } = await supabase
-          .from('posts')
-          .insert([
-            {
-              title: selectedPost().title,
-              description: selectedPost().description,
-              content: selectedPost().content,
-              category: selectedPost().category,
-              created_at: new Date(),
-            },
-          ]);
-
-        if (error) {
-          console.error('Error creating post:', error);
-          setMessage('حدث خطأ أثناء إنشاء المقال.');
-        } else {
-          setMessage('تم إنشاء المقال بنجاح.');
-          fetchPosts();
-          setSelectedPost(null);
-        }
-      } catch (err) {
-        console.error('Error creating post:', err);
-        setMessage('حدث خطأ أثناء إنشاء المقال.');
-      } finally {
-        setLoading(false);
-      }
-    }
   };
 
   const handleGenerateArticle = async () => {
