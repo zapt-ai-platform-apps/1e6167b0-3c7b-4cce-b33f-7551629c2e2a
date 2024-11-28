@@ -1,11 +1,11 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
-import { supabase } from '../supabaseClient';
-import { Link } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 
 function Blog() {
   const [posts, setPosts] = createSignal([]);
   const [selectedCategory, setSelectedCategory] = createSignal('');
   const [loading, setLoading] = createSignal(false);
+  const navigate = useNavigate();
 
   const categories = [
     'أخبار ومستجدات',
@@ -17,18 +17,16 @@ function Blog() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      let query = supabase
-        .from('posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+      let url = '/api/posts';
       if (selectedCategory()) {
-        query = query.eq('category', selectedCategory());
+        url += `?category=${encodeURIComponent(selectedCategory())}`;
       }
-      const { data, error } = await query;
-      if (error) {
-        console.error('Error fetching posts:', error);
+      const response = await fetch(url);
+      const result = await response.json();
+      if (response.ok) {
+        setPosts(result.posts);
       } else {
-        setPosts(data);
+        console.error('Error fetching posts:', result.error);
       }
     } catch (err) {
       console.error('Error fetching posts:', err);
@@ -74,9 +72,9 @@ function Blog() {
             {(post) => (
               <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <h3 class="text-xl font-bold mb-2 text-primary-dark">
-                  <Link href={`/blog/${post.id}`} class="hover:underline">
+                  <a onClick={() => navigate(`/blog/${post.id}`)} class="hover:underline cursor-pointer">
                     {post.title}
-                  </Link>
+                  </a>
                 </h3>
                 <p class="text-sm text-gray-600 mb-2">{post.category}</p>
                 <p class="text-gray-700">{post.description}</p>

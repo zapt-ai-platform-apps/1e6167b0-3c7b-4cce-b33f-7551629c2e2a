@@ -1,5 +1,4 @@
 import { createSignal, onMount, Show } from 'solid-js';
-import { supabase } from '../supabaseClient';
 import { useParams, useNavigate } from '@solidjs/router';
 
 function BlogPost() {
@@ -13,17 +12,14 @@ function BlogPost() {
     setLoading(true);
     setError('');
     try {
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('id', params.id)
-        .single();
+      const response = await fetch(`/api/posts?id=${params.id}`);
+      const result = await response.json();
 
-      if (error) {
-        console.error('Error fetching post:', error);
-        setError('حدث خطأ أثناء جلب المقال.');
+      if (response.ok) {
+        setPost(result.posts[0]);
       } else {
-        setPost(data);
+        console.error('Error fetching post:', result.error);
+        setError('حدث خطأ أثناء جلب المقال.');
       }
     } catch (err) {
       console.error('Error fetching post:', err);
