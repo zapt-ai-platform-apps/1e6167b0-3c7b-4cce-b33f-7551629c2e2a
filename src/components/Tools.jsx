@@ -13,6 +13,7 @@ function Tools() {
         { name: 'المساعد الذكي', description: 'تفاعل مع المساعد الذكي للحصول على إجابات سريعة ومساعدة فورية.' },
         { name: 'مساعد الكتابة الذكي', description: 'أداة متقدمة تستخدم الذكاء الاصطناعي لمساعدتك على تحسين كتاباتك.' },
         { name: 'المساعد الصوتي الذكي', description: 'تفاعل صوتيًا مع المساعد للحصول على إجابات فورية.' },
+        { name: 'منشئ السيرة الذاتية الذكي', description: 'أنشئ سيرة ذاتية احترافية بتنسيق ومظهر جذاب.' },
       ],
     },
     {
@@ -54,6 +55,8 @@ function Tools() {
       navigate('/tools/image-generator');
     } else if (toolName === 'منشئ المواقع الذكي') {
       navigate('/tools/website-builder');
+    } else if (toolName === 'منشئ السيرة الذاتية الذكي') {
+      navigate('/tools/cv-generator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
