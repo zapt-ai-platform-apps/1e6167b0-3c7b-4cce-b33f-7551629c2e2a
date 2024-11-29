@@ -1,3 +1,4 @@
+```jsx
 import { useNavigate } from '@solidjs/router';
 import { onMount, createSignal, Show } from 'solid-js';
 import JSZip from 'jszip';
@@ -9,6 +10,7 @@ function GeneratedSite(props) {
   const [modificationInstructions, setModificationInstructions] = createSignal('');
   const [loading, setLoading] = createSignal(false);
   const [message, setMessage] = createSignal('');
+  const [isModificationOpen, setIsModificationOpen] = createSignal(false);
 
   onMount(() => {
     if (!props.generatedSite) {
@@ -64,6 +66,7 @@ Provide the modified HTML code only.`;
         props.setGeneratedSite(response);
         setMessage('تم تعديل الموقع بنجاح.');
         setModificationInstructions('');
+        setIsModificationOpen(false);
       } else {
         alert('حدث خطأ أثناء تعديل الموقع.');
       }
@@ -91,6 +94,12 @@ Provide the modified HTML code only.`;
           >
             إعادة الإنشاء
           </button>
+          <button
+            class="cursor-pointer px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform box-border"
+            onClick={() => setIsModificationOpen(true)}
+          >
+            تعديل الموقع
+          </button>
         </div>
         <div class="flex items-center space-x-2 space-x-reverse">
           <button
@@ -107,31 +116,43 @@ Provide the modified HTML code only.`;
           class="w-full h-full"
         ></iframe>
       </div>
-      <div class="p-4">
-        <h3 class="text-lg font-bold mb-2 text-purple-600">تعديل الموقع باستخدام الذكاء الاصطناعي</h3>
-        <textarea
-          value={modificationInstructions()}
-          onInput={(e) => setModificationInstructions(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32 mb-4"
-          placeholder="أدخل التعليمات الخاصة بالتعديلات التي تريدها..."
-        ></textarea>
-        <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={handleModifySite}
-          disabled={loading()}
-        >
-          <Show when={!loading()} fallback="جاري التعديل...">
-            تعديل الموقع
-          </Show>
-        </button>
-        <Show when={message()}>
-          <div class="mt-4 text-green-600 font-semibold">
-            {message()}
+
+      <Show when={isModificationOpen()}>
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 class="text-lg font-bold mb-2 text-purple-600">تعديل الموقع باستخدام الذكاء الاصطناعي</h3>
+            <textarea
+              value={modificationInstructions()}
+              onInput={(e) => setModificationInstructions(e.target.value)}
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32 mb-4"
+              placeholder="أدخل التعليمات الخاصة بالتعديلات التي تريدها..."
+            ></textarea>
+            <button
+              class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={handleModifySite}
+              disabled={loading()}
+            >
+              <Show when={!loading()} fallback="جاري التعديل...">
+                تعديل الموقع
+              </Show>
+            </button>
+            <button
+              class="mt-4 cursor-pointer px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform"
+              onClick={() => setIsModificationOpen(false)}
+            >
+              إغلاق
+            </button>
+            <Show when={message()}>
+              <div class="mt-4 text-green-600 font-semibold">
+                {message()}
+              </div>
+            </Show>
           </div>
-        </Show>
-      </div>
+        </div>
+      </Show>
     </div>
   );
 }
 
 export default GeneratedSite;
+```
