@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, onMount, createEffect, Show } from 'solid-js';
 import { Routes, Route, Navigate, useLocation } from '@solidjs/router';
 import { supabase } from './supabaseClient';
@@ -76,4 +75,3 @@ function App() {
 }
 
 export default App;
-```
