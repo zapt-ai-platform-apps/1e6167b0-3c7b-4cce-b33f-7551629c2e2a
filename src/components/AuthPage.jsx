@@ -15,18 +15,8 @@ function AuthPage() {
   // Sign-up specific fields
   const [fullName, setFullName] = createSignal('');
   const [username, setUsername] = createSignal('');
-  const [phoneNumber, setPhoneNumber] = createSignal('');
-  const [countryCode, setCountryCode] = createSignal('');
   const [gender, setGender] = createSignal('');
   const [country, setCountry] = createSignal('');
-
-  const countryCodes = [
-    { code: '+20', name: 'مصر' },
-    { code: '+966', name: 'المملكة العربية السعودية' },
-    { code: '+971', name: 'الإمارات العربية المتحدة' },
-    { code: '+1', name: 'الولايات المتحدة الأمريكية' },
-    // ... Add more country codes as needed
-  ];
 
   const genders = ['ذكر', 'أنثى', 'آخر'];
 
@@ -53,7 +43,6 @@ function AuthPage() {
           data: {
             full_name: fullName(),
             username: username(),
-            phone_number: `${countryCode()}${phoneNumber()}`,
             gender: gender(),
             country: country(),
           },
@@ -129,8 +118,6 @@ function AuthPage() {
     setPassword('');
     setFullName('');
     setUsername('');
-    setPhoneNumber('');
-    setCountryCode('');
     setGender('');
     setCountry('');
   };
@@ -166,50 +153,6 @@ function AuthPage() {
                 required
               />
             </div>
-          </Show>
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
-            <input
-              type="email"
-              value={email()}
-              onInput={(e) => setEmail(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-              required
-            />
-          </div>
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">كلمة المرور</label>
-            <input
-              type="password"
-              value={password()}
-              onInput={(e) => setPassword(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-              required
-            />
-          </div>
-          <Show when={showSignUp()}>
-            <div>
-              <label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label>
-              <div class="flex">
-                <select
-                  value={countryCode()}
-                  onInput={(e) => setCountryCode(e.target.value)}
-                  class="box-border p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
-                >
-                  <option value="">كود الدولة</option>
-                  {countryCodes.map((item) => (
-                    <option value={item.code}>{`${item.name} (${item.code})`}</option>
-                  ))}
-                </select>
-                <input
-                  type="tel"
-                  value={phoneNumber()}
-                  onInput={(e) => setPhoneNumber(e.target.value)}
-                  class="box-border flex-grow p-3 border-t border-r border-b border-gray-300 rounded-r-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-                  required
-                />
-              </div>
-            </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">الجنس</label>
               <select
@@ -239,6 +182,26 @@ function AuthPage() {
               </select>
             </div>
           </Show>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
+            <input
+              type="email"
+              value={email()}
+              onInput={(e) => setEmail(e.target.value)}
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">كلمة المرور</label>
+            <input
+              type="password"
+              value={password()}
+              onInput={(e) => setPassword(e.target.value)}
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              required
+            />
+          </div>
           <button
             type="submit"
             class={`cursor-pointer w-full px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-primary-light transition duration-300 ease-in-out transform ${

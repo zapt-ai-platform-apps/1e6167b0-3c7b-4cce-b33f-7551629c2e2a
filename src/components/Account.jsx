@@ -10,7 +10,6 @@ function Account(props) {
   // Editable fields
   const [fullName, setFullName] = createSignal('');
   const [username, setUsername] = createSignal('');
-  const [phoneNumber, setPhoneNumber] = createSignal('');
   const [gender, setGender] = createSignal('');
   const [country, setCountry] = createSignal('');
 
@@ -38,7 +37,6 @@ function Account(props) {
         setUserData(user);
         setFullName(user.user_metadata.full_name || '');
         setUsername(user.user_metadata.username || '');
-        setPhoneNumber(user.user_metadata.phone_number || '');
         setGender(user.user_metadata.gender || '');
         setCountry(user.user_metadata.country || '');
       }
@@ -58,7 +56,6 @@ function Account(props) {
         data: {
           full_name: fullName(),
           username: username(),
-          phone_number: phoneNumber(),
           gender: gender(),
           country: country(),
         },
@@ -88,7 +85,6 @@ function Account(props) {
       return;
     }
     try {
-      // Proceed to update password
       const { data, error } = await supabase.auth.updateUser({
         password: newPassword(),
       });
@@ -169,10 +165,6 @@ function Account(props) {
                 <span class="text-gray-900">{userData()?.email}</span>
               </div>
               <div class="flex items-center">
-                <span class="w-32 text-gray-700 font-semibold">رقم الهاتف:</span>
-                <span class="text-gray-900">{userData()?.user_metadata.phone_number}</span>
-              </div>
-              <div class="flex items-center">
                 <span class="w-32 text-gray-700 font-semibold">الجنس:</span>
                 <span class="text-gray-900">{userData()?.user_metadata.gender}</span>
               </div>
@@ -200,15 +192,6 @@ function Account(props) {
                   type="text"
                   value={username()}
                   onInput={(e) => setUsername(e.target.value)}
-                  class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label>
-                <input
-                  type="tel"
-                  value={phoneNumber()}
-                  onInput={(e) => setPhoneNumber(e.target.value)}
                   class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 />
               </div>
