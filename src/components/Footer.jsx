@@ -1,4 +1,3 @@
-```jsx
 import { Show } from 'solid-js';
 
 function Footer(props) {
@@ -20,4 +19,3 @@ function Footer(props) {
 }
 
 export default Footer;
-```
