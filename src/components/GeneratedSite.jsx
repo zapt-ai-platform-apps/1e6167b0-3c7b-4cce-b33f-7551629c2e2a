@@ -46,13 +46,7 @@ function GeneratedSite(props) {
     setLoading(true);
     setMessage('');
 
-    const prompt = `Please modify the following HTML code based on these instructions:
-"${modificationInstructions()}"
-
-Here is the HTML code:
-${props.generatedSite}
-
-Provide the modified HTML code only.`;
+    const prompt = 'Please modify the following HTML code based on these instructions:\n"' + modificationInstructions() + '"\n\nHere is the HTML code:\n' + props.generatedSite + '\n\nProvide the modified HTML code only.';
 
     try {
       const response = await createEvent('chatgpt_request', {
