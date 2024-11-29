@@ -10,4 +10,7 @@ export default defineConfig({
   resolve: {
     conditions: ['development', 'browser'],
   },
+  optimizeDeps: {
+    exclude: ['@supabase/supabase-js'] // Exclude server-only dependencies
+  }
 });

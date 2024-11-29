@@ -29,6 +29,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 button {
+  cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
@@ -49,5 +50,4 @@ input:focus, textarea:focus, select:focus {
 /* تحسين الأزرار */
 button {
   cursor: pointer;
-  box-border: border-box;
 }

@@ -28,7 +28,7 @@ function MainContent() {
         <select
           value={selectedOption()}
           onInput={handleSelectionChange}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer box-border"
+          class="box-border p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر وجهتك...</option>
           <option value="services">الخدمات</option>

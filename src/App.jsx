@@ -46,8 +46,8 @@ function App() {
   const location = useLocation();
 
   return (
-    <div class="h-full bg-white text-gray-900 flex flex-col" dir="rtl">
-      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
+    <div class="min-h-screen bg-white text-gray-900 flex flex-col" dir="rtl">
+      <div class="flex-grow mx-auto w-full px-4 sm:px-6 lg:px-8">
         <Show when={location.pathname !== '/share'}>
           <Header user={user} />
           <AnnouncementBanner />
