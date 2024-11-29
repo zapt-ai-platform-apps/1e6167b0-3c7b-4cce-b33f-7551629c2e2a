@@ -1,5 +1,5 @@
-import { createSignal, onMount, createEffect } from 'solid-js';
-import { Router, Routes, Route, Navigate } from '@solidjs/router';
+import { createSignal, onMount, createEffect, Show } from 'solid-js';
+import { Router, Routes, Route, Navigate, useLocation } from '@solidjs/router';
 import { supabase } from './supabaseClient';
 import Header from './components/Header';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -47,12 +47,16 @@ function App() {
     };
   });
 
+  const location = useLocation();
+
   return (
     <div class="h-full bg-white text-gray-900 flex flex-col" dir="rtl">
       <Router>
         <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
-          <Header user={user} isAdmin={isAdmin} />
-          <AnnouncementBanner />
+          <Show when={location.pathname !== '/share'}>
+            <Header user={user} isAdmin={isAdmin} />
+            <AnnouncementBanner />
+          </Show>
           <Routes>
             <Route path="/" element={<MainContent />} />
             <Route path="/services" element={<Services />} />

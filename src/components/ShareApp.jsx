@@ -1,8 +1,6 @@
 import { createSignal } from 'solid-js';
-import { useNavigate } from '@solidjs/router';
 
 function ShareApp() {
-  const navigate = useNavigate();
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
   const [copySuccess, setCopySuccess] = createSignal('');
@@ -60,12 +58,6 @@ function ShareApp() {
       {copySuccess() && (
         <p class="text-green-600 mt-2">{copySuccess()}</p>
       )}
-      <button
-        class="cursor-pointer mt-4 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform"
-        onClick={() => navigate(-1)}
-      >
-        الرجوع
-      </button>
     </div>
   );
 }
