@@ -7,6 +7,7 @@ function WebsiteBuilder(props) {
   const [siteTitle, setSiteTitle] = createSignal('');
   const [siteDescription, setSiteDescription] = createSignal('');
   const [siteType, setSiteType] = createSignal('');
+  const [colorScheme, setColorScheme] = createSignal('');
   const [detailedDescription, setDetailedDescription] = createSignal('');
   const [loading, setLoading] = createSignal(false);
 
@@ -17,6 +18,14 @@ function WebsiteBuilder(props) {
     'موقع إخباري',
     'موقع محفظة أعمال',
     'موقع تعليمي',
+  ];
+
+  const colorSchemes = [
+    'افتراضي',
+    'فاتح',
+    'داكن',
+    'ملون',
+    'باستيل',
   ];
 
   const handleGenerateSite = async () => {
@@ -30,9 +39,9 @@ function WebsiteBuilder(props) {
     props.setGeneratedSite('');
 
     const prompt = `يرجى إنشاء كود HTML لموقع ${siteType()} بعنوان "${siteTitle()}" ووصف "${siteDescription()}".
-يجب أن يكون الموقع احترافي المظهر ويحتوي على العناصر التالية:
+الموقع يجب أن يكون بمظهر احترافي ويحتوي على العناصر التالية:
 ${detailedDescription()}.
-
+يُرجى استخدام نظام ألوان "${colorScheme()}".
 الرجاء تقديم الكود الكامل للموقع بلغات HTML و CSS و JavaScript مدمجة في ملف واحد.`;
 
     try {
@@ -92,6 +101,19 @@ ${detailedDescription()}.
             <option value="">اختر نوع الموقع</option>
             {siteTypes.map((type) => (
               <option value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">نظام الألوان</label>
+          <select
+            value={colorScheme()}
+            onInput={(e) => setColorScheme(e.target.value)}
+            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
+          >
+            <option value="">اختر نظام الألوان</option>
+            {colorSchemes.map((scheme) => (
+              <option value={scheme}>{scheme}</option>
             ))}
           </select>
         </div>
