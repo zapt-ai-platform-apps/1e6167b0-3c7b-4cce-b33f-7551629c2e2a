@@ -15,6 +15,7 @@ import Account from './components/Account';
 import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
+import ShareApp from './components/ShareApp';
 
 function App() {
   const [user, setUser] = createSignal(null);
@@ -67,6 +68,7 @@ function App() {
               isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
             } />
             <Route path="/login" element={<AuthPage />} />
+            <Route path="/share" element={<ShareApp />} />
           </Routes>
           <SocialMediaLinks />
         </div>

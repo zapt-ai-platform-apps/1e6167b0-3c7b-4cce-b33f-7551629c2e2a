@@ -36,6 +36,14 @@ function MainContent() {
           <option value="tools">الأدوات</option>
         </select>
       </div>
+      <div class="mb-8 flex justify-center">
+        <button
+          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border"
+          onClick={() => navigate('/share')}
+        >
+          شارك التطبيق
+        </button>
+      </div>
       <AdvertisementBanner />
     </main>
   );
