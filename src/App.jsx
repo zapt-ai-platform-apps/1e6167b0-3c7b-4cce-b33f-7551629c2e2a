@@ -1,3 +1,4 @@
+```jsx
 import { createSignal, onMount, createEffect, Show } from 'solid-js';
 import { Routes, Route, Navigate, useLocation } from '@solidjs/router';
 import { supabase } from './supabaseClient';
@@ -67,9 +68,10 @@ function App() {
         </Routes>
         <SocialMediaLinks />
       </div>
-      <Footer />
+      <Footer user={user} />
     </div>
   );
 }
 
 export default App;
+```
