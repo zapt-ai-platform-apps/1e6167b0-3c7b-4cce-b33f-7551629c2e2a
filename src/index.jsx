@@ -3,6 +3,7 @@ import App from './App';
 import './index.css';
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
+import { Router } from '@solidjs/router';
 
 Sentry.init({
   dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
@@ -23,4 +24,8 @@ if (!window.location.hostname.includes('vercel.app')) {
   document.head.appendChild(umamiScript);
 }
 
-render(() => <App />, document.getElementById('root'));
+render(() => (
+  <Router>
+    <App />
+  </Router>
+), document.getElementById('root'));

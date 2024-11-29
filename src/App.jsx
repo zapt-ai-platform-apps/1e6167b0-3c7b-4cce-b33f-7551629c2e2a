@@ -1,5 +1,5 @@
 import { createSignal, onMount, createEffect, Show } from 'solid-js';
-import { Router, Routes, Route, Navigate, useLocation } from '@solidjs/router';
+import { Routes, Route, Navigate, useLocation } from '@solidjs/router';
 import { supabase } from './supabaseClient';
 import Header from './components/Header';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -51,32 +51,30 @@ function App() {
 
   return (
     <div class="h-full bg-white text-gray-900 flex flex-col" dir="rtl">
-      <Router>
-        <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
-          <Show when={location.pathname !== '/share'}>
-            <Header user={user} isAdmin={isAdmin} />
-            <AnnouncementBanner />
-          </Show>
-          <Routes>
-            <Route path="/" element={<MainContent />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/free-courses" element={<FreeCourses />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/tools/:toolName/*" element={<ToolPage />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/account" element={
-              user() ? <Account /> : <Navigate href="/login" />
-            } />
-            <Route path="/admin" element={
-              isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
-            } />
-            <Route path="/login" element={<AuthPage />} />
-            <Route path="/share" element={<ShareApp />} />
-          </Routes>
-          <SocialMediaLinks />
-        </div>
-      </Router>
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex-grow">
+        <Show when={location.pathname !== '/share'}>
+          <Header user={user} isAdmin={isAdmin} />
+          <AnnouncementBanner />
+        </Show>
+        <Routes>
+          <Route path="/" element={<MainContent />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/free-courses" element={<FreeCourses />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/tools/:toolName/*" element={<ToolPage />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/account" element={
+            user() ? <Account /> : <Navigate href="/login" />
+          } />
+          <Route path="/admin" element={
+            isAdmin() ? <AdminDashboard /> : <Navigate href="/" />
+          } />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/share" element={<ShareApp />} />
+        </Routes>
+        <SocialMediaLinks />
+      </div>
       <Footer />
     </div>
   );
