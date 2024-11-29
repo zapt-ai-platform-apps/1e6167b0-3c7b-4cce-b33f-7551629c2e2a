@@ -86,18 +86,6 @@ function Header(props) {
               أدوات
             </NavLink>
           </li>
-          <Show when={props.isAdmin()}>
-            <li>
-              <NavLink
-                href="/admin"
-                class="block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer"
-                activeClass="text-primary-dark font-bold"
-                onClick={() => setMenuOpen(false)}
-              >
-                لوحة التحكم
-              </NavLink>
-            </li>
-          </Show>
           <Show when={props.user()}>
             <li>
               <NavLink
