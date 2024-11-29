@@ -14,6 +14,8 @@ import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
 import CustomAppRequest from './components/CustomAppRequest';
+import JoinTeam from './components/JoinTeam';
+import RateApp from './components/RateApp';
 
 function App() {
   const [user, setUser] = createSignal(null);
@@ -62,6 +64,8 @@ function App() {
           } />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/share" element={<ShareApp />} />
+          <Route path="/join-team" element={<JoinTeam />} />
+          <Route path="/rate-app" element={<RateApp />} />
         </Routes>
         <SocialMediaLinks />
       </div>

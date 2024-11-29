@@ -33,6 +33,8 @@ function MainContent() {
           <option value="">اختر وجهتك...</option>
           <option value="services">الخدمات</option>
           <option value="tools">الأدوات</option>
+          <option value="join-team">انضم للفريق</option>
+          <option value="rate-app">تقييم التطبيق</option>
         </select>
       </div>
       <div class="mb-8 flex justify-center">
