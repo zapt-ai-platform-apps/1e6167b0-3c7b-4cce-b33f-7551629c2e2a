@@ -9,6 +9,7 @@ function GeneratedSite(props) {
   const [modificationInstructions, setModificationInstructions] = createSignal('');
   const [loading, setLoading] = createSignal(false);
   const [message, setMessage] = createSignal('');
+  const [showModifySection, setShowModifySection] = createSignal(false);
 
   onMount(() => {
     if (!props.generatedSite) {
@@ -90,6 +91,12 @@ function GeneratedSite(props) {
           </div>
           <div class="flex items-center space-x-2 space-x-reverse">
             <button
+              class="cursor-pointer px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out transform box-border"
+              onClick={() => setShowModifySection(!showModifySection())}
+            >
+              تعديل الموقع
+            </button>
+            <button
               class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
               onClick={handleDownloadZip}
             >
@@ -97,32 +104,33 @@ function GeneratedSite(props) {
             </button>
           </div>
         </div>
-        {/* Modification Instructions Input and Button */}
-        <div class="mb-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">تعديل الموقع باستخدام الذكاء الاصطناعي</h3>
-          <textarea
-            value={modificationInstructions()}
-            onInput={(e) => setModificationInstructions(e.target.value)}
-            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32 mb-4"
-            placeholder="أدخل التعليمات الخاصة بالتعديلات التي تريدها..."
-          ></textarea>
-          <button
-            class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${
-              loading() ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            onClick={handleModifySite}
-            disabled={loading()}
-          >
-            <Show when={!loading()} fallback="جاري التعديل...">
-              تعديل الموقع
+        <Show when={showModifySection()}>
+          <div class="mb-4">
+            <h3 class="text-lg font-bold mb-2 text-purple-600">تعديل الموقع باستخدام الذكاء الاصطناعي</h3>
+            <textarea
+              value={modificationInstructions()}
+              onInput={(e) => setModificationInstructions(e.target.value)}
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32 mb-4"
+              placeholder="أدخل التعليمات الخاصة بالتعديلات التي تريدها..."
+            ></textarea>
+            <button
+              class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${
+                loading() ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              onClick={handleModifySite}
+              disabled={loading()}
+            >
+              <Show when={!loading()} fallback="جاري التعديل...">
+                تعديل الموقع
+              </Show>
+            </button>
+            <Show when={message()}>
+              <div class="mt-4 text-green-600 font-semibold">
+                {message()}
+              </div>
             </Show>
-          </button>
-          <Show when={message()}>
-            <div class="mt-4 text-green-600 font-semibold">
-              {message()}
-            </div>
-          </Show>
-        </div>
+          </div>
+        </Show>
       </div>
       <div class="flex-grow border border-gray-300 rounded-lg overflow-hidden mb-4">
         <iframe
