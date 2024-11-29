@@ -1,3 +1,4 @@
+```jsx
 import { createSignal, onMount, createEffect, Show } from 'solid-js';
 import { Routes, Route, Navigate, useLocation } from '@solidjs/router';
 import { supabase } from './supabaseClient';
@@ -46,7 +47,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-purple-500 to-purple-700 text-neutral-dark flex flex-col" dir="rtl">
+    <div class="min-h-screen bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col" dir="rtl">
       <div class="flex-grow mx-auto w-full px-4 sm:px-6 lg:px-8">
         <Show when={location.pathname !== '/share'}>
           <Header user={user} />
@@ -75,3 +76,4 @@ function App() {
 }
 
 export default App;
+```
