@@ -4,16 +4,24 @@ function ShareApp() {
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
   const [copySuccess, setCopySuccess] = createSignal('');
-  const appLink = window.location.origin + '/share';
+  const appLink = window.location.origin;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(appLink).then(() => {
-      setCopySuccess('تم نسخ رابط الصفحة!');
+      setCopySuccess('تم نسخ رابط التطبيق!');
       setTimeout(() => setCopySuccess(''), 2000);
     }, () => {
       setCopySuccess('حدث خطأ أثناء نسخ الرابط. يرجى المحاولة مرة أخرى.');
     });
   };
+
+  // روابط المشاركة على وسائل التواصل الاجتماعي
+  const shareText = encodeURIComponent(appDescription);
+  const shareUrl = encodeURIComponent(appLink);
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+  const whatsappShareUrl = `https://wa.me/?text=${shareText}%20${shareUrl}`;
+  const telegramShareUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareText}`;
 
   return (
     <div class="flex flex-col items-center justify-center h-full px-4">
@@ -26,38 +34,75 @@ function ShareApp() {
         تحميل التطبيق
       </button>
       <div class="max-w-2xl w-full">
-        <h2 class="text-2xl font-bold mb-4 text-primary-dark">تفاصيل التطبيق</h2>
-        <p class="text-lg mb-6">
-          اكتشف مجموعة الخدمات والأدوات التي نقدمها لتعزيز استقلاليتك وتسهيل حياتك اليومية.
+        <h2 class="text-2xl font-bold mb-4 text-primary-dark">شارك التطبيق مع أصدقائك</h2>
+        <p class="text-lg mb-6 text-center">
+          يمكنك مشاركة التطبيق عبر وسائل التواصل الاجتماعي التالية:
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-bold mb-2 text-primary-dark">خدماتنا</h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-2">
-              <li>دورات تدريبية مجانية</li>
-              {/* يمكنك إضافة المزيد من الخدمات هنا */}
-            </ul>
+        <div class="flex space-x-4 space-x-reverse justify-center mb-6">
+          <a
+            href={facebookShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cursor-pointer transform hover:scale-105 transition duration-300"
+          >
+            <img src="/assets/facebook.svg" alt="فيسبوك" class="w-12 h-12" />
+          </a>
+          <a
+            href={twitterShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cursor-pointer transform hover:scale-105 transition duration-300"
+          >
+            <img src="/assets/twitter.svg" alt="تويتر" class="w-12 h-12" />
+          </a>
+          <a
+            href={whatsappShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cursor-pointer transform hover:scale-105 transition duration-300"
+          >
+            <img src="/assets/whatsapp.svg" alt="واتساب" class="w-12 h-12" />
+          </a>
+          <a
+            href={telegramShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cursor-pointer transform hover:scale-105 transition duration-300"
+          >
+            <img src="/assets/telegram.svg" alt="تليجرام" class="w-12 h-12" />
+          </a>
+        </div>
+        <div class="text-center mb-4">
+          <p class="text-lg mb-2">أو قم بنسخ رابط التطبيق ومشاركته:</p>
+          <div class="flex items-center justify-center">
+            <input
+              type="text"
+              value={appLink}
+              readonly
+              class="w-full md:w-1/2 p-2 border border-gray-300 rounded-l-lg focus:outline-none box-border"
+            />
+            <button
+              class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-r-lg hover:bg-green-700 transition duration-300 ease-in-out transform"
+              onClick={handleCopyLink}
+            >
+              نسخ الرابط
+            </button>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-bold mb-2 text-primary-dark">أدواتنا</h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-2">
-              <li>المساعد الذكي</li>
-              <li>منشئ المحتوى النصي</li>
-              <li>منشئ الصور بالذكاء الاصطناعي</li>
-              {/* يمكنك إضافة المزيد من الأدوات هنا */}
-            </ul>
-          </div>
+          {copySuccess() && (
+            <p class="text-green-600 mt-2">{copySuccess()}</p>
+          )}
         </div>
       </div>
-      <button
-        class="cursor-pointer mt-6 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform"
-        onClick={handleCopyLink}
-      >
-        نسخ رابط الصفحة
-      </button>
-      {copySuccess() && (
-        <p class="text-green-600 mt-2">{copySuccess()}</p>
-      )}
+      <div class="mt-8 text-center text-gray-700">
+        <a
+          href="https://www.zapt.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-500 hover:underline"
+        >
+          تم الإنشاء باستخدام ZAPT
+        </a>
+      </div>
     </div>
   );
 }
