@@ -31,7 +31,6 @@ function MainContent() {
           class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer box-border"
         >
           <option value="">اختر وجهتك...</option>
-          <option value="blog">المدونة</option>
           <option value="services">الخدمات</option>
           <option value="tools">الأدوات</option>
         </select>

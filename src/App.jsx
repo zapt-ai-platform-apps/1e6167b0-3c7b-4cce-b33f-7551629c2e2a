@@ -9,8 +9,6 @@ import Tools from './components/Tools';
 import ToolPage from './components/ToolPage';
 import SocialMediaLinks from './components/SocialMediaLinks';
 import Footer from './components/Footer';
-import Blog from './components/Blog';
-import BlogPost from './components/BlogPost';
 import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
@@ -59,8 +57,6 @@ function App() {
           <Route path="/services/custom-app-request" element={<CustomAppRequest />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:toolName/*" element={<ToolPage />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/account" element={
             user() ? <Account /> : <Navigate href="/login" />
           } />
