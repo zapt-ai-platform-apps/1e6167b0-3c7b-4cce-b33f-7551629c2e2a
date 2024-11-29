@@ -85,6 +85,7 @@ function Account(props) {
       return;
     }
     try {
+      // Proceed to update password
       const { data, error } = await supabase.auth.updateUser({
         password: newPassword(),
       });
@@ -159,10 +160,6 @@ function Account(props) {
               <div class="flex items-center">
                 <span class="w-32 text-gray-700 font-semibold">اسم المستخدم:</span>
                 <span class="text-gray-900">{userData()?.user_metadata.username}</span>
-              </div>
-              <div class="flex items-center">
-                <span class="w-32 text-gray-700 font-semibold">البريد الإلكتروني:</span>
-                <span class="text-gray-900">{userData()?.email}</span>
               </div>
               <div class="flex items-center">
                 <span class="w-32 text-gray-700 font-semibold">الجنس:</span>

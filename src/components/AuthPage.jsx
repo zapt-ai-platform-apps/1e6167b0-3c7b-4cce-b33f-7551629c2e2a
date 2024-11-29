@@ -153,6 +153,28 @@ function AuthPage() {
                 required
               />
             </div>
+          </Show>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
+            <input
+              type="email"
+              value={email()}
+              onInput={(e) => setEmail(e.target.value)}
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">كلمة المرور</label>
+            <input
+              type="password"
+              value={password()}
+              onInput={(e) => setPassword(e.target.value)}
+              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              required
+            />
+          </div>
+          <Show when={showSignUp()}>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">الجنس</label>
               <select
@@ -182,26 +204,6 @@ function AuthPage() {
               </select>
             </div>
           </Show>
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
-            <input
-              type="email"
-              value={email()}
-              onInput={(e) => setEmail(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-              required
-            />
-          </div>
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">كلمة المرور</label>
-            <input
-              type="password"
-              value={password()}
-              onInput={(e) => setPassword(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-              required
-            />
-          </div>
           <button
             type="submit"
             class={`cursor-pointer w-full px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-primary-light transition duration-300 ease-in-out transform ${
