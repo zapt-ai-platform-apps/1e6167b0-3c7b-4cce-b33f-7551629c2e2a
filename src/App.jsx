@@ -57,7 +57,7 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/free-courses" element={<FreeCourses />} />
             <Route path="/tools" element={<Tools />} />
-            <Route path="/tools/:toolName" element={<ToolPage />} />
+            <Route path="/tools/:toolName/*" element={<ToolPage />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/account" element={

@@ -1,12 +1,13 @@
 import { createSignal, Show } from 'solid-js';
 import { createEvent } from '../supabaseClient';
+import { useNavigate } from '@solidjs/router';
 
-function WebsiteBuilder() {
+function WebsiteBuilder(props) {
+  const navigate = useNavigate();
   const [siteTitle, setSiteTitle] = createSignal('');
   const [siteDescription, setSiteDescription] = createSignal('');
   const [siteType, setSiteType] = createSignal('');
   const [detailedDescription, setDetailedDescription] = createSignal('');
-  const [generatedSite, setGeneratedSite] = createSignal('');
   const [loading, setLoading] = createSignal(false);
 
   const siteTypes = [
@@ -26,7 +27,7 @@ function WebsiteBuilder() {
 
     if (loading()) return;
     setLoading(true);
-    setGeneratedSite('');
+    props.setGeneratedSite('');
 
     const prompt = `يرجى إنشاء كود HTML لموقع ${siteType()} بعنوان "${siteTitle()}" ووصف "${siteDescription()}".
 يجب أن يكون الموقع احترافي المظهر ويحتوي على العناصر التالية:
@@ -41,7 +42,8 @@ ${detailedDescription()}.
       });
 
       if (response) {
-        setGeneratedSite(response);
+        props.setGeneratedSite(response);
+        navigate('/tools/website-builder/generated');
       } else {
         alert('حدث خطأ أثناء توليد الموقع.');
       }
@@ -114,17 +116,6 @@ ${detailedDescription()}.
           </Show>
         </button>
       </div>
-      <Show when={generatedSite()}>
-        <div class="mt-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">الموقع المُولد:</h3>
-          <div class="border border-gray-300 rounded-lg overflow-hidden" style="height: 500px;">
-            <iframe
-              srcDoc={generatedSite()}
-              class="w-full h-full"
-            ></iframe>
-          </div>
-        </div>
-      </Show>
     </div>
   );
 }
