@@ -13,10 +13,16 @@ function AdvertisementBanner() {
       link: '/tools/chat-assistant',
     },
     {
-      title: 'منشئ المحتوى النصي',
-      description: 'أنشئ جميع أنواع المحتوى النصي بمساعدة الذكاء الاصطناعي.',
-      buttonText: 'ابدأ الكتابة',
-      link: '/tools/article-generator',
+      title: 'مساعد الكتابة الذكي',
+      description: 'استخدم مساعد الكتابة الذكي لتحسين كتاباتك وتحصيل أفضل النتائج.',
+      buttonText: 'ابدأ الآن',
+      link: '/tools/smart-writing-assistant',
+    },
+    {
+      title: 'المساعد الصوتي الذكي',
+      description: 'استخدم المساعد الصوتي الذكي للتفاعل الصوتي والحصول على إجابات فورية.',
+      buttonText: 'جرب الآن',
+      link: '/tools/smart-voice-assistant',
     },
     {
       title: 'الراديو العربي',
@@ -25,12 +31,29 @@ function AdvertisementBanner() {
       link: '/tools/arabic-radio',
     },
     {
+      title: 'منشئ المحتوى النصي',
+      description: 'أنشئ جميع أنواع المحتوى النصي بمساعدة الذكاء الاصطناعي.',
+      buttonText: 'ابدأ الكتابة',
+      link: '/tools/article-generator',
+    },
+    {
       title: 'منشئ الصور بالذكاء الاصطناعي',
       description: 'أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.',
       buttonText: 'أنشئ صورة',
       link: '/tools/image-generator',
     },
-    // يمكنك إضافة المزيد من الإعلانات هنا
+    {
+      title: 'منشئ المواقع الذكي',
+      description: 'قم بتوليد موقع احترافي متكامل وبتنسيق ومظهر احترافي.',
+      buttonText: 'ابدأ الآن',
+      link: '/tools/website-builder',
+    },
+    {
+      title: 'دورات تدريبية مجانية',
+      description: 'انضم إلى دوراتنا التدريبية المجانية وطور مهاراتك في مختلف المجالات!',
+      buttonText: 'اشترك الآن',
+      link: '/services/free-courses',
+    },
   ];
 
   const getRandomAd = () => {

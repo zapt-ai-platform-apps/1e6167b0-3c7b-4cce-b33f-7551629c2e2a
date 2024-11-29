@@ -52,9 +52,7 @@ function ToolPage() {
         } />
         {toolName === 'website-builder' && (
           <Route path="/generated" element={
-            props => (
-              <GeneratedSite generatedSite={generatedSite()} setGeneratedSite={setGeneratedSite} />
-            )
+            <GeneratedSite generatedSite={generatedSite} setGeneratedSite={setGeneratedSite} />
           } />
         )}
         <Route path="*" element={<Navigate href="/" />} />

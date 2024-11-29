@@ -86,7 +86,7 @@ function Header(props) {
               أدوات
             </NavLink>
           </li>
-          <Show when={props.isAdmin}>
+          <Show when={props.isAdmin()}>
             <li>
               <NavLink
                 href="/admin"
@@ -98,7 +98,7 @@ function Header(props) {
               </NavLink>
             </li>
           </Show>
-          <Show when={props.user}>
+          <Show when={props.user()}>
             <li>
               <NavLink
                 href="/account"
@@ -111,14 +111,14 @@ function Header(props) {
             </li>
             <li>
               <button
-                class="block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 cursor-pointer focus:outline-none"
+                class="cursor-pointer block px-4 py-2 text-gray-800 hover:text-primary-dark transition duration-300 focus:outline-none"
                 onClick={handleSignOut}
               >
                 تسجيل الخروج
               </button>
             </li>
           </Show>
-          <Show when={!props.user}>
+          <Show when={!props.user()}>
             <li>
               <NavLink
                 href="/login"
