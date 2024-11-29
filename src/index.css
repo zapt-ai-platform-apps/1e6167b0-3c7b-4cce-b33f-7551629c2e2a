@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 /* تخصيص الأنماط لتحسين المظهر */
+
 :focus {
   outline: 2px dashed #4a90e2; /* primary.DEFAULT */
   outline-offset: 2px;
