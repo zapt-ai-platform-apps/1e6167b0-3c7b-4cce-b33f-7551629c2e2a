@@ -1,21 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* تخصيص الأنماط لتحسين المظهر */
 :focus {
-  outline: 2px dashed #01579B;
+  outline: 2px dashed #4a90e2; /* primary.DEFAULT */
   outline-offset: 2px;
 }
 
 body {
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
-  color: #424242;
-  background-color: #F9FAFB;
+  color: #4a4a4a; /* neutral.dark */
+  background-color: #f0f2f5; /* background.DEFAULT */
 }
 
 a {
-  color: #0288D1;
+  color: #4a90e2; /* primary.DEFAULT */
   text-decoration: none;
 }
 
@@ -24,8 +26,23 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #01579B;
+  color: #0066cc; /* primary.dark */
   font-weight: bold;
+  line-height: 1.25;
+}
+
+button {
+  cursor: pointer;
+}
+
+input, textarea, select, button {
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #4a90e2; /* primary.DEFAULT */
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); /* primary.DEFAULT with opacity */
 }
 
 button {
@@ -35,19 +52,4 @@ button {
 
 button:hover {
   transform: scale(1.05);
-}
-
-input, textarea, select, button {
-  box-sizing: border-box;
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: #0288D1;
-  box-shadow: 0 0 0 2px rgba(2, 136, 209, 0.2);
-}
-
-/* تحسين الأزرار */
-button {
-  cursor: pointer;
 }

@@ -128,59 +128,59 @@ function AuthPage() {
         <h2 class="text-3xl font-bold mb-6 text-center text-primary-dark">
           {showSignUp() ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
         </h2>
-        <p class="text-lg mb-8 text-center text-gray-700">
+        <p class="text-lg mb-8 text-center text-neutral-dark">
           انطلق نحو الاستقلالية مع تطبيق Blind Accessibility – انضم إلينا للحصول على تجربة سلسة وسهلة الوصول.
         </p>
         <form onSubmit={showSignUp() ? handleSignUp : handleSignIn} class="space-y-4">
           <Show when={showSignUp()}>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">الإسم الكامل</label>
+              <label class="block text-neutral-dark font-semibold mb-2">الإسم الكامل</label>
               <input
                 type="text"
                 value={fullName()}
                 onInput={(e) => setFullName(e.target.value)}
-                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+                class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 required
               />
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">اسم المستخدم</label>
+              <label class="block text-neutral-dark font-semibold mb-2">اسم المستخدم</label>
               <input
                 type="text"
                 value={username()}
                 onInput={(e) => setUsername(e.target.value)}
-                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+                class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
                 required
               />
             </div>
           </Show>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
+            <label class="block text-neutral-dark font-semibold mb-2">البريد الإلكتروني</label>
             <input
               type="email"
               value={email()}
               onInput={(e) => setEmail(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
               required
             />
           </div>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">كلمة المرور</label>
+            <label class="block text-neutral-dark font-semibold mb-2">كلمة المرور</label>
             <input
               type="password"
               value={password()}
               onInput={(e) => setPassword(e.target.value)}
-              class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
+              class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
               required
             />
           </div>
           <Show when={showSignUp()}>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">الجنس</label>
+              <label class="block text-neutral-dark font-semibold mb-2">الجنس</label>
               <select
                 value={gender()}
                 onInput={(e) => setGender(e.target.value)}
-                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
+                class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 required
               >
                 <option value="">اختر الجنس</option>
@@ -190,11 +190,11 @@ function AuthPage() {
               </select>
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">الدولة</label>
+              <label class="block text-neutral-dark font-semibold mb-2">الدولة</label>
               <select
                 value={country()}
                 onInput={(e) => setCountry(e.target.value)}
-                class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
+                class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
                 required
               >
                 <option value="">اختر الدولة</option>
