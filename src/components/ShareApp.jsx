@@ -4,7 +4,7 @@ function ShareApp() {
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
   const [copySuccess, setCopySuccess] = createSignal('');
-  const appLink = window.location.origin;
+  const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a-6jxj2o55d.vercel.app/share';
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(appLink).then(() => {
@@ -29,7 +29,7 @@ function ShareApp() {
       <p class="text-lg mb-6 text-center">{appDescription}</p>
       <button
         class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform mb-6"
-        onClick={() => window.open(window.location.origin, '_blank')}
+        onClick={() => window.open(appLink, '_blank')}
       >
         تحميل التطبيق
       </button>
@@ -78,7 +78,7 @@ function ShareApp() {
             <input
               type="text"
               value={appLink}
-              readonly
+              readOnly
               class="w-full md:w-1/2 p-2 border border-gray-300 rounded-l-lg focus:outline-none box-border"
             />
             <button
