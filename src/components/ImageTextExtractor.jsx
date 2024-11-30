@@ -1,4 +1,4 @@
-import { createSignal, Show, For } from 'solid-js';
+import { createSignal, Show, For, onCleanup } from 'solid-js';
 import Tesseract from 'tesseract.js';
 
 function ImageTextExtractor() {
@@ -19,6 +19,8 @@ function ImageTextExtractor() {
     { code: 'rus', name: 'Русский' },
     // أضف المزيد من اللغات حسب الحاجة
   ];
+
+  let worker;
 
   const preprocessImage = (imageFile) => {
     return new Promise((resolve, reject) => {
@@ -80,24 +82,23 @@ function ImageTextExtractor() {
     setExtractedText('');
     setProgress(0);
 
+    worker = Tesseract.createWorker({
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          setProgress(Math.round(m.progress * 100));
+        }
+      },
+    });
+
     try {
-      const preprocessedBlob = await preprocessImage(imageFile());
-
-      const worker = Tesseract.createWorker({
-        logger: m => {
-          if (m.status === 'recognizing text') {
-            setProgress(Math.round(m.progress * 100));
-          }
-        },
-      });
-
       await worker.load();
       await worker.loadLanguage(selectedLanguage());
       await worker.initialize(selectedLanguage());
-      const { data: { text } } = await worker.recognize(preprocessedBlob);
-      await worker.terminate();
 
-      setLoading(false);
+      const preprocessedBlob = await preprocessImage(imageFile());
+
+      const { data: { text } } = await worker.recognize(preprocessedBlob);
+
       if (text.trim() === '') {
         setExtractedText('لم يتم العثور على نص في الصورة.');
       } else {
@@ -105,10 +106,21 @@ function ImageTextExtractor() {
       }
     } catch (error) {
       console.error('Error extracting text:', error);
-      alert('حدث خطأ أثناء استخراج النص. يرجى المحاولة مرة أخرى.');
+      alert(`حدث خطأ أثناء استخراج النص: ${error.message || error}. يرجى المحاولة مرة أخرى.`);
+    } finally {
+      if (worker) {
+        await worker.terminate();
+        worker = null;
+      }
       setLoading(false);
     }
   };
+
+  onCleanup(() => {
+    if (worker) {
+      worker.terminate();
+    }
+  });
 
   return (
     <div class="flex flex-col flex-grow px-4 h-full">
