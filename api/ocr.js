@@ -42,6 +42,7 @@ export default function handler(req, res) {
       }
 
       const filePart = parts.find(part => part.filename);
+      const languagePart = parts.find(part => part.name === 'language');
 
       if (!filePart) {
         return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
@@ -51,9 +52,11 @@ export default function handler(req, res) {
       const filename = filePart.filename;
       const filetype = filePart.type;
 
+      const language = languagePart ? languagePart.data.toString() : 'ara';
+
       try {
         const formData = new FormData();
-        formData.append('language', 'ara');
+        formData.append('language', language);
         formData.append('apikey', process.env.OCRSPACE_API_KEY);
         formData.append('isOverlayRequired', 'false');
         formData.append('file', fileBuffer, {

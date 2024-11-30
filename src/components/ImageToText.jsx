@@ -1,9 +1,24 @@
-import { createSignal, Show } from 'solid-js';
+import { createSignal, Show, For } from 'solid-js';
 
 function ImageToText() {
   const [selectedFile, setSelectedFile] = createSignal(null);
   const [extractedText, setExtractedText] = createSignal('');
   const [loading, setLoading] = createSignal(false);
+  const [language, setLanguage] = createSignal('');
+
+  const languages = [
+    { name: 'العربية', code: 'ara' },
+    { name: 'الإنجليزية', code: 'eng' },
+    { name: 'الفرنسية', code: 'fre' },
+    { name: 'الألمانية', code: 'ger' },
+    { name: 'الإسبانية', code: 'spa' },
+    { name: 'التركية', code: 'tur' },
+    { name: 'الروسية', code: 'rus' },
+    { name: 'الصينية', code: 'chs' },
+    { name: 'اليابانية', code: 'jpn' },
+    { name: 'الكورية', code: 'kor' },
+    // المزيد من اللغات إن رغبت
+  ];
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -16,11 +31,16 @@ function ImageToText() {
       alert('يرجى اختيار صورة.');
       return;
     }
+    if (!language()) {
+      alert('يرجى اختيار اللغة.');
+      return;
+    }
     setLoading(true);
     setExtractedText('');
     try {
       const formData = new FormData();
       formData.append('image', selectedFile());
+      formData.append('language', language());
 
       const response = await fetch('/api/ocr', {
         method: 'POST',
@@ -56,6 +76,18 @@ function ImageToText() {
           onChange={handleFileChange}
           class="box-border p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer"
         />
+        <select
+          value={language()}
+          onInput={(e) => setLanguage(e.target.value)}
+          class="box-border p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer"
+        >
+          <option value="">اختر اللغة</option>
+          <For each={languages}>
+            {(lang) => (
+              <option value={lang.code}>{lang.name}</option>
+            )}
+          </For>
+        </select>
         <button
           type="submit"
           class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
