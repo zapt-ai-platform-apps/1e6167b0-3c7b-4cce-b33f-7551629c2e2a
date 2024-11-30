@@ -18,9 +18,9 @@ function Tools() {
     },
     {
       name: 'أدوات إمكانية الوصول',
-      description: 'استخدم هذه الأدوات لتحسين وصولك للمحتوى الرقمي.',
+      description: 'أدوات مصممة خصيصًا لتعزيز إمكانية الوصول للمستخدمين.',
       tools: [
-        { name: 'استخراج النص من الصورة', description: 'استخدم الذكاء الاصطناعي لاستخراج النصوص من الصور.' },
+        { name: 'استخراج النص من الصورة', description: 'قم باستخراج النصوص من الصور باستخدام التقنيات الحديثة للذكاء الاصطناعي.' },
       ],
     },
     {
@@ -54,8 +54,6 @@ function Tools() {
       navigate('/tools/smart-writing-assistant');
     } else if (toolName === 'المساعد الصوتي الذكي') {
       navigate('/tools/smart-voice-assistant');
-    } else if (toolName === 'استخراج النص من الصورة') {
-      navigate('/tools/extract-text-from-image');
     } else if (toolName === 'الراديو العربي') {
       navigate('/tools/arabic-radio');
     } else if (toolName === 'منشئ المحتوى النصي') {
@@ -66,6 +64,8 @@ function Tools() {
       navigate('/tools/website-builder');
     } else if (toolName === 'منشئ السيرة الذاتية الذكي') {
       navigate('/tools/cv-generator');
+    } else if (toolName === 'استخراج النص من الصورة') {
+      navigate('/tools/image-text-extractor');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
@@ -116,7 +116,7 @@ function Tools() {
         }>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <For each={currentCategory().tools}>{(tool) => (
-              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
                 <h3 class="text-xl font-bold mb-2 text-primary-dark">{tool.name}</h3>
                 <p class="text-gray-700 mb-4">{tool.description}</p>
                 <button

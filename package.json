@@ -1,6 +1,6 @@
 {
   "name": "blind-accessibility",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "تطبيق مخصص لتوفير التقنيات والأدوات لمساعدة المكفوفين وضعاف البصر في حياتهم اليومية.",
   "type": "module",
   "scripts": {
@@ -26,7 +26,8 @@
     "jszip": "^3.10.1",
     "file-saver": "^2.0.5",
     "docx": "^7.7.0",
-    "tesseract.js": "^2.1.4"
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
