@@ -42,7 +42,6 @@ export default function handler(req, res) {
       }
 
       const filePart = parts.find(part => part.filename);
-      const languagePart = parts.find(part => part.name === 'language');
 
       if (!filePart) {
         return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
@@ -52,7 +51,7 @@ export default function handler(req, res) {
       const filename = filePart.filename;
       const filetype = filePart.type;
 
-      const language = languagePart ? languagePart.data.toString() : 'ara';
+      const language = 'unk'; // Use 'unk' for automatic language detection
 
       try {
         const formData = new FormData();
