@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/node";
 import formidable from 'formidable';
 import fs from 'fs';
 import fetch from 'node-fetch';
+import FormData from 'form-data';  // <-- Added this line
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -48,6 +49,7 @@ export default function handler(req, res) {
 
         const ocrResponse = await fetch('https://api.ocr.space/parse/image', {
           method: 'POST',
+          headers: formData.getHeaders(),  // <-- Added this line
           body: formData,
         });
 
