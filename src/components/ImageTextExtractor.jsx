@@ -1,4 +1,4 @@
-import { createSignal, Show, For, onCleanup } from 'solid-js';
+import { createSignal, Show, For, onCleanup, onMount } from 'solid-js';
 import Tesseract from 'tesseract.js';
 
 function ImageTextExtractor() {
@@ -17,10 +17,10 @@ function ImageTextExtractor() {
     { code: 'chi_sim', name: '中文 (简体)' },
     { code: 'jpn', name: '日本語' },
     { code: 'rus', name: 'Русский' },
-    // أضف المزيد من اللغات حسب الحاجة
+    // Add more languages as needed
   ];
 
-  let worker;
+  let worker = null;
 
   const preprocessImage = (imageFile) => {
     return new Promise((resolve, reject) => {
@@ -116,9 +116,10 @@ function ImageTextExtractor() {
     }
   };
 
-  onCleanup(() => {
+  onCleanup(async () => {
     if (worker) {
-      worker.terminate();
+      await worker.terminate();
+      worker = null;
     }
   });
 
