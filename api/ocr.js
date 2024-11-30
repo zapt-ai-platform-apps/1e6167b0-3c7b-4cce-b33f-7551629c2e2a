@@ -1,16 +1,15 @@
 import * as Sentry from "@sentry/node";
-import { parse } from 'parse-multipart-data';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+import multiparty from 'multiparty';
+import fs from 'fs';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
   environment: process.env.VITE_PUBLIC_APP_ENV,
-  initialScope: {
-    tags: {
-      type: 'backend',
-      projectId: process.env.VITE_PUBLIC_APP_ID
-    }
+  tags: {
+    type: 'backend',
+    projectId: process.env.VITE_PUBLIC_APP_ID
   }
 });
 
@@ -21,39 +20,27 @@ export default function handler(req, res) {
       return res.status(405).end(`الطريقة ${req.method} غير مسموحة`);
     }
 
-    let body = [];
-    req.on('data', chunk => {
-      body.push(chunk);
-    }).on('end', async () => {
-      body = Buffer.concat(body);
+    const form = new multiparty.Form();
 
-      // Parse the multipart form data
-      const contentType = req.headers['content-type'];
-      const boundaryMatch = contentType.match(/boundary=(.*)$/);
-      if (!boundaryMatch) {
-        return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
-      }
-      const boundary = boundaryMatch[1];
-
-      const parts = parse(body, boundary);
-
-      if (!parts.length) {
-        return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
-      }
-
-      const filePart = parts.find(part => part.filename);
-
-      if (!filePart) {
-        return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
-      }
-
-      const fileBuffer = filePart.data;
-      const filename = filePart.filename;
-      const filetype = filePart.type;
-
-      const language = 'unk'; // Use 'unk' for automatic language detection
-
+    form.parse(req, async function(err, fields, files) {
       try {
+        if (err) {
+          console.error('Error parsing form:', err);
+          Sentry.captureException(err);
+          return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
+        }
+
+        if (!files || !files.image || !files.image[0]) {
+          return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
+        }
+
+        const file = files.image[0];
+        const fileBuffer = fs.readFileSync(file.path);
+        const filename = file.originalFilename || file.path;
+        const filetype = file.headers['content-type'];
+
+        const language = 'unk'; // Use 'unk' for automatic language detection
+
         const formData = new FormData();
         formData.append('language', language);
         formData.append('apikey', process.env.OCRSPACE_API_KEY);
@@ -75,6 +62,12 @@ export default function handler(req, res) {
           console.error('OCR error:', ocrResult.ErrorMessage);
           Sentry.captureMessage('OCR error: ' + ocrResult.ErrorMessage);
           return res.status(500).json({ error: 'حدث خطأ أثناء استخراج النص' });
+        }
+
+        if (!ocrResult.ParsedResults || !ocrResult.ParsedResults.length) {
+          console.error('No ParsedResults from OCR API:', ocrResult);
+          Sentry.captureMessage('No ParsedResults from OCR API');
+          return res.status(500).json({ error: 'لم يتم استخراج أي نص من الصورة.' });
         }
 
         const extractedText = ocrResult.ParsedResults[0].ParsedText;
