@@ -17,6 +17,13 @@ function Tools() {
       ],
     },
     {
+      name: 'أدوات إمكانية الوصول',
+      description: 'استخدم هذه الأدوات لتحسين وصولك للمحتوى الرقمي.',
+      tools: [
+        { name: 'استخراج النص من الصورة', description: 'استخدم الذكاء الاصطناعي لاستخراج النصوص من الصور.' },
+      ],
+    },
+    {
       name: 'أدوات ترفيهية',
       description: 'اكتشف أدوات ترفيهية ممتعة ومبتكرة لتحسين تجربتك.',
       tools: [
@@ -47,6 +54,8 @@ function Tools() {
       navigate('/tools/smart-writing-assistant');
     } else if (toolName === 'المساعد الصوتي الذكي') {
       navigate('/tools/smart-voice-assistant');
+    } else if (toolName === 'استخراج النص من الصورة') {
+      navigate('/tools/extract-text-from-image');
     } else if (toolName === 'الراديو العربي') {
       navigate('/tools/arabic-radio');
     } else if (toolName === 'منشئ المحتوى النصي') {
