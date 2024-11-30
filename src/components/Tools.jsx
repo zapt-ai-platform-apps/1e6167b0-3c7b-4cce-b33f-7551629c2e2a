@@ -19,9 +19,7 @@ function Tools() {
     {
       name: 'أدوات إمكانية الوصول',
       description: 'أدوات مصممة خصيصًا لتعزيز إمكانية الوصول للمستخدمين.',
-      tools: [
-        { name: 'استخراج النص من الصورة', description: 'قم باستخراج النصوص من الصور باستخدام التقنيات الحديثة للذكاء الاصطناعي.' },
-      ],
+      tools: [],
     },
     {
       name: 'أدوات ترفيهية',
@@ -64,8 +62,6 @@ function Tools() {
       navigate('/tools/website-builder');
     } else if (toolName === 'منشئ السيرة الذاتية الذكي') {
       navigate('/tools/cv-generator');
-    } else if (toolName === 'استخراج النص من الصورة') {
-      navigate('/tools/image-text-extractor');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
