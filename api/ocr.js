@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/node";
-import formidable from 'formidable';
 import fs from 'fs';
+import Busboy from 'busboy';
+import FormData from 'form-data';
 import fetch from 'node-fetch';
-import FormData from 'form-data';  // <-- Added this line
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -15,12 +15,6 @@ Sentry.init({
   }
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export default function handler(req, res) {
   try {
     if (req.method !== 'POST') {
@@ -28,28 +22,39 @@ export default function handler(req, res) {
       return res.status(405).end(`الطريقة ${req.method} غير مسموحة`);
     }
 
-    const form = formidable({ multiples: false });
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        console.error('Error parsing form data:', err);
-        Sentry.captureException(err);
-        return res.status(500).json({ error: 'حدث خطأ أثناء معالجة الطلب' });
-      }
+    const busboy = new Busboy({ headers: req.headers });
+    const buffers = [];
+    let filetype = '';
+    let filename = '';
 
-      const image = files.image;
-      if (!image) {
+    busboy.on('file', function(fieldname, file, fileName, encoding, mimetype) {
+      filename = fileName;
+      filetype = mimetype;
+
+      file.on('data', function(data) {
+        buffers.push(data);
+      });
+    });
+
+    busboy.on('finish', async function() {
+      if (buffers.length === 0) {
         return res.status(400).json({ error: 'يرجى تحميل صورة صحيحة' });
       }
+
+      const fileBuffer = Buffer.concat(buffers);
 
       try {
         const formData = new FormData();
         formData.append('language', 'ara');
         formData.append('apikey', process.env.OCRSPACE_API_KEY);
-        formData.append('file', fs.createReadStream(image.filepath));
+        formData.append('isOverlayRequired', 'false');
+        formData.append('file', fileBuffer, {
+          filename: filename,
+          contentType: filetype
+        });
 
         const ocrResponse = await fetch('https://api.ocr.space/parse/image', {
           method: 'POST',
-          headers: formData.getHeaders(),  // <-- Added this line
           body: formData,
         });
 
@@ -70,6 +75,9 @@ export default function handler(req, res) {
         return res.status(500).json({ error: 'حدث خطأ أثناء استخراج النص' });
       }
     });
+
+    req.pipe(busboy);
+
   } catch (error) {
     console.error('Error:', error);
     Sentry.captureException(error);
