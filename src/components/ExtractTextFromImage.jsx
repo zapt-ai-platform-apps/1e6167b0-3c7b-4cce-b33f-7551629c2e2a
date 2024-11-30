@@ -1,4 +1,5 @@
-import { createSignal, Show } from 'solid-js';
+```jsx
+import { createSignal, Show, For } from 'solid-js';
 import Tesseract from 'tesseract.js';
 
 function ExtractTextFromImage() {
@@ -6,6 +7,19 @@ function ExtractTextFromImage() {
   const [extractedText, setExtractedText] = createSignal('');
   const [loading, setLoading] = createSignal(false);
   const [progress, setProgress] = createSignal(0);
+  const [selectedLanguage, setSelectedLanguage] = createSignal('eng');
+
+  const languages = [
+    { code: 'eng', name: 'English' },
+    { code: 'ara', name: 'العربية' },
+    { code: 'fra', name: 'Français' },
+    { code: 'spa', name: 'Español' },
+    { code: 'deu', name: 'Deutsch' },
+    { code: 'chi_sim', name: '中文 (简体)' },
+    { code: 'jpn', name: '日本語' },
+    { code: 'rus', name: 'Русский' },
+    // أضف المزيد من اللغات حسب الحاجة
+  ];
 
   const preprocessImage = (imageFile) => {
     return new Promise((resolve, reject) => {
@@ -58,7 +72,10 @@ function ExtractTextFromImage() {
   };
 
   const handleExtractText = async () => {
-    if (!imageFile()) return;
+    if (!imageFile() || !selectedLanguage()) {
+      alert('يرجى اختيار صورة ولغة أولاً.');
+      return;
+    }
 
     setLoading(true);
     setExtractedText('');
@@ -69,7 +86,7 @@ function ExtractTextFromImage() {
 
       Tesseract.recognize(
         preprocessedBlob,
-        'ara',
+        selectedLanguage(),
         {
           logger: m => {
             if (m.status === 'recognizing text') {
@@ -80,7 +97,7 @@ function ExtractTextFromImage() {
       ).then(({ data: { text } }) => {
         setLoading(false);
         if (text.trim() === '') {
-          setExtractedText('لم يتم العثور على نص في الصورة');
+          setExtractedText('لم يتم العثور على نص في الصورة.');
         } else {
           setExtractedText(text);
         }
@@ -103,6 +120,21 @@ function ExtractTextFromImage() {
         <p class="text-lg text-center text-gray-700">استخدم التقنية الذكية لاستخراج النصوص من الصور بسهولة وخصوصية</p>
       </div>
       <div class="flex flex-col items-center mb-4 space-y-4">
+        <div class="w-full">
+          <label class="block mb-2 text-gray-700 font-semibold">اختر اللغة:</label>
+          <select
+            value={selectedLanguage()}
+            onInput={(e) => setSelectedLanguage(e.target.value)}
+            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
+          >
+            <option value="">اختر اللغة</option>
+            <For each={languages}>
+              {(language) => (
+                <option value={language.code}>{language.name}</option>
+              )}
+            </For>
+          </select>
+        </div>
         <input
           type="file"
           accept="image/*"
@@ -114,7 +146,7 @@ function ExtractTextFromImage() {
             loading() ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           onClick={handleExtractText}
-          disabled={loading() || !imageFile()}
+          disabled={loading() || !imageFile() || !selectedLanguage()}
         >
           <Show when={!loading()} fallback={`جاري استخراج النص... ${progress()}%`}>
             استخراج النص
@@ -134,3 +166,4 @@ function ExtractTextFromImage() {
 }
 
 export default ExtractTextFromImage;
+```
