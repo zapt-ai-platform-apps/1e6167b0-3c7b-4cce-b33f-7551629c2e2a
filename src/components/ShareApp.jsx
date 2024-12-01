@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js';
+import { createSignal, For, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 
 function ShareApp() {
@@ -61,15 +61,17 @@ function ShareApp() {
       <main class="flex-grow bg-gray-100 py-8">
         <div class="container mx-auto px-4">
           <section class="mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">لماذا Blind Accessibility؟</h2>
+            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">لماذا {appTitle}؟</h2>
             <p class="text-lg text-center text-gray-700 mb-8">
               {appTitle} هو تطبيق مصمم خصيصًا للمكفوفين وضعاف البصر، يوفر مجموعة من الخدمات والأدوات في واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <For each={features}>{(feature) => (
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                  <img src="https://images.unsplash.com/photo-1580893206515-2fc3e8a2aa96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHwxMHx8U2NyZWVuc2hvdCUyMG9mJTIwdGhlJTIwYXBwJTIwdG9vbHMlMjBzZWN0aW9ufGVufDB8fHx8MTczMzA3MjEzNHww&ixlib=rb-4.0.3&q=80&w=1080"  alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
-              <img src="https://images.unsplash.com/photo-1594321120022-7649850959bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHw4fHxTY3JlZW5zaG90JTIwb2YlMjB0aGUlMjBhcHAlMjBzZXJ2aWNlcyUyMHNlY3Rpb258ZW58MHx8fHwxNzMzMDcyMTM0fDA&ixlib=rb-4.0.3&q=80&w=1080"  alt="لقطة شاشة للتطبيق" data-image-request="Screenshot of the app services section" class="w-full rounded-lg shadow-md" />
+                  <img src="PLACEHOLDER" alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
+                  <p class="text-center text-gray-800 font-semibold">{feature}</p>
+                </div>
+              )}</For>
             </div>
           </section>
 
@@ -140,9 +142,9 @@ function ShareApp() {
                   نسخ الرابط
                 </button>
               </div>
-              {copySuccess() && (
+              <Show when={copySuccess()}>
                 <p class="text-green-600 mt-2">{copySuccess()}</p>
-              )}
+              </Show>
             </div>
           </section>
 
