@@ -1,3 +1,4 @@
+```jsx
 import { createSignal, For, Show } from 'solid-js';
 
 function ShareApp() {
@@ -124,19 +125,9 @@ function ShareApp() {
           </section>
         </div>
       </main>
-
-      <footer class="bg-gray-200 text-center py-4">
-        <a
-          href="https://www.zapt.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-blue-500 hover:underline"
-        >
-          تم الإنشاء باستخدام ZAPT
-        </a>
-      </footer>
     </div>
   );
 }
 
 export default ShareApp;
+```
