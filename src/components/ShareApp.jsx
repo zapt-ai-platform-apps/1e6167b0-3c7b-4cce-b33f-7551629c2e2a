@@ -1,12 +1,10 @@
 import { createSignal, For, Show } from 'solid-js';
-import { useNavigate } from '@solidjs/router';
 
 function ShareApp() {
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
   const [copySuccess, setCopySuccess] = createSignal('');
   const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a-6jxj2o55d.vercel.app/share';
-  const navigate = useNavigate();
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(appLink).then(() => {
@@ -30,17 +28,6 @@ function ShareApp() {
     'خدمات وأدوات متعددة في مكان واحد',
     'واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة',
     'تحديثات مستمرة وميزات جديدة',
-  ];
-
-  const testimonials = [
-    {
-      name: 'أحمد علي',
-      feedback: 'تطبيق رائع! ساعدني كثيرًا في حياتي اليومية.',
-    },
-    {
-      name: 'سارة محمد',
-      feedback: 'أفضل تطبيق للمكفوفين قمت بتجربته. واجهة سهلة وخدمات مفيدة جدًا.',
-    },
   ];
 
   return (
@@ -70,18 +57,6 @@ function ShareApp() {
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
                   <img src="PLACEHOLDER" alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
                   <p class="text-center text-gray-800 font-semibold">{feature}</p>
-                </div>
-              )}</For>
-            </div>
-          </section>
-
-          <section class="mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">ماذا يقول مستخدمونا</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <For each={testimonials}>{(testimonial) => (
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                  <p class="text-gray-800 italic mb-4">"{testimonial.feedback}"</p>
-                  <p class="text-gray-700 font-semibold text-right">- {testimonial.name}</p>
                 </div>
               )}</For>
             </div>
@@ -146,15 +121,6 @@ function ShareApp() {
                 <p class="text-green-600 mt-2">{copySuccess()}</p>
               </Show>
             </div>
-          </section>
-
-          <section class="text-center">
-            <button
-              class="cursor-pointer mt-6 px-8 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105"
-              onClick={() => navigate('/')}
-            >
-              الرجوع إلى الرئيسية
-            </button>
           </section>
         </div>
       </main>
