@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, For, Show } from 'solid-js';
 
 function ShareApp() {
@@ -8,12 +7,15 @@ function ShareApp() {
   const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a-6jxj2o55d.vercel.app/share';
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(appLink).then(() => {
-      setCopySuccess('تم نسخ رابط التطبيق!');
-      setTimeout(() => setCopySuccess(''), 2000);
-    }, () => {
-      setCopySuccess('حدث خطأ أثناء نسخ الرابط. يرجى المحاولة مرة أخرى.');
-    });
+    navigator.clipboard.writeText(appLink).then(
+      () => {
+        setCopySuccess('تم نسخ رابط التطبيق!');
+        setTimeout(() => setCopySuccess(''), 2000);
+      },
+      () => {
+        setCopySuccess('حدث خطأ أثناء نسخ الرابط. يرجى المحاولة مرة أخرى.');
+      }
+    );
   };
 
   // روابط المشاركة على وسائل التواصل الاجتماعي
@@ -49,22 +51,34 @@ function ShareApp() {
       <main class="flex-grow bg-gray-100 py-8">
         <div class="container mx-auto px-4">
           <section class="mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">لماذا {appTitle}؟</h2>
+            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">
+              لماذا {appTitle}؟
+            </h2>
             <p class="text-lg text-center text-gray-700 mb-8">
-              {appTitle} هو تطبيق مصمم خصيصًا للمكفوفين وضعاف البصر، يوفر مجموعة من الخدمات والأدوات في واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة.
+              {appTitle} هو تطبيق مصمم خصيصًا للمكفوفين وضعاف البصر، يوفر مجموعة من
+              الخدمات والأدوات في واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <For each={features}>{(feature) => (
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                  <img src="PLACEHOLDER" alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
-                  <p class="text-center text-gray-800 font-semibold">{feature}</p>
-                </div>
-              )}</For>
+              <For each={features}>
+                {(feature) => (
+                  <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                    <img
+                      src="PLACEHOLDER"
+                      alt={feature}
+                      data-image-request={`Icon representing ${feature}`}
+                      class="w-16 h-16 mx-auto mb-4"
+                    />
+                    <p class="text-center text-gray-800 font-semibold">{feature}</p>
+                  </div>
+                )}
+              </For>
             </div>
           </section>
 
           <section class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">شارك التطبيق مع أصدقائك</h2>
+            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">
+              شارك التطبيق مع أصدقائك
+            </h2>
             <p class="text-lg mb-6 text-center">
               ساعدنا في نشر الفائدة ومشاركة التطبيق مع الآخرين.
             </p>
@@ -130,4 +144,3 @@ function ShareApp() {
 }
 
 export default ShareApp;
-```
