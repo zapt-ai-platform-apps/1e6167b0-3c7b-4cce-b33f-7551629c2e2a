@@ -66,15 +66,10 @@ function ShareApp() {
               {appTitle} هو تطبيق مصمم خصيصًا للمكفوفين وضعاف البصر، يوفر مجموعة من الخدمات والأدوات في واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <>
-                <For each={features}>{(feature) => (
-                  <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    <img src="https://images.unsplash.com/photo-1632505084039-f8ec4b00e432?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHwzfHxTY3JlZW5zaG90JTIwb2YlMjB0aGUlMjBhcHAlMjBob21lJTIwc2NyZWVufGVufDB8fHx8MTczMzA3MjEzNHww&ixlib=rb-4.0.3&q=80&w=1080"  alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
-                  </div>
-                )}</For>
-                <img src="https://images.unsplash.com/photo-1521931961826-fe48677230a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHwyfHxTY3JlZW5zaG90JTIwb2YlMjB0aGUlMjBhcHAlMjB0b29scyUyMHNlY3Rpb258ZW58MHx8fHwxNzMzMDcyMTM0fDA&ixlib=rb-4.0.3&q=80&w=1080"  alt="لقطة شاشة للتطبيق" data-image-request="Screenshot of the app tools section" class="w-full rounded-lg shadow-md" />
-                <img src="https://images.unsplash.com/photo-1620680779930-e74c15c8f7a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHw5fHxTY3JlZW5zaG90JTIwb2YlMjB0aGUlMjBhcHAlMjBzZXJ2aWNlcyUyMHNlY3Rpb258ZW58MHx8fHwxNzMzMDcyMTM0fDA&ixlib=rb-4.0.3&q=80&w=1080"  alt="لقطة شاشة للتطبيق" data-image-request="Screenshot of the app services section" class="w-full rounded-lg shadow-md" />
-              </>
+              <For each={features}>{(feature) => (
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                  <img src="https://images.unsplash.com/photo-1580893206515-2fc3e8a2aa96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHwxMHx8U2NyZWVuc2hvdCUyMG9mJTIwdGhlJTIwYXBwJTIwdG9vbHMlMjBzZWN0aW9ufGVufDB8fHx8MTczMzA3MjEzNHww&ixlib=rb-4.0.3&q=80&w=1080"  alt={feature} data-image-request={`Icon representing ${feature}`} class="w-16 h-16 mx-auto mb-4" />
+              <img src="https://images.unsplash.com/photo-1594321120022-7649850959bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjQ4Nzh8MHwxfHNlYXJjaHw4fHxTY3JlZW5zaG90JTIwb2YlMjB0aGUlMjBhcHAlMjBzZXJ2aWNlcyUyMHNlY3Rpb258ZW58MHx8fHwxNzMzMDcyMTM0fDA&ixlib=rb-4.0.3&q=80&w=1080"  alt="لقطة شاشة للتطبيق" data-image-request="Screenshot of the app services section" class="w-full rounded-lg shadow-md" />
             </div>
           </section>
 
