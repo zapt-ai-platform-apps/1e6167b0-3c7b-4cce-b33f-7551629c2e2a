@@ -10,11 +10,7 @@ function Services() {
       name: 'خدمات مجانية',
       description: 'اكتشف مجموعة الخدمات المجانية التي نقدمها لتعزيز استقلاليتك وتسهيل حياتك اليومية.',
       services: [
-        {
-          name: 'دورات تدريبية مجانية',
-          description: 'انضم لدوراتنا التدريبية المجانية لتحسين مهاراتك.',
-          link: '/services/free-courses',
-        },
+        // No services currently available
       ],
     },
     {
