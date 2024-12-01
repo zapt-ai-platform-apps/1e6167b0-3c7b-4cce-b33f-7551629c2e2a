@@ -48,7 +48,7 @@ function App() {
   return (
     <div class="min-h-screen bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col" dir="rtl">
       <div class="flex-grow mx-auto w-full px-4 sm:px-6 lg:px-8 h-full">
-        <Show when={location.pathname !== '/share'}>
+        <Show when={location.pathname !== '/share' && location.pathname !== '/login'}>
           <Header user={user} />
           <AnnouncementBanner />
         </Show>
