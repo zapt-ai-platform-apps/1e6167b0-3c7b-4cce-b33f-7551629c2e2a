@@ -28,13 +28,16 @@ function ArabicRadio() {
   const [stations, setStations] = createSignal([]);
   const [selectedCountry, setSelectedCountry] = createSignal('');
   const [selectedStation, setSelectedStation] = createSignal('');
+  const [selectedStationIndex, setSelectedStationIndex] = createSignal(-1);
   const [loadingStations, setLoadingStations] = createSignal(false);
+  const [isPlaying, setIsPlaying] = createSignal(false);
   let audioRef;
 
   const handleCountryChange = (e) => {
     const countryCode = e.target.value;
     setSelectedCountry(countryCode);
     setSelectedStation('');
+    setSelectedStationIndex(-1);
     setStations([]);
     if (countryCode) {
       setLoadingStations(true);
@@ -67,16 +70,55 @@ function ArabicRadio() {
   createEffect(() => {
     if (selectedStation() && audioRef) {
       audioRef.src = selectedStation();
-      audioRef.play().catch((error) => {
+      audioRef.play().then(() => {
+        setIsPlaying(true);
+      }).catch((error) => {
         console.error('Error playing audio:', error);
       });
     }
   });
 
-  const handleStop = () => {
+  const handleStationChange = (e) => {
+    const stationUrl = e.target.value;
+    const index = stations().findIndex(station => station.url === stationUrl);
+    setSelectedStationIndex(index);
+    setSelectedStation(stationUrl);
+  };
+
+  const handlePlayPause = () => {
     if (audioRef) {
-      audioRef.pause();
-      audioRef.currentTime = 0;
+      if (isPlaying()) {
+        audioRef.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.play().then(() => {
+          setIsPlaying(true);
+        }).catch((error) => {
+          console.error('Error playing audio:', error);
+        });
+      }
+    }
+  };
+
+  const handlePreviousStation = () => {
+    if (stations().length > 0) {
+      let newIndex = selectedStationIndex() - 1;
+      if (newIndex < 0) {
+        newIndex = stations().length - 1; // wrap around to last station
+      }
+      setSelectedStationIndex(newIndex);
+      setSelectedStation(stations()[newIndex].url);
+    }
+  };
+
+  const handleNextStation = () => {
+    if (stations().length > 0) {
+      let newIndex = selectedStationIndex() + 1;
+      if (newIndex >= stations().length) {
+        newIndex = 0; // wrap around to first station
+      }
+      setSelectedStationIndex(newIndex);
+      setSelectedStation(stations()[newIndex].url);
     }
   };
 
@@ -108,7 +150,7 @@ function ArabicRadio() {
               <select
                 id="station"
                 value={selectedStation()}
-                onInput={(e) => setSelectedStation(e.target.value)}
+                onInput={handleStationChange}
                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
               >
                 <option value="">اختر المحطة</option>
@@ -122,12 +164,24 @@ function ArabicRadio() {
           </div>
         </Show>
         <Show when={selectedStation()}>
-          <div class="mt-4 flex items-center">
+          <div class="mt-4 flex items-center justify-center space-x-4 space-x-reverse">
             <button
-              class="cursor-pointer px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform box-border"
-              onClick={handleStop}
+              class="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform box-border"
+              onClick={handlePreviousStation}
             >
-              إيقاف
+              المحطة السابقة
+            </button>
+            <button
+              class="cursor-pointer px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform box-border"
+              onClick={handlePlayPause}
+            >
+              {isPlaying() ? 'إيقاف مؤقت' : 'تشغيل'}
+            </button>
+            <button
+              class="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform box-border"
+              onClick={handleNextStation}
+            >
+              المحطة التالية
             </button>
           </div>
           <audio
