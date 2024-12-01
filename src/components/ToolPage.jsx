@@ -9,7 +9,6 @@ import ImageGenerator from './ImageGenerator';
 import WebsiteBuilder from './WebsiteBuilder';
 import GeneratedSite from './GeneratedSite';
 import CVGenerator from './CVGenerator';
-import ImageToText from './ImageToText';
 
 function ToolPage() {
   const params = useParams();
@@ -39,8 +38,7 @@ function ToolPage() {
               <WebsiteBuilder setGeneratedSite={setGeneratedSite} />
             )}
             {toolName === 'cv-generator' && <CVGenerator />}
-            {toolName === 'image-text-extractor' && <ImageToText />}
-            {!(toolName in {'chat-assistant':1,'smart-writing-assistant':1,'smart-voice-assistant':1,'arabic-radio':1,'article-generator':1,'image-generator':1,'website-builder':1,'cv-generator':1,'image-text-extractor':1}) && (
+            {!(toolName in {'chat-assistant':1,'smart-writing-assistant':1,'smart-voice-assistant':1,'arabic-radio':1,'article-generator':1,'image-generator':1,'website-builder':1,'cv-generator':1}) && (
               <div class="text-center mt-8">
                 <h2 class="text-2xl font-bold mb-4 text-purple-600">الأداة غير متوفرة</h2>
                 <p class="text-lg mb-6">عذراً، الأداة التي طلبتها غير متوفرة حالياً.</p>
