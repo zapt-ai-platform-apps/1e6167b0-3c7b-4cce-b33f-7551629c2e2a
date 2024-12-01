@@ -126,7 +126,6 @@ function ShareApp() {
       </main>
 
       <footer class="bg-gray-200 text-center py-4">
-        <p>جميع الحقوق محفوظة © 2023 {appTitle}</p>
         <a
           href="https://www.zapt.ai"
           target="_blank"
