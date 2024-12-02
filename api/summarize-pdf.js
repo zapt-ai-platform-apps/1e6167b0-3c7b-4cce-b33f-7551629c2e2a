@@ -7,9 +7,11 @@ import fs from 'fs';
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
   environment: process.env.VITE_PUBLIC_APP_ENV,
-  tags: {
-    type: 'backend',
-    projectId: process.env.VITE_PUBLIC_APP_ID,
+  initialScope: {
+    tags: {
+      type: 'backend',
+      projectId: process.env.VITE_PUBLIC_APP_ID,
+    },
   },
 });
 
@@ -48,6 +50,14 @@ export default async function handler(req, res) {
         const pdfData = await pdfParse(data);
         let text = pdfData.text;
 
+        // Clean up the temporary file
+        try {
+          await fs.promises.unlink(file.filepath);
+        } catch (err) {
+          console.error('Error deleting temporary file:', err);
+          Sentry.captureException(err);
+        }
+
         if (!text) {
           console.error('PDF parsing failed: No text extracted.');
           return res.status(400).json({ error: 'تعذر استخراج النص من ملف PDF. يرجى التأكد من أن الملف صالح.' });
@@ -64,28 +74,23 @@ export default async function handler(req, res) {
         });
         const openai = new OpenAIApi(configuration);
 
-        const completion = await openai.createCompletion({
-          model: 'text-davinci-003',
-          prompt: `يرجى تلخيص النص التالي باللغة العربية:\n\n${text}`,
+        const completion = await openai.createChatCompletion({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            { role: 'system', content: 'أنت مساعد يقوم بتلخيص النصوص باللغة العربية.' },
+            { role: 'user', content: `يرجى تلخيص النص التالي باللغة العربية:\n\n${text}` },
+          ],
           max_tokens: 500,
           temperature: 0.5,
         });
 
-        const summary = completion.data.choices[0].text.trim();
+        const summary = completion.data.choices[0].message.content.trim();
 
         res.status(200).json({ summary });
       } catch (error) {
         console.error('Error processing PDF:', error);
         Sentry.captureException(error);
         res.status(500).json({ error: 'حدث خطأ أثناء معالجة الملف. يرجى المحاولة مرة أخرى.' });
-      } finally {
-        // Clean up the temporary file
-        try {
-          await fs.promises.unlink(file.filepath);
-        } catch (err) {
-          console.error('Error deleting temporary file:', err);
-          Sentry.captureException(err);
-        }
       }
     });
   } catch (error) {

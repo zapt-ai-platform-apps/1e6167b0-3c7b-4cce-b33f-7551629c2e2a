@@ -47,7 +47,7 @@ function PDFSummarizer() {
   };
 
   return (
-    <div class="flex flex-col flex-grow px-4 h-full">
+    <div class="flex flex-col flex-grow min-h-screen px-4">
       <div class="flex flex-col items-center mb-4">
         <h2 class="text-2xl font-bold text-purple-600 mb-2">ملخص المستندات الذكي</h2>
         <p class="text-lg text-center text-gray-700">قم بتحميل ملف PDF واحصل على ملخص سريع باستخدام الذكاء الاصطناعي</p>
@@ -57,7 +57,7 @@ function PDFSummarizer() {
           type="file"
           accept=".pdf"
           onChange={handleFileChange}
-          class="w-full max-w-md p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+          class="w-full max-w-md p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
         />
         <button
           type="submit"
@@ -76,6 +76,19 @@ function PDFSummarizer() {
           <div class="p-4 border border-gray-300 rounded-lg bg-white">
             <p class="whitespace-pre-wrap text-gray-800">{summary()}</p>
           </div>
+          <button
+            class="cursor-pointer mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
+            onClick={() => {
+              // Copy summary to clipboard
+              navigator.clipboard.writeText(summary()).then(() => {
+                alert('تم نسخ الملخص إلى الحافظة.');
+              }, (err) => {
+                console.error('Error copying to clipboard:', err);
+              });
+            }}
+          >
+            نسخ الملخص
+          </button>
         </div>
       </Show>
     </div>
