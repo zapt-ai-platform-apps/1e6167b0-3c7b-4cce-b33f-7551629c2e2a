@@ -23,6 +23,15 @@ function MainContent() {
         <p class="text-lg mb-8">
           استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
         </p>
+        <p class="text-xl font-semibold mb-6 text-purple-600">
+          انضم إلينا في رحلتنا نحو التميز وساهم في صنع الفرق!
+        </p>
+        <button
+          class="cursor-pointer px-6 py-3 mb-8 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform box-border"
+          onClick={() => navigate('/join-team')}
+        >
+          انضم للفريق
+        </button>
       </div>
       <div class="mb-8 flex justify-center">
         <select
