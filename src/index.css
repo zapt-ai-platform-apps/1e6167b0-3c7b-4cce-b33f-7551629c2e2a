@@ -54,3 +54,7 @@ button {
 button:hover {
   transform: scale(1.05);
 }
+
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+  box-sizing: border-box; /* Ensure 'box-border' is applied */
+}
