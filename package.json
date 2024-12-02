@@ -1,6 +1,6 @@
 {
   "name": "blind-accessibility",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "تطبيق مخصص لتوفير التقنيات والأدوات لمساعدة المكفوفين وضعاف البصر في حياتهم اليومية.",
   "type": "module",
   "scripts": {
@@ -12,23 +12,21 @@
     "node": "18.x"
   },
   "dependencies": {
-    "@sentry/browser": "^7.72.0",
-    "@sentry/node": "^7.72.0",
-    "@sentry/tracing": "^7.72.0",
+    "@sentry/browser": "^8.35.0",
+    "@sentry/node": "^8.35.0",
     "@solidjs/router": "^0.8.4",
     "solid-js": "^1.8.22",
     "@supabase/auth-ui-solid": "^0.3.8",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.3.1",
-    "@zapt/zapt-js": "^1.0.5",
+    "@zapt/zapt-js": "^1.0.6",
     "solid-markdown": "^2.0.13",
     "jsonwebtoken": "^9.0.0",
     "jszip": "^3.10.1",
     "file-saver": "^2.0.5",
     "docx": "^7.7.0",
     "node-fetch": "^2.6.7",
-    "form-data": "^4.0.0",
-    "multiparty": "^4.2.2",
+    "formidable": "^3.5.0",
     "pdf-parse": "^1.1.1",
     "openai": "^4.0.0"
   },
