@@ -2,7 +2,7 @@ import { render } from 'solid-js/web';
 import App from './App';
 import './index.css';
 import * as Sentry from "@sentry/browser";
-import { BrowserTracing } from "@sentry/tracing";
+import { BrowserTracing } from "@sentry/browser";
 import { Router } from '@solidjs/router';
 
 Sentry.init({
