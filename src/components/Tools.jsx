@@ -14,6 +14,7 @@ function Tools() {
         { name: 'مساعد الكتابة الذكي', description: 'أداة متقدمة تستخدم الذكاء الاصطناعي لمساعدتك على تحسين كتاباتك.' },
         { name: 'المساعد الصوتي الذكي', description: 'تفاعل صوتيًا مع المساعد للحصول على إجابات فورية.' },
         { name: 'منشئ السيرة الذاتية الذكي', description: 'أنشئ سيرة ذاتية احترافية بتنسيق ومظهر جذاب.' },
+        { name: 'ملخص المستندات الذكي', description: 'قم بتحميل ملفات PDF واحصل على ملخصات سريعة باستخدام الذكاء الاصطناعي.' },
       ],
     },
     {
@@ -54,6 +55,10 @@ function Tools() {
       navigate('/tools/smart-writing-assistant');
     } else if (toolName === 'المساعد الصوتي الذكي') {
       navigate('/tools/smart-voice-assistant');
+    } else if (toolName === 'منشئ السيرة الذاتية الذكي') {
+      navigate('/tools/cv-generator');
+    } else if (toolName === 'ملخص المستندات الذكي') {
+      navigate('/tools/pdf-summarizer');
     } else if (toolName === 'الراديو العربي') {
       navigate('/tools/arabic-radio');
     } else if (toolName === 'منشئ المحتوى النصي') {
@@ -62,8 +67,6 @@ function Tools() {
       navigate('/tools/image-generator');
     } else if (toolName === 'منشئ المواقع الذكي') {
       navigate('/tools/website-builder');
-    } else if (toolName === 'منشئ السيرة الذاتية الذكي') {
-      navigate('/tools/cv-generator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
