@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/node";
 import formidable from 'formidable';
 import pdfParse from 'pdf-parse';
 import { Configuration, OpenAIApi } from 'openai';
+import fs from 'fs';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
