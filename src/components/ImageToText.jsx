@@ -4,10 +4,12 @@ function ImageToText() {
   const [selectedFile, setSelectedFile] = createSignal(null);
   const [extractedText, setExtractedText] = createSignal('');
   const [loading, setLoading] = createSignal(false);
+  const [error, setError] = createSignal('');
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
     setExtractedText('');
+    setError('');
   };
 
   const handleExtractText = async () => {
@@ -18,27 +20,33 @@ function ImageToText() {
 
     setLoading(true);
     setExtractedText('');
+    setError('');
 
     const formData = new FormData();
     formData.append('language', 'ara');
     formData.append('isOverlayRequired', 'false');
     formData.append('file', selectedFile());
-    formData.append('apikey', import.meta.env.VITE_PUBLIC_OCRSPACE_API_KEY);
 
     try {
       const response = await fetch('https://api.ocr.space/parse/image', {
         method: 'POST',
+        headers: {
+          'apikey': import.meta.env.VITE_PUBLIC_OCRSPACE_API_KEY,
+        },
         body: formData,
       });
       const data = await response.json();
+      console.log('OCR response data:', data);
       if (data.IsErroredOnProcessing) {
-        alert('حدث خطأ أثناء معالجة الصورة: ' + data.ErrorMessage[0]);
-      } else {
+        setError('حدث خطأ أثناء معالجة الصورة: ' + data.ErrorMessage[0]);
+      } else if (data.ParsedResults && data.ParsedResults.length > 0) {
         setExtractedText(data.ParsedResults[0].ParsedText);
+      } else {
+        setError('لم يتم العثور على نص في الصورة.');
       }
     } catch (error) {
       console.error('Error extracting text:', error);
-      alert('حدث خطأ أثناء استخراج النص. يرجى المحاولة مرة أخرى.');
+      setError('حدث خطأ أثناء استخراج النص. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
@@ -67,11 +75,16 @@ function ImageToText() {
           {loading() ? 'جاري الاستخراج...' : 'استخراج النص'}
         </button>
       </div>
+      <Show when={error()}>
+        <div class="mt-4 text-red-600 font-semibold">
+          {error()}
+        </div>
+      </Show>
       <Show when={extractedText()}>
         <div class="mt-4">
           <h3 class="text-lg font-bold mb-2 text-purple-600">النص المُستخرج:</h3>
-          <div class="p-4 border border-gray-300 rounded-lg bg-white">
-            <p class="whitespace-pre-wrap text-gray-800">{extractedText()}</p>
+          <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
+            <p class="whitespace-pre-wrap text-gray-800" style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}>{extractedText()}</p>
           </div>
         </div>
       </Show>
