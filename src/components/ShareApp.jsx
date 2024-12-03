@@ -3,10 +3,13 @@ import { createSignal, For, Show } from 'solid-js';
 function ShareApp() {
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
-  const [copySuccess, setCopySuccess] = createSignal('');
   const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a.vercel.app';
   const appDownloadLink = 'https://archive.org/download/Blindaccess/Blindaccess.apk';
   const audioLink = 'https://archive.org/download/20241203_20241203_2054/%D8%AA%D8%AD%D9%85%D9%8A%D9%84%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82.mp3';
+
+  const [isPlaying, setIsPlaying] = createSignal(false);
+  const [copySuccess, setCopySuccess] = createSignal('');
+  let audioRef;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(appLink).then(
@@ -20,14 +23,22 @@ function ShareApp() {
     );
   };
 
-  // روابط المشاركة على وسائل التواصل الاجتماعي
-  const shareText = encodeURIComponent(appDescription);
-  const shareUrl = encodeURIComponent(appLink);
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
-  const whatsappShareUrl = `https://wa.me/?text=${shareText}%20${shareUrl}`;
-  const telegramShareUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareText}`;
+  const handlePlayPause = () => {
+    if (audioRef) {
+      if (isPlaying()) {
+        audioRef.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.play();
+        setIsPlaying(true);
+        audioRef.onended = () => {
+          setIsPlaying(false);
+        };
+      }
+    }
+  };
 
+  // ميزات التطبيق
   const features = [
     'تجربة مستخدم محسنة للمكفوفين وضعاف البصر',
     'خدمات وأدوات متعددة في مكان واحد',
@@ -48,11 +59,17 @@ function ShareApp() {
             تحميل التطبيق
           </button>
           <div class="mt-6">
-            <audio
-              controls
-              class="w-full max-w-lg mx-auto"
+            <button
+              class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 ease-in-out transform"
+              onClick={handlePlayPause}
             >
-              <source src={audioLink} type="audio/mpeg" />
+              {isPlaying() ? 'إيقاف' : 'تشغيل'}
+            </button>
+            <audio
+              ref={(el) => (audioRef = el)}
+              src={audioLink}
+              class="hidden"
+            >
               متصفحك لا يدعم تشغيل الصوت. يرجى تحديث المتصفح أو استخدام متصفح آخر.
             </audio>
           </div>
@@ -95,7 +112,7 @@ function ShareApp() {
             </p>
             <div class="flex space-x-4 space-x-reverse justify-center mb-6">
               <a
-                href={facebookShareUrl}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(appLink)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
@@ -103,7 +120,7 @@ function ShareApp() {
                 <img src="/assets/facebook.svg" alt="فيسبوك" class="w-12 h-12" />
               </a>
               <a
-                href={twitterShareUrl}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(appDescription)}&url=${encodeURIComponent(appLink)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
@@ -111,7 +128,7 @@ function ShareApp() {
                 <img src="/assets/twitter.svg" alt="تويتر" class="w-12 h-12" />
               </a>
               <a
-                href={whatsappShareUrl}
+                href={`https://wa.me/?text=${encodeURIComponent(appDescription)}%20${encodeURIComponent(appLink)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
@@ -119,7 +136,7 @@ function ShareApp() {
                 <img src="/assets/whatsapp.svg" alt="واتساب" class="w-12 h-12" />
               </a>
               <a
-                href={telegramShareUrl}
+                href={`https://t.me/share/url?url=${encodeURIComponent(appLink)}&text=${encodeURIComponent(appDescription)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cursor-pointer transform hover:scale-105 transition duration-300"
