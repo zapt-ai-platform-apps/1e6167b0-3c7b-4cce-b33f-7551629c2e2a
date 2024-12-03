@@ -13,17 +13,7 @@ function Services() {
         // No services currently available
       ],
     },
-    {
-      name: 'خدمات لأجلكم',
-      description: 'اكتشف خدمات مصممة خصيصًا لتلبية احتياجاتك.',
-      services: [
-        {
-          name: 'اطلب تطبيقك الخاص',
-          description: 'صمم تطبيقًا مخصصًا يلبي احتياجاتك الخاصة.',
-          link: '/services/custom-app-request',
-        },
-      ],
-    },
+    // Removed 'خدمات لأجلكم' category
   ];
 
   const handleServiceClick = (service) => {

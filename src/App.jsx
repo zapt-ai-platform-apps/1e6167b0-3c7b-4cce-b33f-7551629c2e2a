@@ -13,7 +13,6 @@ import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
-import CustomAppRequest from './components/CustomAppRequest';
 import JoinTeam from './components/JoinTeam';
 import RateApp from './components/RateApp';
 
@@ -56,7 +55,7 @@ function App() {
           <Route path="/" element={<MainContent />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/free-courses" element={<FreeCourses />} />
-          <Route path="/services/custom-app-request" element={<CustomAppRequest />} />
+          {/* Removed the route to CustomAppRequest */}
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:toolName/*" element={<ToolPage />} />
           <Route path="/account" element={
