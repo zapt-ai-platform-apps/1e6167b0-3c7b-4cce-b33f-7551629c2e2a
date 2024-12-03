@@ -73,7 +73,7 @@ function ShareApp() {
               class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 ease-in-out transform"
               onClick={handlePlayPause}
             >
-              {isPlaying() ? 'إيقاف' : 'تشغيل'}
+              {isPlaying() ? 'إيقاف المقطع الصوتي' : 'تشغيل المقطع الصوتي'}
             </button>
             <audio
               ref={(el) => (audioRef = el)}
