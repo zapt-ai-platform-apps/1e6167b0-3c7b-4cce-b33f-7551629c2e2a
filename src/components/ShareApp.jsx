@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, For, Show } from 'solid-js';
 
 function ShareApp() {
@@ -166,4 +165,3 @@ function ShareApp() {
 }
 
 export default ShareApp;
-```
