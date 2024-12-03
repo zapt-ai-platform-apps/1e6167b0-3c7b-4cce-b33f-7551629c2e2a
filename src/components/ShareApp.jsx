@@ -68,12 +68,6 @@ function ShareApp() {
         <div class="container mx-auto px-4 text-center">
           <h1 class="text-4xl font-bold mb-4">{appTitle}</h1>
           <p class="text-xl">{appDescription}</p>
-          <button
-            class="cursor-pointer mt-6 px-8 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
-            onClick={() => window.open(appDownloadLink, '_blank')}
-          >
-            تحميل التطبيق
-          </button>
           <div class="mt-6">
             <button
               class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 ease-in-out transform"
@@ -89,6 +83,12 @@ function ShareApp() {
               متصفحك لا يدعم تشغيل الصوت. يرجى تحديث المتصفح أو استخدام متصفح آخر.
             </audio>
           </div>
+          <button
+            class="cursor-pointer mt-6 px-8 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
+            onClick={() => window.open(appDownloadLink, '_blank')}
+          >
+            تحميل التطبيق
+          </button>
         </div>
       </header>
 
@@ -112,7 +112,9 @@ function ShareApp() {
                       {...{ 'data-image-request': `Icon representing ${feature}` }}
                       class="w-16 h-16 mx-auto mb-4"
                     />
-                    <p class="text-center text-gray-800 font-semibold">{feature}</p>
+                    <p class="text-center text-gray-800 font-semibold">
+                      {feature}
+                    </p>
                   </div>
                 )}
               </For>
