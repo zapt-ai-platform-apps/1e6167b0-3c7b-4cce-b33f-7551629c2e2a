@@ -21,6 +21,7 @@ function Tools() {
       description: 'أدوات مصممة خصيصًا لتعزيز إمكانية الوصول للمستخدمين.',
       tools: [
         { name: 'أداة استخراج النص من الصورة', description: 'استخرج النصوص من الصور باستخدام تقنية OCR المتقدمة.' },
+        { name: 'قارئ PDF الاحترافي', description: 'اقرأ ملفات PDF باستخدام تقنية OCR المتقدمة والذكاء الاصطناعي.' },
       ],
     },
     {
@@ -66,6 +67,8 @@ function Tools() {
       navigate('/tools/website-builder');
     } else if (toolName === 'أداة استخراج النص من الصورة') {
       navigate('/tools/image-to-text');
+    } else if (toolName === 'قارئ PDF الاحترافي') {
+      navigate('/tools/pdf-reader');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
