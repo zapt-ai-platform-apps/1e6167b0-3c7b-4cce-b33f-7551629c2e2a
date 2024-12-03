@@ -1,14 +1,17 @@
 import { createSignal, Show } from 'solid-js';
+import { createEvent } from '../supabaseClient';
 
 function ImageToText() {
   const [selectedFile, setSelectedFile] = createSignal(null);
   const [extractedText, setExtractedText] = createSignal('');
+  const [processedText, setProcessedText] = createSignal('');
   const [loading, setLoading] = createSignal(false);
   const [error, setError] = createSignal('');
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
     setExtractedText('');
+    setProcessedText('');
     setError('');
   };
 
@@ -20,6 +23,7 @@ function ImageToText() {
 
     setLoading(true);
     setExtractedText('');
+    setProcessedText('');
     setError('');
 
     const formData = new FormData();
@@ -28,6 +32,7 @@ function ImageToText() {
     formData.append('file', selectedFile());
 
     try {
+      // OCR processing
       const response = await fetch('https://api.ocr.space/parse/image', {
         method: 'POST',
         headers: {
@@ -36,11 +41,25 @@ function ImageToText() {
         body: formData,
       });
       const data = await response.json();
-      console.log('OCR response data:', data);
       if (data.IsErroredOnProcessing) {
         setError('حدث خطأ أثناء معالجة الصورة: ' + data.ErrorMessage[0]);
       } else if (data.ParsedResults && data.ParsedResults.length > 0) {
-        setExtractedText(data.ParsedResults[0].ParsedText);
+        const extracted = data.ParsedResults[0].ParsedText;
+        setExtractedText(extracted);
+
+        // AI processing
+        const prompt = `قم بتصحيح النص العربي التالي، وتنسيقه بطريقة احترافية، مع إضافة علامات الترقيم والفقرات المناسبة، وتصحيح أي أخطاء، وقدم النص المنسق فقط:
+
+النص:
+${extracted}`;
+
+        const aiResponse = await createEvent('chatgpt_request', {
+          prompt: prompt,
+          response_type: 'text',
+        });
+
+        setProcessedText(aiResponse);
+
       } else {
         setError('لم يتم العثور على نص في الصورة.');
       }
@@ -56,7 +75,7 @@ function ImageToText() {
     <div class="flex flex-col flex-grow px-4 h-full">
       <div class="flex flex-col items-center mb-4">
         <h2 class="text-2xl font-bold text-purple-600 mb-2">أداة استخراج النص من الصورة</h2>
-        <p class="text-lg text-center text-gray-700">قم بتحميل صورة تحتوي على نص ليتم استخراج النص منها باستخدام تقنية OCR</p>
+        <p class="text-lg text-center text-gray-700">قم بتحميل صورة تحتوي على نص ليتم استخراج نص صحيح ومنسق احترافيًا باستخدام تقنية OCR والذكاء الاصطناعي</p>
       </div>
       <div class="flex flex-col items-center">
         <input
@@ -80,7 +99,15 @@ function ImageToText() {
           {error()}
         </div>
       </Show>
-      <Show when={extractedText()}>
+      <Show when={processedText()}>
+        <div class="mt-4">
+          <h3 class="text-lg font-bold mb-2 text-purple-600">النص المُستخرج والمنسق:</h3>
+          <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
+            <p class="whitespace-pre-wrap text-gray-800" style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}>{processedText()}</p>
+          </div>
+        </div>
+      </Show>
+      <Show when={!processedText() && extractedText()}>
         <div class="mt-4">
           <h3 class="text-lg font-bold mb-2 text-purple-600">النص المُستخرج:</h3>
           <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
