@@ -34,13 +34,13 @@ function SmartWritingAssistant() {
     let prompt = '';
 
     if (selectedOption() === 'تصحيح') {
-      prompt = `Please correct the following text in Arabic and provide the corrected version only: ${userText()}`;
+      prompt = `من فضلك قم بتصحيح النص التالي بالعربية وقدم النسخة المصححة فقط: ${userText()}`;
     } else if (selectedOption() === 'تلخيص') {
-      prompt = `Please summarize the following text in Arabic and provide the summary only: ${userText()}`;
+      prompt = `من فضلك قم بتلخيص النص التالي بالعربية وقدم الملخص فقط: ${userText()}`;
     } else if (selectedOption() === 'تحسين') {
-      prompt = `Please improve the following text in Arabic for better clarity and style, and provide the improved version only: ${userText()}`;
+      prompt = `من فضلك قم بتحسين النص التالي بالعربية لتحسين الوضوح والأسلوب، وقدم النسخة المُحسَّنة فقط: ${userText()}`;
     } else if (selectedOption() === 'تشكيل') {
-      prompt = `Please add Arabic diacritics (Tashkeel) to the following text and provide the fully diacritized text only: ${userText()}`;
+      prompt = `من فضلك قم بإضافة التشكيل الكامل للنص التالي وقدم النص المُشَكَّل بالكامل فقط: ${userText()}`;
     } else if (selectedOption() === 'ترجمة') {
       if (!selectedLanguage()) {
         alert('يرجى اختيار اللغة للترجمة.');
@@ -94,9 +94,9 @@ function SmartWritingAssistant() {
             class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer md:flex-1"
           >
             <option value="">اختر العملية</option>
-            <For each={options}>{(option) => (
+            {options.map((option) => (
               <option value={option}>{option}</option>
-            )}</For>
+            ))}
           </select>
 
           <Show when={selectedOption() === 'ترجمة'}>
@@ -106,18 +106,25 @@ function SmartWritingAssistant() {
               class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer md:flex-1"
             >
               <option value="">اختر اللغة</option>
-              <For each={languages}>{(language) => (
+              {languages.map((language) => (
                 <option value={language}>{language}</option>
-              )}</For>
+              ))}
             </select>
           </Show>
         </div>
         <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg transition duration-300 ease-in-out transform box-border ${
+            loading() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700 hover:scale-105'
+          }`}
           onClick={handleExecute}
           disabled={loading()}
         >
-          <Show when={!loading()} fallback="جاري التنفيذ...">
+          <Show when={!loading()} fallback={
+            <div class="flex items-center justify-center">
+              <span class="loader mr-2"></span>
+              جاري التنفيذ...
+            </div>
+          }>
             تنفيذ
           </Show>
         </button>

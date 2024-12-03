@@ -1,4 +1,4 @@
-import { createSignal, Show, For } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { createEvent } from '../supabaseClient';
 
 function ArticleGenerator() {
@@ -60,18 +60,23 @@ function ArticleGenerator() {
           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer mb-4"
         >
           <option value="">اختر نوع المحتوى</option>
-          <For each={contentTypes}>
-            {(type) => (
-              <option value={type}>{type}</option>
-            )}
-          </For>
+          {contentTypes.map((type) => (
+            <option value={type}>{type}</option>
+          ))}
         </select>
         <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg transition duration-300 ease-in-out transform box-border ${
+            loading() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700 hover:scale-105'
+          }`}
           onClick={handleGenerateContent}
           disabled={loading()}
         >
-          <Show when={!loading()} fallback="جاري التوليد...">
+          <Show when={!loading()} fallback={
+            <div class="flex items-center justify-center">
+              <span class="loader mr-2"></span>
+              جاري التوليد...
+            </div>
+          }>
             إنشاء
           </Show>
         </button>

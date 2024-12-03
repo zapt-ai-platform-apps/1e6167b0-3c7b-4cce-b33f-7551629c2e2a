@@ -15,9 +15,10 @@ function Services() {
           description: 'انضم إلى دوراتنا التدريبية المجانية وطور مهاراتك في مختلف المجالات!',
           link: '/services/free-courses',
         },
+        // أضف المزيد من الخدمات هنا
       ],
     },
-    // Other categories...
+    // أضف فئات أخرى إذا لزم الأمر
   ];
 
   const handleServiceClick = (service) => {
@@ -77,10 +78,12 @@ function Services() {
                   {service.description}
                 </p>
                 <button
-                  class="cursor-pointer px-4 py-2 mt-2 bg-primary-dark text-white rounded-lg hover:scale-105 transition duration-300 ease-in-out"
+                  class={`cursor-pointer px-4 py-2 mt-2 bg-primary-dark text-white rounded-lg transition duration-300 ease-in-out transform ${
+                    loading() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+                  }`}
                   onClick={() => handleServiceClick(service)}
                 >
-                  عرض الخدمة
+                  {loading() ? 'جاري التحميل...' : 'عرض الخدمة'}
                 </button>
               </div>
             )}</For>
