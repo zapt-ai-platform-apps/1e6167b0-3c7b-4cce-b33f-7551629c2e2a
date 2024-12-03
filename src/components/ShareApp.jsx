@@ -1,4 +1,3 @@
-```jsx
 import { createSignal, For, Show, onMount } from 'solid-js';
 
 function ShareApp() {
@@ -110,7 +109,7 @@ function ShareApp() {
                     <img
                       src="PLACEHOLDER"
                       alt={feature}
-                      data-image-request={`Icon representing ${feature}`}
+                      {...{ 'data-image-request': `Icon representing ${feature}` }}
                       class="w-16 h-16 mx-auto mb-4"
                     />
                     <p class="text-center text-gray-800 font-semibold">{feature}</p>
@@ -199,4 +198,3 @@ function ShareApp() {
 }
 
 export default ShareApp;
-```
