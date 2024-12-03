@@ -3,8 +3,8 @@ import { createSignal, Show, For } from 'solid-js';
 function FreeCourses() {
   const [courses] = createSignal([
     {
-      name: 'دورة التسويق الرقمي',
-      description: 'اكتشف استراتيجيات التسويق الرقمي وكيفية تطبيقها بشكل فعال.',
+      name: 'دورة في أساسيات التسويق الرقمي',
+      description: 'اكتشف أساسيات التسويق الرقمي وكيفية تطبيقها بشكل فعال.',
     },
   ]);
 
