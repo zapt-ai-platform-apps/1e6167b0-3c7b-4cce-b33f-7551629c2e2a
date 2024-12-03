@@ -1,3 +1,4 @@
+```jsx
 import { createSignal, For, Show } from 'solid-js';
 
 function ShareApp() {
@@ -6,6 +7,7 @@ function ShareApp() {
   const [copySuccess, setCopySuccess] = createSignal('');
   const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a.vercel.app';
   const appDownloadLink = 'https://archive.org/download/Blindaccess/Blindaccess.apk';
+  const audioLink = 'https://archive.org/download/20241203_20241203_2054/%D8%AA%D8%AD%D9%85%D9%8A%D9%84%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82.mp3';
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(appLink).then(
@@ -46,6 +48,15 @@ function ShareApp() {
           >
             تحميل التطبيق
           </button>
+          <div class="mt-6">
+            <audio
+              controls
+              class="w-full max-w-lg mx-auto"
+            >
+              <source src={audioLink} type="audio/mpeg" />
+              متصفحك لا يدعم تشغيل الصوت. يرجى تحديث المتصفح أو استخدام متصفح آخر.
+            </audio>
+          </div>
         </div>
       </header>
 
@@ -139,9 +150,20 @@ function ShareApp() {
             </div>
           </section>
         </div>
+        <div class="mt-8 text-center text-gray-700">
+          <a
+            href="https://www.zapt.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-500 hover:underline"
+          >
+            تم الإنشاء باستخدام ZAPT
+          </a>
+        </div>
       </main>
     </div>
   );
 }
 
 export default ShareApp;
+```
