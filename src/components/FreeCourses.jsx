@@ -1,7 +1,20 @@
 import { createSignal, Show, For } from 'solid-js';
 
 function FreeCourses() {
-  const [courses] = createSignal([]); // Now empty
+  const [courses] = createSignal([
+    {
+      name: 'دورة تطوير الويب',
+      description: 'تعلم كيفية بناء مواقع إلكترونية باستخدام HTML و CSS و JavaScript.',
+    },
+    {
+      name: 'دورة أساسيات لغة Python',
+      description: 'ابدأ رحلتك في تعلم لغة Python من الأساسيات حتى الاحتراف.',
+    },
+    {
+      name: 'دورة التسويق الرقمي',
+      description: 'اكتشف استراتيجيات التسويق الرقمي وكيفية تطبيقها بشكل فعال.',
+    },
+  ]);
 
   const handleEnroll = (courseName) => {
     alert(`تم تسجيلك في دورة "${courseName}". سنتواصل معك قريبًا.`);
