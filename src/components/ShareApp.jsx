@@ -1,4 +1,5 @@
-import { createSignal, For, Show } from 'solid-js';
+```jsx
+import { createSignal, For, Show, onMount } from 'solid-js';
 
 function ShareApp() {
   const appTitle = 'Blind Accessibility';
@@ -29,14 +30,30 @@ function ShareApp() {
         audioRef.pause();
         setIsPlaying(false);
       } else {
-        audioRef.play();
+        audioRef.play().then(() => {
+          setIsPlaying(true);
+          audioRef.onended = () => {
+            setIsPlaying(false);
+          };
+        }).catch((error) => {
+          console.error('Error playing audio:', error);
+        });
+      }
+    }
+  };
+
+  onMount(() => {
+    if (audioRef) {
+      audioRef.play().then(() => {
         setIsPlaying(true);
         audioRef.onended = () => {
           setIsPlaying(false);
         };
-      }
+      }).catch((error) => {
+        console.error('Error auto-playing audio:', error);
+      });
     }
-  };
+  });
 
   // ميزات التطبيق
   const features = [
@@ -182,3 +199,4 @@ function ShareApp() {
 }
 
 export default ShareApp;
+```
