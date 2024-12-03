@@ -13,17 +13,18 @@
 5. [إدارة حساب المستخدم](docs/journeys/manage-account.md) - تحديث معلومات حسابك الشخصي وإعداداتك.
 6. [استكشاف الخدمات المجانية](docs/journeys/explore-services.md) - تصفّح الخدمات المجانية المتاحة لتعزيز استقلاليتك.
 7. [استكشاف الأدوات](docs/journeys/explore-tools.md) - اختر فئة الأدوات التي تهمك واستمتع بمجموعة من الأدوات المصممة خصيصًا لك.
-8. [استخدام منشئ الصور بالذكاء الاصطناعي](docs/journeys/use-ai-image-generator.md) - أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.
-9. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md) - تواصل معنا عبر منصات التواصل الاجتماعي.
-10. [عرض الإعلانات العشوائية](docs/journeys/view-random-advertisements.md) - تعرف على أحدث الأدوات والخدمات من خلال الإعلانات العشوائية على الصفحة الرئيسية.
-11. [استخدام منشئ المواقع الذكي](docs/journeys/use-smart-website-builder.md) - قم بتوليد موقع احترافي متكامل وبتنسيق ومظهر احترافي.
-12. [تحميل الموقع المولد](docs/journeys/download-generated-website.md) - قم بتحميل الموقع الذي تم إنشاؤه بصيغة ZIP لاستخدامه لاحقًا.
-13. [تعديل الموقع المولد](docs/journeys/edit-generated-website-using-ai.md) - قم بتعديل الموقع الذي تم إنشاؤه باستخدام الذكاء الاصطناعي.
-14. [استخدام منشئ السيرة الذاتية الذكي](docs/journeys/use-smart-cv-generator.md) - أنشئ سيرة ذاتية احترافية بتنسيق ومظهر جذاب.
-15. [مشاركة التطبيق](docs/journeys/share-the-app.md) - شارك التطبيق مع الآخرين واكتشف المزيد من التفاصيل
-16. [طلب تطبيقك الخاص](docs/journeys/request-custom-app.md) - صمم تطبيقًا مخصصًا يلبي احتياجاتك الخاصة
-17. [انضم إلى الفريق](docs/journeys/join-team.md) - انضم إلى فريقنا وساهم في تطوير التطبيق
-18. [تقييم التطبيق](docs/journeys/rate-the-app.md) - شاركنا رأيك وساهم في تحسين التطبيق
+8. [استخدام أداة استخراج النص من الصورة](docs/journeys/use-image-to-text-tool.md) - استخراج النصوص من الصور باستخدام تقنية OCR المتقدمة.
+9. [استخدام منشئ الصور بالذكاء الاصطناعي](docs/journeys/use-ai-image-generator.md) - أنشئ صورًا باستخدام الذكاء الاصطناعي بناءً على وصفك.
+10. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md) - تواصل معنا عبر منصات التواصل الاجتماعي.
+11. [عرض الإعلانات العشوائية](docs/journeys/view-random-advertisements.md) - تعرف على أحدث الأدوات والخدمات من خلال الإعلانات العشوائية على الصفحة الرئيسية.
+12. [استخدام منشئ المواقع الذكي](docs/journeys/use-smart-website-builder.md) - قم بتوليد موقع احترافي متكامل وبتنسيق ومظهر احترافي.
+13. [تحميل الموقع المولد](docs/journeys/download-generated-website.md) - قم بتحميل الموقع الذي تم إنشاؤه بصيغة ZIP لاستخدامه لاحقًا.
+14. [تعديل الموقع المولد](docs/journeys/edit-generated-website-using-ai.md) - قم بتعديل الموقع الذي تم إنشاؤه باستخدام الذكاء الاصطناعي.
+15. [استخدام منشئ السيرة الذاتية الذكي](docs/journeys/use-smart-cv-generator.md) - أنشئ سيرة ذاتية احترافية بتنسيق ومظهر جذاب.
+16. [مشاركة التطبيق](docs/journeys/share-the-app.md) - شارك التطبيق مع الآخرين واكتشف المزيد من التفاصيل.
+17. [طلب تطبيقك الخاص](docs/journeys/request-custom-app.md) - صمم تطبيقًا مخصصًا يلبي احتياجاتك الخاصة.
+18. [انضم إلى الفريق](docs/journeys/join-team.md) - انضم إلى فريقنا وساهم في تطوير التطبيق.
+19. [تقييم التطبيق](docs/journeys/rate-the-app.md) - شاركنا رأيك وساهم في تحسين التطبيق
 
 **ملاحظة:** على الأجهزة المحمولة، استخدم زر القائمة في أعلى الصفحة لفتح أو إغلاق قائمة التنقل.
 
@@ -34,6 +35,7 @@
 - **Supabase Auth and Database**: نستخدم Supabase لإدارة عمليات تسجيل الدخول وإنشاء الحسابات وتخزين بيانات المستخدمين والمحتوى.
 - **OpenAI API**: نستخدم OpenAI لتشغيل ميزات الذكاء الاصطناعي مثل مساعد الكتابة ومنشئ المحتوى.
 - **Radio-Browser API**: لجلب المحطات الإذاعية العربية في أداة الراديو العربي.
+- **OCR.space API**: نستخدم OCR.space لاستخراج النصوص من الصور باستخدام تقنية التعرف الضوئي على الحروف (OCR).
 
 # Required Environment Variables
 
@@ -41,6 +43,7 @@
 - `VITE_PUBLIC_APP_ENV`: The application environment (e.g., production).
 - `VITE_PUBLIC_APP_ID`: Your ZAPT App ID.
 - `VITE_PUBLIC_UMAMI_WEBSITE_ID`: Your Umami Website ID for analytics.
+- `VITE_PUBLIC_OCRSPACE_API_KEY`: Your OCR.space API Key.
 - `OPENAI_API_KEY`: Your OpenAI API Key.
 - `SUPABASE_URL`: Your Supabase Project URL.
 - `SUPABASE_ANON_KEY`: Your Supabase Anonymous Public API Key.

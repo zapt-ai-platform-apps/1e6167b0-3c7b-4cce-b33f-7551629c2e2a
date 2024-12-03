@@ -20,7 +20,7 @@ function Tools() {
       name: 'أدوات إمكانية الوصول',
       description: 'أدوات مصممة خصيصًا لتعزيز إمكانية الوصول للمستخدمين.',
       tools: [
-        // حاليًا لا توجد أدوات في هذه الفئة
+        { name: 'أداة استخراج النص من الصورة', description: 'استخرج النصوص من الصور باستخدام تقنية OCR المتقدمة.' },
       ],
     },
     {
@@ -64,6 +64,8 @@ function Tools() {
       navigate('/tools/image-generator');
     } else if (toolName === 'منشئ المواقع الذكي') {
       navigate('/tools/website-builder');
+    } else if (toolName === 'أداة استخراج النص من الصورة') {
+      navigate('/tools/image-to-text');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
