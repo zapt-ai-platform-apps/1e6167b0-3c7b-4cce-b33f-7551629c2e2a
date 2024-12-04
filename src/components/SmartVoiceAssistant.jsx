@@ -1,5 +1,9 @@
-import { createSignal, onMount, onCleanup } from 'solid-js';
+import { createSignal, onMount, onCleanup, Show } from 'solid-js';
 import { createEvent } from '../supabaseClient';
+import MessageList from './MessageList';
+import SpeakButton from './SpeakButton';
+import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
+import { playAudio } from '../utils/audioPlayer';
 
 function SmartVoiceAssistant() {
   const [messages, setMessages] = createSignal([
@@ -8,100 +12,55 @@ function SmartVoiceAssistant() {
       content: 'مرحباً! أنا المساعد الصوتي الذكي. كيف يمكنني مساعدتك اليوم؟',
     },
   ]);
-  const [listening, setListening] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [audioUrl, setAudioUrl] = createSignal('');
 
-  let recognition;
-  let audioPlayer = new Audio();
+  const { listening, startRecognition, stopRecognition } = useSpeechRecognition(
+    async (transcript) => {
+      setMessages([...messages(), { role: 'user', content: transcript }]);
+      setLoading(true);
+      try {
+        const response = await createEvent('chatgpt_request', {
+          prompt: transcript,
+          response_type: 'text',
+        });
+        setMessages([
+          ...messages(),
+          { role: 'assistant', content: response },
+        ]);
 
-  onMount(() => {
-    if ('webkitSpeechRecognition' in window) {
-      const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = 'ar-EG';
-      recognition.continuous = false;
-      recognition.interimResults = false;
+        // Generate AI voice audio
+        const audioResponse = await createEvent('text_to_speech', {
+          text: response,
+        });
 
-      recognition.onresult = async function (event) {
-        const transcript = event.results[0][0].transcript;
-        setMessages([...messages(), { role: 'user', content: transcript }]);
-        setLoading(true);
-        try {
-          const response = await createEvent('chatgpt_request', {
-            prompt: transcript,
-            response_type: 'text',
-          });
-          setMessages([
-            ...messages(),
-            { role: 'assistant', content: response },
-          ]);
-
-          // Generate AI voice audio
-          const audioResponse = await createEvent('text_to_speech', {
-            text: response,
-          });
-
-          if (audioResponse) {
-            setAudioUrl(audioResponse);
-            playAudio(audioResponse);
-          } else {
-            alert('حدث خطأ أثناء توليد الصوت.');
-          }
-        } catch (error) {
-          console.error('Error communicating with assistant:', error);
-          setMessages([
-            ...messages(),
-            {
-              role: 'assistant',
-              content:
-                'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.',
-            },
-          ]);
-        } finally {
-          setLoading(false);
+        if (audioResponse) {
+          setAudioUrl(audioResponse);
+          playAudio(audioResponse);
+        } else {
+          alert('حدث خطأ أثناء توليد الصوت.');
         }
-      };
-
-      recognition.onerror = function (event) {
-        console.error('Speech recognition error:', event.error);
-        setListening(false);
-      };
-
-      recognition.onend = function () {
-        setListening(false);
-      };
-    } else {
-      alert('متصفحك لا يدعم التعرف على الصوت.');
-    }
-  });
-
-  const handleListen = () => {
-    if (recognition) {
-      if (!listening()) {
-        recognition.start();
-        setListening(true);
-      } else {
-        recognition.stop();
-        setListening(false);
+      } catch (error) {
+        console.error('Error communicating with assistant:', error);
+        setMessages([
+          ...messages(),
+          {
+            role: 'assistant',
+            content:
+              'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.',
+          },
+        ]);
+      } finally {
+        setLoading(false);
       }
+    },
+    () => {
+      setLoading(false);
     }
-  };
-
-  const playAudio = (url) => {
-    audioPlayer.src = url;
-    audioPlayer
-      .play()
-      .catch((error) => {
-        console.error('Error playing audio:', error);
-      });
-  };
+  );
 
   onCleanup(() => {
-    if (recognition && listening()) {
-      recognition.stop();
-    }
+    stopRecognition();
   });
 
   return (
@@ -109,43 +68,26 @@ function SmartVoiceAssistant() {
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold text-purple-600">المساعد الصوتي الذكي</h2>
       </div>
-      <div class="flex-grow overflow-y-auto mb-4 p-2 border border-gray-300 rounded">
-        {messages().map((message) => (
-          <div
-            class={`mb-2 ${
-              message.role === 'user' ? 'text-right' : 'text-left'
-            }`}
-          >
-            <div
-              class={`inline-block px-3 py-2 rounded-lg ${
-                message.role === 'user'
-                  ? 'bg-blue-100 text-gray-800'
-                  : 'bg-gray-100 text-gray-800'
-              }`}
-            >
-              {message.content}
-            </div>
-          </div>
-        ))}
-        {loading() && (
-          <div class="text-left">
-            <div class="inline-block px-3 py-2 rounded-lg bg-gray-100 text-gray-800">
-              جاري المعالجة...
-            </div>
-          </div>
-        )}
-      </div>
-      <div class="flex justify-center">
-        <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition duration-300 ease-in-out transform box-border ${
-            listening() ? 'bg-red-600 hover:bg-red-700' : ''
-          }`}
-          onClick={handleListen}
+      <div class="flex flex-col mb-4">
+        <SpeakButton
+          listening={listening()}
+          onListen={listening() ? stopRecognition : startRecognition}
           disabled={loading()}
-        >
-          {listening() ? 'إيقاف' : 'تحدث'}
-        </button>
+        />
       </div>
+      <div class="mb-4">
+        <Show when={messages().length > 0}>
+          <MessageList messages={messages()} />
+        </Show>
+      </div>
+      <Show when={loading()}>
+        <p class="text-center text-gray-600">جارٍ معالجة...</p>
+      </Show>
+      <Show when={audioUrl()}>
+        <div class="mb-4">
+          <audio controls src={audioUrl()} class="w-full" />
+        </div>
+      </Show>
     </div>
   );
 }
