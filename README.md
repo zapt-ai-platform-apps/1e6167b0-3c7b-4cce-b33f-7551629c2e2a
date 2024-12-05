@@ -22,9 +22,8 @@
 14. [تعديل الموقع المولد](docs/journeys/edit-generated-website-using-ai.md)
 15. [استخدام منشئ السيرة الذاتية الذكي](docs/journeys/use-smart-cv-generator.md)
 16. [مشاركة التطبيق](docs/journeys/share-the-app.md)
-17. [تقييم التطبيق](docs/journeys/rate-the-app.md)
-18. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md)
-19. [استكشاف أهم التطبيقات](docs/journeys/explore-essential-apps.md) - صفحة بأهم التطبيقات التي يحتاجها كل كفيف باحترافية
+17. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md)
+18. [استكشاف أهم التطبيقات](docs/journeys/explore-essential-apps.md) - صفحة بأهم التطبيقات التي يحتاجها كل كفيف باحترافية
 
 [External APIs Used](docs/external-apis-used.md)
 

@@ -39,7 +39,6 @@ function MainContent() {
           <option value="services">الخدمات</option>
           <option value="tools">الأدوات</option>
           <option value="essential-apps">أهم التطبيقات</option>
-          <option value="rate-app">تقييم التطبيق</option>
         </select>
       </div>
       <AdvertisementBanner />
