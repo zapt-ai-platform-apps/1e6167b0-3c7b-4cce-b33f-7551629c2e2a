@@ -18,7 +18,9 @@ export function useSpeechRecognition(onResult, onError) {
         onResult(transcript);
       };
 
-      recognition.onstart = () => setListening(true);
+      recognition.onstart = () => {
+        setListening(true);
+      };
 
       recognition.onerror = function (event) {
         console.error('Speech recognition error:', event.error);
@@ -36,14 +38,21 @@ export function useSpeechRecognition(onResult, onError) {
 
   const startRecognition = () => {
     if (recognition && !listening()) {
-      recognition.start();
+      setListening(true);
+      try {
+        recognition.start();
+      } catch (error) {
+        console.error('Error starting recognition:', error);
+        setListening(false);
+        if (onError) onError();
+      }
     }
   };
 
   const stopRecognition = () => {
     if (recognition && listening()) {
-      recognition.stop();
       setListening(false);
+      recognition.stop();
     }
   };
 
