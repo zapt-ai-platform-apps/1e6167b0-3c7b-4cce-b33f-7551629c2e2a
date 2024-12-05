@@ -39,6 +39,7 @@ function MainContent() {
           <option value="services">الخدمات</option>
           <option value="tools">الأدوات</option>
           <option value="essential-apps">أهم التطبيقات</option>
+          <option value="books">كتب وقصص وروايات صوتية</option>
         </select>
       </div>
       <AdvertisementBanner />

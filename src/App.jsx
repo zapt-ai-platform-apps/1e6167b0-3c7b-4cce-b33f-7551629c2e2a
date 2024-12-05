@@ -13,6 +13,7 @@ import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
 import EssentialApps from './components/EssentialApps';
+import Books from './components/Books';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
@@ -33,12 +34,11 @@ function App() {
           <Route path="/services/free-courses" element={<FreeCourses />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:toolName/*" element={<ToolPage />} />
-          <Route path="/account" element={
-            user() ? <Account /> : <Navigate href="/login" />
-          } />
+          <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/share" element={<ShareApp />} />
           <Route path="/essential-apps" element={<EssentialApps />} />
+          <Route path="/books" element={<Books />} />
         </Routes>
         <SocialMediaLinks />
       </div>
