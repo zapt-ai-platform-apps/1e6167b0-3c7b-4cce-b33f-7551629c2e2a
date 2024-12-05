@@ -3,10 +3,10 @@ import { createSignal, Show, For } from 'solid-js';
 function EssentialApps() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
   const categories = [
-    { name: 'قارئات الشاشة', apps: ['NVDA', 'JAWS', 'VoiceOver', 'TalkBack'] },
-    { name: 'أصوات تحويل النص لكلام', apps: ['Acapela TTS', 'IVONA', 'Google TTS'] },
-    { name: 'تطبيقات مساعدة لتسهيل الوصول', apps: ['Be My Eyes', 'Microsoft Seeing AI', 'Aira'] },
-    { name: 'تطبيقاتنا', apps: ['Blind Accessibility App'] },
+    { name: 'قارئات الشاشة', apps: [] },
+    { name: 'أصوات تحويل النص لكلام', apps: [] },
+    { name: 'تطبيقات مساعدة لتسهيل الوصول', apps: [] },
+    { name: 'تطبيقاتنا', apps: [] },
   ];
 
   const handleCategoryChange = (e) => {
@@ -22,7 +22,7 @@ function EssentialApps() {
       <div class="text-center">
         <h2 class="text-2xl font-bold mb-4 text-primary-dark">أهم التطبيقات التي يحتاجها كل كفيف</h2>
         <p class="text-lg mb-8">
-          اطلع على قائمة بأهم التطبيقات والأدوات التي تساعد المكفوفين وضعاف البصر في حياتهم اليومية بشكل احترافي.
+          اطلع على قائمة الفئات للتطبيقات والأدوات التي قد تساعد المكفوفين وضعاف البصر في حياتهم اليومية.
         </p>
       </div>
 
@@ -40,14 +40,8 @@ function EssentialApps() {
       </div>
 
       <Show when={currentCategory()}>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <For each={currentCategory().apps}>{(app) => (
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-              <h3 class="text-xl font-bold mb-2 text-primary-dark">{app}</h3>
-              <p class="text-gray-700">وصف مختصر عن {app} وفوائده.</p>
-              {/* يمكن إضافة زر لتنزيل التطبيق أو زيارة موقعه */}
-            </div>
-          )}</For>
+        <div class="text-center">
+          <p class="text-gray-700">لا توجد تطبيقات متاحة حاليًا في هذه الفئة.</p>
         </div>
       </Show>
     </main>
