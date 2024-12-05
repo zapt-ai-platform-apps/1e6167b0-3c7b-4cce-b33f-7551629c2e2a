@@ -1,6 +1,5 @@
-import { createSignal, onMount, createEffect, Show } from 'solid-js';
+import { Show } from 'solid-js';
 import { Routes, Route, Navigate, useLocation } from '@solidjs/router';
-import { supabase } from './supabaseClient';
 import Header from './components/Header';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import MainContent from './components/MainContent';
@@ -13,35 +12,12 @@ import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
-import JoinTeam from './components/JoinTeam';
 import RateApp from './components/RateApp';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
-  const [user, setUser] = createSignal(null);
-
-  const checkUserSignedIn = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      setUser(user);
-    }
-  };
-
-  onMount(checkUserSignedIn);
-
-  createEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
-      if (session?.user) {
-        setUser(session.user);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      authListener.unsubscribe();
-    };
-  });
-
+  const user = useAuth();
+  
   const location = useLocation();
 
   return (
@@ -55,7 +31,6 @@ function App() {
           <Route path="/" element={<MainContent />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/free-courses" element={<FreeCourses />} />
-          {/* Removed the route to CustomAppRequest */}
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:toolName/*" element={<ToolPage />} />
           <Route path="/account" element={
@@ -63,7 +38,6 @@ function App() {
           } />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/share" element={<ShareApp />} />
-          <Route path="/join-team" element={<JoinTeam />} />
           <Route path="/rate-app" element={<RateApp />} />
         </Routes>
         <SocialMediaLinks />
