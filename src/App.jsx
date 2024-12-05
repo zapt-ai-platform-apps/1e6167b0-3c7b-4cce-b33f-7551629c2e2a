@@ -13,11 +13,12 @@ import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
 import RateApp from './components/RateApp';
+import EssentialApps from './components/EssentialApps';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
   const user = useAuth();
-  
+
   const location = useLocation();
 
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/share" element={<ShareApp />} />
           <Route path="/rate-app" element={<RateApp />} />
+          <Route path="/essential-apps" element={<EssentialApps />} />
         </Routes>
         <SocialMediaLinks />
       </div>
