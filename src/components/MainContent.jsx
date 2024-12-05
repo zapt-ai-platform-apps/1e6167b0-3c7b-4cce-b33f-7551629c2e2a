@@ -36,8 +36,6 @@ function MainContent() {
           class="box-border p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر وجهتك...</option>
-          <option value="services">الخدمات</option>
-          <option value="tools">الأدوات</option>
           <option value="essential-apps">أهم التطبيقات</option>
           <option value="books">كتب وقصص وروايات صوتية</option>
         </select>
