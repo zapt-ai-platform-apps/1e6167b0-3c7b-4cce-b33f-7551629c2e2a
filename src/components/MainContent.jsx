@@ -15,11 +15,19 @@ function MainContent() {
   };
 
   return (
-    <main class="flex-grow px-4 h-full">
+    <main class="flex-grow px-4 min-h-screen text-neutral-dark">
       <div class="text-center">
         <p class="text-lg mb-4 font-semibold">
           انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
         </p>
+      </div>
+      <div class="mb-8 flex justify-center">
+        <button
+          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border"
+          onClick={() => navigate('/share')}
+        >
+          شارك التطبيق
+        </button>
       </div>
       <div class="mb-8 flex justify-center">
         <select
@@ -32,14 +40,6 @@ function MainContent() {
           <option value="tools">الأدوات</option>
           <option value="rate-app">تقييم التطبيق</option>
         </select>
-      </div>
-      <div class="mb-8 flex justify-center">
-        <button
-          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border"
-          onClick={() => navigate('/share')}
-        >
-          شارك التطبيق
-        </button>
       </div>
       <AdvertisementBanner />
     </main>
