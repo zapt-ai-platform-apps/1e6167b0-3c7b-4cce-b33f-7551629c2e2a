@@ -20,12 +20,6 @@ function MainContent() {
         <p class="text-lg mb-4 font-semibold">
           انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
         </p>
-        <p class="text-lg mb-8">
-          استكشف ميزاتنا لتعزيز استقلاليتك وتواصلك مع الآخرين باستخدام حلول تقنية مبتكرة.
-        </p>
-        <p class="text-xl font-semibold mb-6 text-purple-600">
-          انضم إلينا في رحلتنا نحو التميز وساهم في صنع الفرق!
-        </p>
       </div>
       <div class="mb-8 flex justify-center">
         <select
