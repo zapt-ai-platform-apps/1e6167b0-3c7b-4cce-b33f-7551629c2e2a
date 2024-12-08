@@ -1,13 +1,11 @@
-import { createSignal, onMount, onCleanup } from 'solid-js';
+import { onMount } from 'solid-js';
 
-export function useSpeechRecognition(onResult, onError) {
-  const [listening, setListening] = createSignal(false);
+export function useSpeechRecognition(onResult, onError, setListening) {
   let recognition;
 
   onMount(() => {
     if ('webkitSpeechRecognition' in window) {
-      const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRecognition();
       recognition.lang = 'ar-EG';
       recognition.continuous = false;
@@ -19,16 +17,18 @@ export function useSpeechRecognition(onResult, onError) {
       };
 
       recognition.onstart = () => {
+        console.log('Speech recognition started');
         setListening(true);
       };
 
       recognition.onerror = function (event) {
         console.error('Speech recognition error:', event.error);
         setListening(false);
-        if (onError) onError();
+        if (onError) onError(event.error);
       };
 
       recognition.onend = function () {
+        console.log('Speech recognition ended');
         setListening(false);
       };
     } else {
@@ -37,30 +37,20 @@ export function useSpeechRecognition(onResult, onError) {
   });
 
   const startRecognition = () => {
-    if (recognition && !listening()) {
-      setListening(true);
+    if (recognition) {
       try {
         recognition.start();
       } catch (error) {
         console.error('Error starting recognition:', error);
-        setListening(false);
-        if (onError) onError();
       }
     }
   };
 
   const stopRecognition = () => {
-    if (recognition && listening()) {
-      setListening(false);
+    if (recognition) {
       recognition.stop();
     }
   };
 
-  onCleanup(() => {
-    if (recognition && listening()) {
-      recognition.stop();
-    }
-  });
-
-  return { listening, startRecognition, stopRecognition };
+  return { startRecognition, stopRecognition };
 }

@@ -2,16 +2,11 @@ import { For } from 'solid-js';
 
 function MessageList(props) {
   return (
-    <ul>
+    <div>
       <For each={props.messages()}>
-        {(msg, index) => (
-          <li
-            key={index()}
-            class={`mb-2 ${
-              msg.role === 'user' ? 'text-right' : 'text-left'
-            }`}
-          >
-            <span
+        {(msg) => (
+          <div class={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+            <div
               class={`inline-block px-4 py-2 rounded-lg ${
                 msg.role === 'user'
                   ? 'bg-blue-100 text-gray-800'
@@ -19,11 +14,11 @@ function MessageList(props) {
               }`}
             >
               {msg.content}
-            </span>
-          </li>
+            </div>
+          </div>
         )}
       </For>
-    </ul>
+    </div>
   );
 }
 

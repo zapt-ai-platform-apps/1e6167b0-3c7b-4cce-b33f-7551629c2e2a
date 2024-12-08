@@ -1,6 +1,6 @@
 import { createSignal, onCleanup } from 'solid-js';
 import { createEvent } from '../supabaseClient';
-import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
+import { useSpeechRecognition } from './useSpeechRecognition';
 import { playAudio } from '../utils/audioPlayer';
 
 export function useAssistantInteractions() {
@@ -12,17 +12,29 @@ export function useAssistantInteractions() {
   ]);
   const [loading, setLoading] = createSignal(false);
   const [audioUrl, setAudioUrl] = createSignal('');
+  const [listening, setListening] = createSignal(false);
 
-  const { listening, startRecognition, stopRecognition } = useSpeechRecognition(
+  const { startRecognition, stopRecognition } = useSpeechRecognition(
     async (transcript) => {
-      setMessages([...messages(), { role: 'user', content: transcript }]);
+      console.log('User said:', transcript);
+      setMessages((prev) => [...prev, { role: 'user', content: transcript }]);
       setLoading(true);
       try {
+        // Prepare conversation context
+        const conversation = messages()
+          .slice(-5)
+          .map((msg) => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
+          .join('\n');
+        const prompt = `${conversation}\nUser: ${transcript}\nAssistant:`;
+
+        console.log('Sending prompt to backend:', prompt);
+
         const response = await createEvent('chatgpt_request', {
-          prompt: transcript,
+          prompt: prompt,
           response_type: 'text',
         });
-        setMessages([...messages(), { role: 'assistant', content: response }]);
+
+        setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
 
         const audioResponse = await createEvent('text_to_speech', {
           text: response,
@@ -36,8 +48,8 @@ export function useAssistantInteractions() {
         }
       } catch (error) {
         console.error('Error communicating with assistant:', error);
-        setMessages([
-          ...messages(),
+        setMessages((prev) => [
+          ...prev,
           {
             role: 'assistant',
             content: 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى لاحقاً.',
@@ -47,9 +59,11 @@ export function useAssistantInteractions() {
         setLoading(false);
       }
     },
-    () => {
+    (error) => {
+      console.error('Speech recognition error:', error);
       setLoading(false);
-    }
+    },
+    setListening
   );
 
   onCleanup(() => {
