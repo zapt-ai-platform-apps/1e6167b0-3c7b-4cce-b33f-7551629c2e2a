@@ -16,7 +16,7 @@ function AnnouncementBanner() {
   };
 
   const handleContactNow = () => {
-    window.open('https://chat.whatsapp.com/CVW8aHib2SKIXlTroXMxYH', '_blank');
+    window.open('https://wa.me/message/VMRRZKYWGHZMM1', '_blank');
   };
 
   return (
