@@ -10,7 +10,7 @@ const categories = [
       {
         name: 'Jieshuo+',
         description: 'قارئ شاشة لأجهزة أندرويد يدعم العديد من الميزات المتقدمة.',
-        downloadLink: 'https://jieshuo.com/download', // يرجى استبدال هذا الرابط بالرابط الصحيح إذا كان متاحًا
+        downloadLink: 'https://archive.org/download/jieshuo-8-november-2024/Jieshuo%2B%208%20November%202024.apk',
       },
     ],
   },
