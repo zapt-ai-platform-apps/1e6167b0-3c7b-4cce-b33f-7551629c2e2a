@@ -33,10 +33,10 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/services/free-courses" element={<FreeCourses />} />
           <Route path="/tools" element={<Tools />} />
-          <Route path="/tools/:toolName/*" element={<ToolPage />} />
+          <Route path="/tools/:toolName/*" element={<ToolPage user={user} />} />
           <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
           <Route path="/login" element={<AuthPage />} />
-          <Route path="/share" element={<ShareApp />} />
+          <Route path="/share" element={<ShareApp user={user} />} />
           <Route path="/essential-apps" element={<EssentialApps />} />
           <Route path="/audio-library" element={<AudioLibrary />} />
         </Routes>
