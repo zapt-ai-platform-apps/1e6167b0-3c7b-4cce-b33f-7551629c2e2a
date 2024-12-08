@@ -16,7 +16,18 @@ const categories = [
   },
   {
     name: 'محركات تحويل نص لكلام',
-    apps: [],
+    apps: [
+      {
+        name: 'SmartVoice',
+        description: 'محرك تحويل النص إلى كلام مع ميزات متقدمة ويدعم اللغة العربية.',
+        downloadLink: 'https://example.com/download/smartvoice',
+      },
+      {
+        name: 'محرك جوجل لتحويل النص إلى كلام',
+        description: 'محرك تحويل النص إلى كلام من Google يوفر جودة عالية ودعم للغات متعددة.',
+        downloadLink: 'https://play.google.com/store/apps/details?id=com.google.android.tts',
+      },
+    ],
   },
   {
     name: 'تطبيقات مساعدة لتسهيل الوصول',
