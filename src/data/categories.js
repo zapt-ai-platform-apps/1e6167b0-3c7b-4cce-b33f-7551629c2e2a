@@ -10,12 +10,12 @@ const categories = [
       {
         name: 'Jieshuo+',
         description: 'قارئ شاشة لأجهزة أندرويد يدعم العديد من الميزات المتقدمة.',
-        downloadLink: 'https://archive.org/download/jieshuo-8-november-2024/Jieshuo%2B%208%20November%202024.apk',
+        downloadLink: 'https://archive.org/download/jieshuo-plus/jieshuo-plus.apk',
       },
     ],
   },
   {
-    name: 'أصوات تحويل النص لكلام',
+    name: 'محركات تحويل نص لكلام',
     apps: [],
   },
   {
