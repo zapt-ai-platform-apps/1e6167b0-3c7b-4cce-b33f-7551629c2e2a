@@ -1,11 +1,13 @@
-import { createSignal, For, Show, onMount } from 'solid-js';
+import { createSignal, Show, onMount } from 'solid-js';
+import Features from './Features';
+import SocialShare from './SocialShare';
 
 function ShareApp() {
   const appTitle = 'Blind Accessibility';
   const appDescription = 'انطلق نحو الاستقلالية مع Blind Accessibility – كل ما تحتاجه في مكان واحد.';
   const appLink = 'https://1e6167b0-3c7b-4cce-b33f-7551629c2e2a.vercel.app';
   const appDownloadLink = 'https://archive.org/download/Blindaccess/Blindaccess.apk';
-  const audioLink = 'https://archive.org/download/20241203_20241203_2054/%D8%AA%D8%AD%D9%85%D9%8A%D9%84%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82.mp3';
+  const audioLink = 'https://archive.org/download/sample_audio_file_201909/sample_audio_file.mp3';
 
   const [isPlaying, setIsPlaying] = createSignal(false);
   const [copySuccess, setCopySuccess] = createSignal('');
@@ -29,32 +31,38 @@ function ShareApp() {
         audioRef.pause();
         setIsPlaying(false);
       } else {
-        audioRef.play().then(() => {
-          setIsPlaying(true);
-          audioRef.onended = () => {
-            setIsPlaying(false);
-          };
-        }).catch((error) => {
-          console.error('Error playing audio:', error);
-        });
+        audioRef
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            audioRef.onended = () => {
+              setIsPlaying(false);
+            };
+          })
+          .catch((error) => {
+            console.error('Error playing audio:', error);
+            alert('حدث خطأ أثناء تشغيل المقطع الصوتي.');
+          });
       }
     }
   };
 
   onMount(() => {
     if (audioRef) {
-      audioRef.play().then(() => {
-        setIsPlaying(true);
-        audioRef.onended = () => {
-          setIsPlaying(false);
-        };
-      }).catch((error) => {
-        console.error('Error auto-playing audio:', error);
-      });
+      audioRef
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          audioRef.onended = () => {
+            setIsPlaying(false);
+          };
+        })
+        .catch((error) => {
+          console.error('Error auto-playing audio:', error);
+        });
     }
   });
 
-  // ميزات التطبيق
   const features = [
     'تجربة مستخدم محسنة للمكفوفين وضعاف البصر',
     'خدمات وأدوات متعددة في مكان واحد',
@@ -75,11 +83,7 @@ function ShareApp() {
             >
               {isPlaying() ? 'إيقاف المقطع الصوتي' : 'تشغيل المقطع الصوتي'}
             </button>
-            <audio
-              ref={(el) => (audioRef = el)}
-              src={audioLink}
-              class="hidden"
-            >
+            <audio ref={(el) => (audioRef = el)} src={audioLink} class="hidden">
               متصفحك لا يدعم تشغيل الصوت. يرجى تحديث المتصفح أو استخدام متصفح آخر.
             </audio>
           </div>
@@ -94,95 +98,14 @@ function ShareApp() {
 
       <main class="flex-grow bg-gray-100 py-8">
         <div class="container mx-auto px-4">
-          <section class="mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">
-              لماذا {appTitle}؟
-            </h2>
-            <p class="text-lg text-center text-gray-700 mb-8">
-              {appTitle} هو تطبيق مصمم خصيصًا للمكفوفين وضعاف البصر، يوفر مجموعة من
-              الخدمات والأدوات في واجهة سهلة الاستخدام ومتوافقة مع قارئات الشاشة.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <For each={features}>
-                {(feature) => (
-                  <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    <img
-                      src="PLACEHOLDER"
-                      alt={feature}
-                      {...{ 'data-image-request': `Icon representing ${feature}` }}
-                      class="w-16 h-16 mx-auto mb-4"
-                    />
-                    <p class="text-center text-gray-800 font-semibold">
-                      {feature}
-                    </p>
-                  </div>
-                )}
-              </For>
-            </div>
-          </section>
-
-          <section class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">
-              شارك التطبيق مع أصدقائك
-            </h2>
-            <p class="text-lg mb-6 text-center">
-              ساعدنا في نشر الفائدة ومشاركة التطبيق مع الآخرين.
-            </p>
-            <div class="flex space-x-4 space-x-reverse justify-center mb-6">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(appLink)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="cursor-pointer transform hover:scale-105 transition duration-300"
-              >
-                <img src="/assets/facebook.svg" alt="فيسبوك" class="w-12 h-12" />
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(appDescription)}&url=${encodeURIComponent(appLink)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="cursor-pointer transform hover:scale-105 transition duration-300"
-              >
-                <img src="/assets/twitter.svg" alt="تويتر" class="w-12 h-12" />
-              </a>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(appDescription)}%20${encodeURIComponent(appLink)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="cursor-pointer transform hover:scale-105 transition duration-300"
-              >
-                <img src="/assets/whatsapp.svg" alt="واتساب" class="w-12 h-12" />
-              </a>
-              <a
-                href={`https://t.me/share/url?url=${encodeURIComponent(appLink)}&text=${encodeURIComponent(appDescription)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="cursor-pointer transform hover:scale-105 transition duration-300"
-              >
-                <img src="/assets/telegram.svg" alt="تليجرام" class="w-12 h-12" />
-              </a>
-            </div>
-            <div class="text-center mb-4">
-              <p class="text-lg mb-2">أو قم بنسخ رابط التطبيق ومشاركته:</p>
-              <div class="flex items-center justify-center">
-                <input
-                  type="text"
-                  value={appLink}
-                  readOnly
-                  class="w-full md:w-1/2 p-2 border border-gray-300 rounded-l-lg focus:outline-none box-border"
-                />
-                <button
-                  class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-r-lg hover:bg-green-700 transition duration-300 ease-in-out transform"
-                  onClick={handleCopyLink}
-                >
-                  نسخ الرابط
-                </button>
-              </div>
-              <Show when={copySuccess()}>
-                <p class="text-green-600 mt-2">{copySuccess()}</p>
-              </Show>
-            </div>
-          </section>
+          <Features appTitle={appTitle} features={features} />
+          <SocialShare
+            appTitle={appTitle}
+            appDescription={appDescription}
+            appLink={appLink}
+            copySuccess={copySuccess}
+            handleCopyLink={handleCopyLink}
+          />
         </div>
         <div class="mt-8 text-center text-gray-700">
           <a

@@ -1,4 +1,6 @@
-import { createSignal, createEffect, Show, For } from 'solid-js';
+import { createSignal, createEffect, Show } from 'solid-js';
+import StationSelector from './StationSelector';
+import PlayerControls from './PlayerControls';
 
 function ArabicRadio() {
   const [countries] = createSignal([
@@ -33,7 +35,7 @@ function ArabicRadio() {
   const [isPlaying, setIsPlaying] = createSignal(false);
   let audioRef;
 
-  const handleCountryChange = (e) => {
+  const handleCountryChange = async (e) => {
     const countryCode = e.target.value;
     setSelectedCountry(countryCode);
     setSelectedStation('');
@@ -41,7 +43,8 @@ function ArabicRadio() {
     setStations([]);
     if (countryCode) {
       setLoadingStations(true);
-      fetchStations(countryCode);
+      await fetchStations(countryCode);
+      setLoadingStations(false);
     } else {
       setStations([]);
     }
@@ -51,9 +54,7 @@ function ArabicRadio() {
     try {
       const response = await fetch(`https://de1.api.radio-browser.info/json/stations/bycountrycodeexact/${countryCode}`);
       const data = await response.json();
-      // Filter stations with valid stream URL
       const validStations = data.filter(station => station.url_resolved && station.name);
-      // Map stations to desired format
       const formattedStations = validStations.map(station => ({
         name: station.name,
         url: station.url_resolved,
@@ -62,8 +63,6 @@ function ArabicRadio() {
     } catch (error) {
       console.error('Error fetching stations:', error);
       alert('حدث خطأ أثناء جلب المحطات. يرجى المحاولة مرة أخرى.');
-    } finally {
-      setLoadingStations(false);
     }
   };
 
@@ -74,6 +73,7 @@ function ArabicRadio() {
         setIsPlaying(true);
       }).catch((error) => {
         console.error('Error playing audio:', error);
+        alert('حدث خطأ أثناء تشغيل المحطة. يرجى اختيار محطة أخرى.');
       });
     }
   });
@@ -95,6 +95,7 @@ function ArabicRadio() {
           setIsPlaying(true);
         }).catch((error) => {
           console.error('Error playing audio:', error);
+          alert('حدث خطأ أثناء تشغيل المحطة. يرجى اختيار محطة أخرى.');
         });
       }
     }
@@ -104,7 +105,7 @@ function ArabicRadio() {
     if (stations().length > 0) {
       let newIndex = selectedStationIndex() - 1;
       if (newIndex < 0) {
-        newIndex = stations().length - 1; // wrap around to last station
+        newIndex = stations().length - 1;
       }
       setSelectedStationIndex(newIndex);
       setSelectedStation(stations()[newIndex].url);
@@ -115,7 +116,7 @@ function ArabicRadio() {
     if (stations().length > 0) {
       let newIndex = selectedStationIndex() + 1;
       if (newIndex >= stations().length) {
-        newIndex = 0; // wrap around to first station
+        newIndex = 0;
       }
       setSelectedStationIndex(newIndex);
       setSelectedStation(stations()[newIndex].url);
@@ -127,67 +128,22 @@ function ArabicRadio() {
       <h2 class="text-2xl font-bold mb-4 text-purple-600">الراديو العربي</h2>
       <p class="text-lg mb-6 text-center">استمع إلى المحطات الإذاعية العربية المفضلة لديك من جميع البلدان العربية.</p>
       <div class="w-full max-w-md space-y-4">
-        <div>
-          <label for="country" class="block mb-2 text-gray-700 font-semibold">اختر البلد:</label>
-          <select
-            id="country"
-            value={selectedCountry()}
-            onInput={handleCountryChange}
-            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
-          >
-            <option value="">اختر البلد</option>
-            <For each={countries()}>
-              {(country) => (
-                <option value={country.code}>{country.name}</option>
-              )}
-            </For>
-          </select>
-        </div>
-        <Show when={selectedCountry()}>
-          <div>
-            <label for="station" class="block mb-2 text-gray-700 font-semibold">اختر المحطة:</label>
-            <Show when={!loadingStations()} fallback={<p>جاري تحميل المحطات...</p>}>
-              <select
-                id="station"
-                value={selectedStation()}
-                onInput={handleStationChange}
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent cursor-pointer box-border"
-              >
-                <option value="">اختر المحطة</option>
-                <For each={stations()}>
-                  {(station) => (
-                    <option value={station.url}>{station.name}</option>
-                  )}
-                </For>
-              </select>
-            </Show>
-          </div>
-        </Show>
+        <StationSelector
+          countries={countries}
+          selectedCountry={selectedCountry}
+          handleCountryChange={handleCountryChange}
+          stations={stations}
+          selectedStation={selectedStation}
+          handleStationChange={handleStationChange}
+          loadingStations={loadingStations}
+        />
         <Show when={selectedStation()}>
-          <div class="mt-4 flex items-center justify-center space-x-4 space-x-reverse">
-            <button
-              class="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform box-border"
-              onClick={handlePreviousStation}
-            >
-              المحطة السابقة
-            </button>
-            <button
-              class="cursor-pointer px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform box-border"
-              onClick={handlePlayPause}
-            >
-              {isPlaying() ? 'إيقاف مؤقت' : 'تشغيل'}
-            </button>
-            <button
-              class="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform box-border"
-              onClick={handleNextStation}
-            >
-              المحطة التالية
-            </button>
-          </div>
-          <audio
-            ref={audioRef}
-            src=""
-            class="hidden"
+          <PlayerControls
+            isPlaying={isPlaying}
+            handlePlayPause={handlePlayPause}
+            handlePreviousStation={handlePreviousStation}
+            handleNextStation={handleNextStation}
+            audioRef={(el) => { audioRef = el; }}
           />
         </Show>
       </div>
