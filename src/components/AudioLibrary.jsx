@@ -1,9 +1,23 @@
-import { createSignal, For } from 'solid-js';
-import AudioItem from './AudioItem';
+import { createSignal, createMemo } from 'solid-js';
 import audioItems from '../data/audioItems';
+import CategoryFilter from './CategoryFilter';
+import AudioList from './AudioList';
 
 function AudioLibrary() {
   const [audioItemsSignal] = createSignal(audioItems);
+  const [selectedCategory, setSelectedCategory] = createSignal('');
+
+  const categories = createMemo(() => {
+    const cats = audioItemsSignal().map((item) => item.category);
+    return Array.from(new Set(cats));
+  });
+
+  const filteredAudioItems = createMemo(() => {
+    if (selectedCategory() === '') {
+      return audioItemsSignal();
+    }
+    return audioItemsSignal().filter((item) => item.category === selectedCategory());
+  });
 
   const [currentAudio, setCurrentAudio] = createSignal(null);
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -32,23 +46,22 @@ function AudioLibrary() {
   };
 
   return (
-    <div class="flex flex-col flex-grow px-4 h-full">
+    <div class="flex flex-col flex-grow px-4 min-h-screen">
       <div class="flex flex-col items-center mb-4">
         <h2 class="text-2xl font-bold text-purple-600 mb-2">المكتبة الصوتية</h2>
-        <p class="text-lg text-center text-gray-700">استمتع بمجموعة من الكتب الصوتية والمحاضرات القيمة</p>
+        <p class="text-lg text-center text-gray-700">استمتع بمجموعة من الكتب الصوتية والمحاضرات والدروس القيمة</p>
       </div>
-      <div class="flex flex-col space-y-4">
-        <For each={audioItemsSignal()}>
-          {(audio) => (
-            <AudioItem
-              audio={audio}
-              currentAudio={currentAudio}
-              isPlaying={isPlaying}
-              handlePlayPause={handlePlayPause}
-            />
-          )}
-        </For>
-      </div>
+      <CategoryFilter
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        categories={categories}
+      />
+      <AudioList
+        filteredAudioItems={filteredAudioItems}
+        currentAudio={currentAudio}
+        isPlaying={isPlaying}
+        handlePlayPause={handlePlayPause}
+      />
     </div>
   );
 }

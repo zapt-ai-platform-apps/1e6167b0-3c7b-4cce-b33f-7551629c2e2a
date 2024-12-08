@@ -24,6 +24,7 @@
 16. [مشاركة التطبيق](docs/journeys/share-the-app.md)
 17. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md)
 18. [استكشاف أهم التطبيقات](docs/journeys/explore-essential-apps.md) - صفحة بأهم التطبيقات التي يحتاجها كل كفيف باحترافية
+19. [استخدام المكتبة الصوتية](docs/journeys/use-audio-library.md) - استمتع بمجموعة من الكتب الصوتية والمحاضرات القيمة
 
 [External APIs Used](docs/external-apis-used.md)
 
