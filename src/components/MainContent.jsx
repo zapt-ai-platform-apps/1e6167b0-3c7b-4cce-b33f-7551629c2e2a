@@ -15,7 +15,7 @@ function MainContent() {
   };
 
   return (
-    <main class="flex-grow px-4 min-h-screen text-neutral-dark">
+    <main class="flex-grow px-4 min-h-screen h-full text-neutral-dark">
       <div class="text-center">
         <p class="text-lg mb-4 font-semibold">
           انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.

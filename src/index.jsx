@@ -9,9 +9,11 @@ Sentry.init({
   dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
   environment: import.meta.env.VITE_PUBLIC_APP_ENV,
   integrations: [new BrowserTracing()],
-  tags: {
-    type: 'frontend',
-    projectId: import.meta.env.VITE_PUBLIC_APP_ID
+  initialScope: {
+    tags: {
+      type: 'frontend',
+      projectId: import.meta.env.VITE_PUBLIC_APP_ID
+    }
   }
 });
 
@@ -23,6 +25,11 @@ if (!window.location.hostname.includes('vercel.app')) {
   umamiScript.setAttribute('data-website-id', import.meta.env.VITE_PUBLIC_UMAMI_WEBSITE_ID);
   document.head.appendChild(umamiScript);
 }
+
+// إضافة تتبع Sentry للأخطاء
+window.addEventListener('error', (event) => {
+  Sentry.captureException(event.error);
+});
 
 render(() => (
   <Router>

@@ -39,6 +39,7 @@ export default {
     extend: {
       transform: ['hover', 'focus'],
       scale: ['active', 'group-hover'],
+      outline: ['focus'],
     },
   },
 };

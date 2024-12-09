@@ -12,6 +12,7 @@
 }
 
 body {
+  @apply min-h-screen bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col;
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
   color: #4a4a4a; /* neutral.dark */
   background-color: #f0f2f5; /* background.DEFAULT */
@@ -33,11 +34,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 button {
-  cursor: pointer;
+  @apply cursor-pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 
 input, textarea, select, button {
-  box-sizing: border-box;
+  @apply box-border;
 }
 
 input:focus, textarea:focus, select:focus {
@@ -46,17 +52,8 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); /* primary.DEFAULT with opacity */
 }
 
-button {
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
 input[type="text"], input[type="email"], input[type="password"], textarea, select {
-  box-sizing: border-box; /* Ensure 'box-border' is applied */
+  @apply box-border; /* Ensure 'box-border' is applied */
 }
 
 /* إضافة نمط محمل (Loader) */
@@ -72,4 +69,9 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 
 @keyframes spinner {
   to { transform: rotate(360deg); }
+}
+
+/* إزالة المساحات البيضاء الزائدة */
+html, body, #root {
+  @apply h-full;
 }
