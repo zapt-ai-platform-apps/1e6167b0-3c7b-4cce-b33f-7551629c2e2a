@@ -16,14 +16,7 @@
 8. [استخدام أداة استخراج النص من الصورة](docs/journeys/use-image-to-text-tool.md)
 9. [استخدام منشئ الصور بالذكاء الاصطناعي](docs/journeys/use-ai-image-generator.md)
 10. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md)
-11. [عرض الإعلانات العشوائية](docs/journeys/view-random-advertisements.md)
-12. [استخدام منشئ المواقع الذكي](docs/journeys/use-smart-website-builder.md)
-13. [تحميل الموقع المولد](docs/journeys/download-generated-website.md)
-14. [تعديل الموقع المولد](docs/journeys/edit-generated-website-using-ai.md)
-15. [استخدام منشئ السيرة الذاتية الذكي](docs/journeys/use-smart-cv-generator.md)
-16. [مشاركة التطبيق](docs/journeys/share-the-app.md)
-17. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md)
-18. [استخدام حاسبة العمر والأبراج](docs/journeys/use-age-horoscope-calculator.md)
+11. [متابعة التطبيق](docs/journeys/share-the-app.md)
 
 [External APIs Used](docs/external-apis-used.md)
 
@@ -33,6 +26,6 @@
 
 ## ملاحظة هامة
 
-تم تحسين التطبيق بالكامل وجعله أكثر احترافية وتقدمًا. تم تقسيم الملفات الكبيرة إلى ملفات أصغر لسهولة الصيانة والتحديث. تم تحسين التصميم ليكون أكثر جاذبية وسهولة في الاستخدام، وتم التركيز على تجربة المستخدم وخصوصًا لمستخدمي الأجهزة المحمولة. نأمل أن تستمتعوا بالتطبيق وأن يلبي احتياجاتكم.
+تم إعادة بناء التطبيق بشكل كامل واحترافي، مع التركيز على تحسين تجربة المستخدم والواجهة وتصميم التطبيق ليتناسب مع جميع الأجهزة وخاصة الهواتف المحمولة.
 
 **شكراً لانضمامك إلينا في رحلتك نحو المزيد من الحرية والاستقلالية.**

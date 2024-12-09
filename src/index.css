@@ -7,19 +7,19 @@
 /* تخصيص الأنماط لتحسين المظهر */
 
 :focus {
-  outline: 2px dashed #4a90e2; /* primary.DEFAULT */
+  outline: 2px dashed #4a90e2;
   outline-offset: 2px;
 }
 
 body {
   @apply min-h-screen bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col;
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
-  color: #4a4a4a; /* neutral.dark */
-  background-color: #f0f2f5; /* background.DEFAULT */
+  color: #4a4a4a;
+  background-color: #f0f2f5;
 }
 
 a {
-  color: #4a90e2; /* primary.DEFAULT */
+  color: #4a90e2;
   text-decoration: none;
 }
 
@@ -28,7 +28,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #0066cc; /* primary.dark */
+  color: #0066cc;
   font-weight: bold;
   line-height: 1.25;
 }
@@ -48,19 +48,19 @@ input, textarea, select, button {
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: #4a90e2; /* primary.DEFAULT */
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); /* primary.DEFAULT with opacity */
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 input[type="text"], input[type="email"], input[type="password"], textarea, select {
-  @apply box-border; /* Ensure 'box-border' is applied */
+  @apply box-border;
 }
 
 /* إضافة نمط محمل (Loader) */
 
 .loader {
-  border: 4px solid #f3f3f3; /* Light grey */
-  border-top: 4px solid #4a90e2; /* Blue */
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a90e2;
   border-radius: 50%;
   width: 20px;
   height: 20px;
