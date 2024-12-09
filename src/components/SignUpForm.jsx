@@ -1,5 +1,7 @@
 import { createSignal } from 'solid-js';
 import { supabase } from '../supabaseClient';
+import InputField from './InputField';
+import SelectField from './SelectField';
 
 function SignUpForm(props) {
   const [email, setEmail] = createSignal('');
@@ -16,7 +18,6 @@ function SignUpForm(props) {
     'الإمارات العربية المتحدة',
     'الأردن',
     'فلسطين',
-    // ... Add more countries as needed
   ];
 
   const handleSignUp = async (e) => {
@@ -54,77 +55,47 @@ function SignUpForm(props) {
 
   return (
     <form onSubmit={handleSignUp} class="space-y-4">
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">الإسم الكامل</label>
-        <input
-          type="text"
-          value={fullName()}
-          onInput={(e) => setFullName(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-          required
-        />
-      </div>
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">اسم المستخدم</label>
-        <input
-          type="text"
-          value={username()}
-          onInput={(e) => setUsername(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-          required
-        />
-      </div>
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">البريد الإلكتروني</label>
-        <input
-          type="email"
-          value={email()}
-          onInput={(e) => setEmail(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-          required
-        />
-      </div>
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">كلمة المرور</label>
-        <input
-          type="password"
-          value={password()}
-          onInput={(e) => setPassword(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-          required
-        />
-      </div>
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">الجنس</label>
-        <select
-          value={gender()}
-          onInput={(e) => setGender(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
-          required
-        >
-          <option value="">اختر الجنس</option>
-          {genders.map((item) => (
-            <option value={item}>{item}</option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label class="block text-neutral-dark font-semibold mb-2">الدولة</label>
-        <select
-          value={country()}
-          onInput={(e) => setCountry(e.target.value)}
-          class="box-border w-full p-3 border border-neutral DEFAULT rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
-          required
-        >
-          <option value="">اختر الدولة</option>
-          {countries.map((item) => (
-            <option value={item}>{item}</option>
-          ))}
-        </select>
-      </div>
+      <InputField
+        label="الإسم الكامل"
+        type="text"
+        signal={[fullName, setFullName]}
+        required={true}
+      />
+      <InputField
+        label="اسم المستخدم"
+        type="text"
+        signal={[username, setUsername]}
+        required={true}
+      />
+      <InputField
+        label="البريد الإلكتروني"
+        type="email"
+        signal={[email, setEmail]}
+        required={true}
+      />
+      <InputField
+        label="كلمة المرور"
+        type="password"
+        signal={[password, setPassword]}
+        required={true}
+      />
+      <SelectField
+        label="الجنس"
+        signal={[gender, setGender]}
+        options={genders}
+        placeholder="اختر الجنس"
+        required={true}
+      />
+      <SelectField
+        label="الدولة"
+        signal={[country, setCountry]}
+        options={countries}
+        placeholder="اختر الدولة"
+        required={true}
+      />
       <button
         type="submit"
-        class={`cursor-pointer w-full px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-primary-light transition duration-300 ease-in-out transform ${
+        class={`cursor-pointer w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition duration-300 ease-in-out transform ${
           props.loading() ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         disabled={props.loading()}
