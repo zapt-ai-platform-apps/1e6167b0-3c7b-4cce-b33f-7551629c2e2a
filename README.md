@@ -23,6 +23,7 @@
 15. [استخدام منشئ السيرة الذاتية الذكي](docs/journeys/use-smart-cv-generator.md)
 16. [مشاركة التطبيق](docs/journeys/share-the-app.md)
 17. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md)
+18. [استخدام حاسبة العمر والأبراج](docs/journeys/use-age-horoscope-calculator.md)
 
 [External APIs Used](docs/external-apis-used.md)
 

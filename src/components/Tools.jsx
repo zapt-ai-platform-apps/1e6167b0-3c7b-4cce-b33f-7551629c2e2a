@@ -1,5 +1,7 @@
-import { createSignal, For, Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import CategoriesSelect from './CategoriesSelect';
+import ToolsList from './ToolsList';
 
 function Tools() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
@@ -29,6 +31,7 @@ function Tools() {
       description: 'اكتشف أدوات ترفيهية ممتعة ومبتكرة لتحسين تجربتك.',
       tools: [
         { name: 'الراديو العربي', description: 'استمع إلى المحطات الإذاعية العربية المفضلة لديك من مختلف البلدان.' },
+        { name: 'حاسبة العمر والأبراج', description: 'احسب عمرك وتعرف على برجك واحصل على النصائح والإرشادات والتوقعات.' },
       ],
     },
     {
@@ -69,19 +72,17 @@ function Tools() {
       navigate('/tools/image-to-text');
     } else if (toolName === 'قارئ PDF الاحترافي') {
       navigate('/tools/pdf-reader');
+    } else if (toolName === 'حاسبة العمر والأبراج') {
+      navigate('/tools/age-horoscope-calculator');
     } else {
       alert('هذه الأداة غير متوفرة حاليًا.');
     }
   };
 
-  const handleSelectionChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
-
   const currentCategory = () => {
     const categoryName = selectedCategory();
     if (categoryName) {
-      return categories.find(category => category.name === categoryName);
+      return categories.find((category) => category.name === categoryName);
     } else {
       return null;
     }
@@ -96,42 +97,21 @@ function Tools() {
         </p>
       </div>
 
-      <div class="mb-8 flex justify-center">
-        <select
-          value={selectedCategory()}
-          onInput={handleSelectionChange}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
-        >
-          <option value="">اختر الفئة</option>
-          <For each={categories}>{(category) => (
-            <option value={category.name}>{category.name}</option>
-          )}</For>
-        </select>
-      </div>
+      <CategoriesSelect
+        categories={categories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
 
       <Show when={currentCategory()}>
         <div class="mb-4 text-center">
           <p class="text-lg font-semibold text-primary-dark">{currentCategory().description}</p>
         </div>
 
-        <Show when={currentCategory().tools.length > 0} fallback={
-          <p class="text-center text-gray-700">لا توجد أدوات متاحة حاليًا في هذه الفئة.</p>
-        }>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <For each={currentCategory().tools}>{(tool) => (
-              <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
-                <h3 class="text-xl font-bold mb-2 text-primary-dark">{tool.name}</h3>
-                <p class="text-gray-700 mb-4">{tool.description}</p>
-                <button
-                  class="cursor-pointer px-4 py-2 mt-2 bg-primary-dark text-white rounded-lg hover:scale-105 transition duration-300 ease-in-out"
-                  onClick={() => handleToolClick(tool.name)}
-                >
-                  فتح الأداة
-                </button>
-              </div>
-            )}</For>
-          </div>
-        </Show>
+        <ToolsList
+          tools={currentCategory().tools}
+          handleToolClick={handleToolClick}
+        />
       </Show>
     </main>
   );
