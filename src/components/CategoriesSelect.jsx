@@ -16,7 +16,7 @@ function CategoriesSelect(props) {
       >
         <option value="">اختر الفئة</option>
         <For each={categories}>{(category) => (
-          <option value={category.name}>{category.name}</option>
+          <option value={category.id}>{category.name}</option>
         )}</For>
       </select>
     </div>
