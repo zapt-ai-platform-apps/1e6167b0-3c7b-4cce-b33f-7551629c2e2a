@@ -35,6 +35,7 @@ function Tools() {
         <CategoriesList
           categories={categories}
           handleCategoryClick={handleCategoryClick}
+          buttonText="عرض الأدوات"
         />
       </Show>
 
