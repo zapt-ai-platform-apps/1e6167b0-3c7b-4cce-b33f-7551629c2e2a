@@ -12,7 +12,6 @@ import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
-import EssentialApps from './components/EssentialApps';
 import AudioLibrary from './components/AudioLibrary';
 import { useAuth } from './hooks/useAuth';
 
@@ -37,7 +36,6 @@ function App() {
           <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/share" element={<ShareApp user={user} />} />
-          <Route path="/essential-apps" element={<EssentialApps />} />
           <Route path="/audio-library" element={<AudioLibrary />} />
         </Routes>
         <SocialMediaLinks />
