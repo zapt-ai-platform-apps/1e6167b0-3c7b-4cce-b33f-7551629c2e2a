@@ -1,21 +1,21 @@
 import { createSignal, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
-import CategoriesSelect from './CategoriesSelect';
+import CategoriesList from './CategoriesList';
 import ToolsList from './ToolsList';
 import categories from '../data/categories';
 import { handleToolClick } from '../utils/handleToolClick';
 
 function Tools() {
-  const [selectedCategory, setSelectedCategory] = createSignal('');
+  const [selectedCategory, setSelectedCategory] = createSignal(null);
   const navigate = useNavigate();
 
-  const currentCategory = () => {
-    const categoryId = selectedCategory();
-    if (categoryId) {
-      return categories.find((category) => category.id === categoryId);
-    } else {
-      return null;
-    }
+  const handleCategoryClick = (categoryId) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    setSelectedCategory(category);
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
   };
 
   const handleToolClickFunction = (toolName) => {
@@ -31,19 +31,27 @@ function Tools() {
         </p>
       </div>
 
-      <CategoriesSelect
-        categories={categories}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+      <Show when={!selectedCategory()}>
+        <CategoriesList
+          categories={categories}
+          handleCategoryClick={handleCategoryClick}
+        />
+      </Show>
 
-      <Show when={currentCategory()}>
+      <Show when={selectedCategory()}>
         <div class="mb-4 text-center">
-          <p class="text-lg font-semibold text-primary-dark">{currentCategory().description}</p>
+          <button
+            class="cursor-pointer px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out transform box-border mb-4"
+            onClick={handleBackToCategories}
+          >
+            الرجوع إلى الفئات
+          </button>
+          <h3 class="text-xl font-bold mb-2 text-primary-dark">{selectedCategory().name}</h3>
+          <p class="text-lg mb-4">{selectedCategory().description}</p>
         </div>
 
         <ToolsList
-          tools={currentCategory().tools}
+          tools={selectedCategory().tools}
           handleToolClick={handleToolClickFunction}
         />
       </Show>
