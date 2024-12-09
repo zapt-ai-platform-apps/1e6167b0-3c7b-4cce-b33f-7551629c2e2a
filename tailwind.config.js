@@ -24,7 +24,7 @@ export default {
           dark: '#4a4a4a',
         },
         background: {
-          DEFAULT: '#f0f2f5',
+          DEFAULT: '#f9fafb',
         },
       },
       fontFamily: {

@@ -21,19 +21,19 @@ function AnnouncementBanner() {
 
   return (
     <Show when={isVisible()}>
-      <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative flex flex-col sm:flex-row sm:items-center justify-between mb-4">
-        <span class="block font-semibold mb-2 sm:mb-0">
-          نسعى لتقديم أفضل تجربة لك! هذا التطبيق لا يزال في نسخته التجريبية وسيتم الانتهاء من التطوير قريبًا. ساعدنا على التحسين بتقديم آرائك واقتراحاتك من خلال الاتصال بنا على الواتساب.
-        </span>
-        <div class="flex items-center">
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 p-6 rounded-lg mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+        <p class="font-semibold mb-4 md:mb-0 md:flex-1">
+          نسعى لتقديم أفضل تجربة لك! هذا التطبيق لا يزال في نسخته التجريبية وسيتم الانتهاء من التطوير قريبًا.
+        </p>
+        <div class="flex items-center space-x-4 space-x-reverse">
           <button
-            class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 box-border mr-2"
+            class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105"
             onClick={handleContactNow}
           >
             اتصل الآن
           </button>
           <button
-            class="text-yellow-700 hover:text-yellow-900 ml-2 focus:outline-none cursor-pointer"
+            class="text-yellow-700 hover:text-yellow-900 focus:outline-none cursor-pointer"
             onClick={handleClose}
           >
             <svg class="fill-current h-6 w-6" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

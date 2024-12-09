@@ -12,10 +12,9 @@
 }
 
 body {
-  @apply min-h-screen bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col;
+  @apply min-h-screen bg-white text-neutral-dark flex flex-col;
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
-  color: #4a4a4a;
-  background-color: #f0f2f5;
+  background-color: #f9fafb;
 }
 
 a {

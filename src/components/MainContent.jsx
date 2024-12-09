@@ -15,7 +15,7 @@ function MainContent() {
   };
 
   return (
-    <main class="flex-grow px-4 min-h-screen h-full text-neutral-dark">
+    <main class="flex-grow px-4 h-full text-neutral-dark">
       <div class="text-center">
         <p class="text-lg mb-4 font-semibold">
           انطلق نحو الاستقلالية مع <span class="font-bold">Blind Accessibility</span> – كل ما تحتاجه في مكان واحد.
@@ -23,7 +23,7 @@ function MainContent() {
       </div>
       <div class="mb-8 flex justify-center">
         <button
-          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform box-border"
+          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => navigate('/share')}
         >
           شارك التطبيق
@@ -33,10 +33,12 @@ function MainContent() {
         <select
           value={selectedOption()}
           onInput={handleSelectionChange}
-          class="box-border p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
+          class="box-border p-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر وجهتك...</option>
           <option value="audio-library">المكتبة الصوتية</option>
+          <option value="services">خدمات</option>
+          <option value="tools">أدوات</option>
         </select>
       </div>
       <AdvertisementBanner />

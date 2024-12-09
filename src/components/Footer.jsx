@@ -1,6 +1,6 @@
 function Footer(props) {
   return (
-    <footer class="mt-8 text-center text-gray-700">
+    <footer class="mt-8 text-center text-gray-700 p-4 bg-white shadow-inner">
       <p>جميع الحقوق محفوظة © 2023 Blind Accessibility</p>
       <a
         href="https://www.zapt.ai"

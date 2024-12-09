@@ -21,26 +21,28 @@ function App() {
   const location = useLocation();
 
   return (
-    <div class="min-h-screen h-full bg-gradient-to-br from-purple-200 to-gray-200 text-neutral-dark flex flex-col" dir="rtl">
-      <div class="flex-grow mx-auto w-full px-4 sm:px-6 lg:px-8 h-full">
+    <div class="min-h-screen h-full flex flex-col" dir="rtl">
+      <div class="flex-grow mx-auto w-full h-full">
+        <Header user={user} navigate={location.navigate} />
         <Show when={location.pathname !== '/share' && location.pathname !== '/login'}>
-          <Header user={user} />
           <AnnouncementBanner />
         </Show>
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/free-courses" element={<FreeCourses />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/tools/:toolName/*" element={<ToolPage user={user} />} />
-          <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/share" element={<ShareApp user={user} />} />
-          <Route path="/audio-library" element={<AudioLibrary />} />
-        </Routes>
-        <SocialMediaLinks />
+        <div class="px-4 sm:px-6 lg:px-8">
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/free-courses" element={<FreeCourses />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/:toolName/*" element={<ToolPage user={user} />} />
+            <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/share" element={<ShareApp user={user} />} />
+            <Route path="/audio-library" element={<AudioLibrary />} />
+          </Routes>
+          <SocialMediaLinks />
+        </div>
+        <Footer user={user} />
       </div>
-      <Footer user={user} />
     </div>
   );
 }
