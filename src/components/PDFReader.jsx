@@ -1,5 +1,6 @@
-import { createSignal, Show, onCleanup, createEffect } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { createEvent } from '../supabaseClient';
+import TextDisplay from './TextDisplay';
 
 function PDFReader() {
   const [selectedFile, setSelectedFile] = createSignal(null);
@@ -7,7 +8,9 @@ function PDFReader() {
   const [processedText, setProcessedText] = createSignal('');
   const [loadingOCR, setLoadingOCR] = createSignal(false);
   const [loadingAI, setLoadingAI] = createSignal(false);
+  const [loadingTTS, setLoadingTTS] = createSignal(false);
   const [error, setError] = createSignal('');
+  const [audioUrl, setAudioUrl] = createSignal('');
 
   let fileInputRef;
 
@@ -16,6 +19,7 @@ function PDFReader() {
     setSelectedFile(file);
     setExtractedText('');
     setProcessedText('');
+    setAudioUrl('');
     setError('');
   };
 
@@ -28,6 +32,7 @@ function PDFReader() {
     setLoadingOCR(true);
     setExtractedText('');
     setProcessedText('');
+    setAudioUrl('');
     setError('');
 
     const formData = new FormData();
@@ -37,7 +42,6 @@ function PDFReader() {
     formData.append('file', selectedFile());
 
     try {
-      // OCR processing
       const response = await fetch('https://api.ocr.space/parse/image', {
         method: 'POST',
         headers: {
@@ -52,7 +56,6 @@ function PDFReader() {
         const extracted = data.ParsedResults.map(result => result.ParsedText).join('\n');
         setExtractedText(extracted);
 
-        // AI processing
         setLoadingAI(true);
         const prompt = `قم بتصحيح النص العربي التالي، وتنسيقه بطريقة احترافية، مع إضافة علامات الترقيم والفقرات المناسبة، وتصحيح أي أخطاء، وقدم النص المنسق فقط:
 
@@ -78,34 +81,11 @@ ${extracted}`;
     }
   };
 
-  const handleCopyText = () => {
-    const text = processedText() || extractedText();
-    if (text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('تم نسخ النص إلى الحافظة.');
-      }, () => {
-        alert('حدث خطأ أثناء نسخ النص.');
-      });
-    }
-  };
-
-  const handleDownloadText = () => {
-    const text = processedText() || extractedText();
-    if (text) {
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'extracted_text.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
   const handleReset = () => {
     setSelectedFile(null);
     setExtractedText('');
     setProcessedText('');
+    setAudioUrl('');
     setError('');
     if (fileInputRef) {
       fileInputRef.value = '';
@@ -113,7 +93,7 @@ ${extracted}`;
   };
 
   return (
-    <div class="flex flex-col flex-grow px-4 h-full">
+    <div class="flex flex-col flex-grow h-full px-4">
       <div class="flex flex-col items-center mb-4">
         <h2 class="text-2xl font-bold text-purple-600 mb-2">قارئ PDF الاحترافي</h2>
         <p class="text-lg text-center text-gray-700">قم بتحميل ملف PDF ليتم استخراج نص صحيح ومنسق احترافيًا باستخدام تقنية OCR والذكاء الاصطناعي</p>
@@ -145,15 +125,17 @@ ${extracted}`;
         <div class="flex space-x-4 space-x-reverse">
           <button
             class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out transform ${
-              loadingOCR() || loadingAI() ? 'opacity-50 cursor-not-allowed' : ''
+              (loadingOCR() || loadingAI()) ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             onClick={handleExtractText}
             disabled={loadingOCR() || loadingAI()}
           >
-            {loadingOCR() ? 'جار استخراج النص...' : loadingAI() ? 'جار معالجة النص...' : 'استخراج النص'}
+            <Show when={!loadingOCR() && !loadingAI()} fallback="جاري المعالجة...">
+              استخراج النص
+            </Show>
           </button>
           <button
-            class={`cursor-pointer px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out transform`}
+            class="cursor-pointer px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out transform"
             onClick={handleReset}
           >
             إعادة تعيين
@@ -166,28 +148,14 @@ ${extracted}`;
         </div>
       </Show>
       <Show when={processedText() || extractedText()}>
-        <div class="mt-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">النص الناتج:</h3>
-          <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
-            <p class="whitespace-pre-wrap text-gray-800" style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}>
-              {processedText() || extractedText()}
-            </p>
-          </div>
-          <div class="mt-4 flex space-x-4 space-x-reverse">
-            <button
-              class="cursor-pointer px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform"
-              onClick={handleCopyText}
-            >
-              نسخ النص
-            </button>
-            <button
-              class="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform"
-              onClick={handleDownloadText}
-            >
-              تنزيل النص
-            </button>
-          </div>
-        </div>
+        <TextDisplay
+          processedText={processedText}
+          extractedText={extractedText}
+          audioUrl={audioUrl}
+          setAudioUrl={setAudioUrl}
+          loadingTTS={loadingTTS}
+          setLoadingTTS={setLoadingTTS}
+        />
       </Show>
     </div>
   );
