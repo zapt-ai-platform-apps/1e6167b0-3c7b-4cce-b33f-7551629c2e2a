@@ -1,13 +1,10 @@
-import { createSignal, createMemo, Show, For } from 'solid-js';
+import { createSignal, createMemo, Show } from 'solid-js';
 import categories from '../data/categories';
 import AppList from './AppList';
+import CategorySelector from './CategorySelector';
 
 function EssentialApps() {
   const [selectedCategory, setSelectedCategory] = createSignal('');
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
 
   const currentCategory = createMemo(() => {
     return categories.find((category) => category.name === selectedCategory());
@@ -26,16 +23,11 @@ function EssentialApps() {
       </div>
 
       <div class="mb-8 flex justify-center">
-        <select
-          value={selectedCategory()}
-          onInput={handleCategoryChange}
-          class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
-        >
-          <option value="">اختر فئة التطبيقات</option>
-          <For each={categories}>
-            {(category) => <option value={category.name}>{category.name}</option>}
-          </For>
-        </select>
+        <CategorySelector
+          categories={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
 
       <Show when={currentCategory()}>
