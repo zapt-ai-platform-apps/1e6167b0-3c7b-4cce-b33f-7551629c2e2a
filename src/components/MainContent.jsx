@@ -36,7 +36,6 @@ function MainContent() {
           class="box-border p-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر وجهتك...</option>
-          <option value="audio-library">المكتبة الصوتية</option>
           <option value="important-apps">أهم التطبيقات</option>
         </select>
       </div>

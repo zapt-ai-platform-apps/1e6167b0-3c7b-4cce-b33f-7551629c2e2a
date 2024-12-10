@@ -12,7 +12,7 @@ import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
 import ShareApp from './components/ShareApp';
-import AudioLibrary from './components/AudioLibrary';
+import ImportantApps from './components/ImportantApps';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
             <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
             <Route path="/login" element={<AuthPage />} />
             <Route path="/share" element={<ShareApp user={user} />} />
-            <Route path="/audio-library" element={<AudioLibrary />} />
+            <Route path="/important-apps" element={<ImportantApps />} />
           </Routes>
           <SocialMediaLinks />
         </div>
