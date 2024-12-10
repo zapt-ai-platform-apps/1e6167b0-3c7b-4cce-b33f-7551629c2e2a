@@ -1,6 +1,5 @@
 import categories from '../data/categories';
 import servicesCategories from '../data/servicesCategories';
-import appsCategories from '../data/appsCategories';
 
 export function getAds() {
   const ads = [];
@@ -27,19 +26,6 @@ export function getAds() {
         description: service.description,
         buttonText: 'عرض الخدمة',
         link: service.link || `/services/${encodeURIComponent(service.name)}`,
-      });
-    });
-  });
-
-  // Add apps from appsCategories
-  appsCategories.forEach((category) => {
-    category.apps.forEach((app) => {
-      ads.push({
-        type: 'app',
-        title: app.name,
-        description: app.description,
-        buttonText: 'تحميل التطبيق',
-        link: app.downloadLink,
       });
     });
   });
