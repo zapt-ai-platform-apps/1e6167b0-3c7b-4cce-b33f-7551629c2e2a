@@ -1,5 +1,5 @@
-const appsData = {
-  'قارئات الشاشة': [
+export default {
+  'screen-readers': [
     {
       name: 'TalkBack',
       description: 'قارئ الشاشة الرسمي لأجهزة أندرويد من Google.',
@@ -11,7 +11,7 @@ const appsData = {
       downloadLink: 'https://archive.org/download/jieshuo-plus/jieshuo-plus.apk',
     },
   ],
-  'محركات تحويل نص لكلام': [
+  'text-to-speech': [
     {
       name: 'SmartVoice',
       description: 'محرك تحويل النص إلى كلام مع ميزات متقدمة ويدعم اللغة العربية.',
@@ -23,7 +23,7 @@ const appsData = {
       downloadLink: 'https://play.google.com/store/apps/details?id=com.google.android.tts',
     },
   ],
-  'تطبيقات مساعدة لتسهيل الوصول': [
+  'accessibility-tools': [
     {
       name: 'Envision AI',
       description: 'تطبيق يساعد المكفوفين وضعاف البصر على التعرف على الأشياء والنصوص باستخدام الذكاء الاصطناعي.',
@@ -55,7 +55,5 @@ const appsData = {
       downloadLink: 'https://play.google.com/store/apps/details?id=com.istar.read',
     },
   ],
-  'تطبيقاتنا': [],
+  'our-apps': [],
 };
-
-export default appsData;
