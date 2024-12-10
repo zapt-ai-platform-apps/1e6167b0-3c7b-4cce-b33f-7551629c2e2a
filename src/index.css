@@ -11,7 +11,7 @@
 }
 
 body {
-  @apply min-h-screen bg-background text-neutral-dark flex flex-col;
+  @apply h-full bg-background text-neutral-dark flex flex-col;
   font-family: 'Noto Kufi Arabic', 'Tahoma', sans-serif;
 }
 
