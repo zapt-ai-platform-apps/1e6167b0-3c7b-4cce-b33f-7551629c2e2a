@@ -37,6 +37,7 @@ function MainContent() {
         >
           <option value="">اختر وجهتك...</option>
           <option value="audio-library">المكتبة الصوتية</option>
+          <option value="important-apps">أهم التطبيقات</option>
         </select>
       </div>
       <AdvertisementBanner />
