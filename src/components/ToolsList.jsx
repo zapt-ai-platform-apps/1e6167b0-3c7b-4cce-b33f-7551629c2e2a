@@ -13,12 +13,7 @@ function ToolsList(props) {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <For each={tools}>{(tool) => (
           <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
-            <img
-              src="PLACEHOLDER"
-              alt={tool.name}
-              {...{'data-image-request': `Icon representing ${tool.name}`}}
-              class="w-16 h-16 mx-auto mb-4"
-            />
+            {/* Removed image */}
             <h3 class="text-xl font-bold mb-2 text-primary-dark text-center">{tool.name}</h3>
             <p class="text-gray-700 mb-4 text-center">{tool.description}</p>
             <button

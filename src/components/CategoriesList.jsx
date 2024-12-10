@@ -9,12 +9,7 @@ function CategoriesList(props) {
         <div
           class="cursor-pointer bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
         >
-          <img
-            src="PLACEHOLDER"
-            alt={category.name}
-            {...{'data-image-request': `Icon representing ${category.name}`}}
-            class="w-16 h-16 mx-auto mb-4"
-          />
+          {/* Removed image */}
           <h3 class="text-xl font-bold mb-2 text-primary-dark text-center">{category.name}</h3>
           <p class="text-gray-700 text-center mb-4">{category.description}</p>
           <button
