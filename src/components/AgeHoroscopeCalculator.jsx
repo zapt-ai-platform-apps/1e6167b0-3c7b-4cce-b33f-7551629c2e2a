@@ -2,6 +2,7 @@ import { createSignal, Show } from 'solid-js';
 import { createEvent } from '../supabaseClient';
 import zodiacSigns from '../utils/zodiacSigns';
 import AdviceAndResults from './AdviceAndResults';
+import AgeHoroscopeForm from './AgeHoroscopeForm';
 
 function AgeHoroscopeCalculator() {
   const [birthDate, setBirthDate] = createSignal('');
@@ -37,7 +38,6 @@ function AgeHoroscopeCalculator() {
         if (z.startDate <= z.endDate) {
           return birthMonthDay >= z.startDate && birthMonthDay <= z.endDate;
         } else {
-          // For signs that span over the year-end
           return birthMonthDay >= z.startDate || birthMonthDay <= z.endDate;
         }
       });
@@ -58,32 +58,19 @@ function AgeHoroscopeCalculator() {
   };
 
   return (
-    <div class="flex flex-col flex-grow h-full px-4">
-      <div class="flex flex-col items-center mb-4">
-        <h2 class="text-2xl font-bold text-purple-600 mb-2">حاسبة العمر والأبراج</h2>
+    <div class="flex flex-col flex-grow h-full items-center px-4">
+      <div class="flex flex-col items-center mb-8">
+        <h2 class="text-3xl font-bold text-purple-600 mb-4">حاسبة العمر والأبراج</h2>
         <p class="text-lg text-center text-gray-700">
           أدخل تاريخ ميلادك لتعرف عمرك وبرجك وتحصل على نصائح وإرشادات وتوقعات
         </p>
       </div>
-      <div class="flex flex-col mb-4 space-y-4 items-center">
-        <input
-          type="date"
-          value={birthDate()}
-          onInput={(e) => setBirthDate(e.target.value)}
-          class="w-full max-w-sm p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-        />
-        <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 hover:scale-105 transition duration-300 ease-in-out transform box-border ${
-            loading() ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-          onClick={calculateAgeAndSign}
-          disabled={loading()}
-        >
-          <Show when={!loading()} fallback="جاري الحساب...">
-            احسب
-          </Show>
-        </button>
-      </div>
+      <AgeHoroscopeForm
+        birthDate={birthDate}
+        setBirthDate={setBirthDate}
+        calculateAgeAndSign={calculateAgeAndSign}
+        loading={loading}
+      />
       <Show when={error()}>
         <div class="mt-4 text-red-600 font-semibold text-center">{error()}</div>
       </Show>

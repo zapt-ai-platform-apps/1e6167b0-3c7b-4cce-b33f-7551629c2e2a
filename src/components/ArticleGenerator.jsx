@@ -1,5 +1,7 @@
-import { createSignal, Show } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { createEvent } from '../supabaseClient';
+import ContentGeneratorForm from './ContentGeneratorForm';
+import GeneratedContent from './GeneratedContent';
 
 function ArticleGenerator() {
   const [topic, setTopic] = createSignal('');
@@ -41,54 +43,24 @@ function ArticleGenerator() {
   };
 
   return (
-    <div class="flex flex-col flex-grow px-4 h-full">
-      <div class="flex flex-col items-center mb-4">
-        <h2 class="text-2xl font-bold text-purple-600 mb-2">منشئ جميع أنواع المحتوى النصي</h2>
+    <div class="flex flex-col flex-grow items-center px-4 h-full">
+      <div class="flex flex-col items-center mb-8">
+        <h2 class="text-3xl font-bold text-purple-600 mb-4">منشئ جميع أنواع المحتوى النصي</h2>
         <p class="text-lg text-center text-gray-700">أدخل الموضوع واختر نوع المحتوى لتوليد نص مخصص</p>
       </div>
-      <div class="flex flex-col mb-4">
-        <input
-          type="text"
-          value={topic()}
-          onInput={(e) => setTopic(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border mb-4"
-          placeholder="أدخل الموضوع..."
-        />
-        <select
-          value={contentType()}
-          onInput={(e) => setContentType(e.target.value)}
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer mb-4"
-        >
-          <option value="">اختر نوع المحتوى</option>
-          {contentTypes.map((type) => (
-            <option value={type}>{type}</option>
-          ))}
-        </select>
-        <button
-          class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-lg transition duration-300 ease-in-out transform box-border ${
-            loading() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700 hover:scale-105'
-          }`}
-          onClick={handleGenerateContent}
-          disabled={loading()}
-        >
-          <Show when={!loading()} fallback={
-            <div class="flex items-center justify-center">
-              <span class="loader mr-2"></span>
-              جاري التوليد...
-            </div>
-          }>
-            إنشاء
-          </Show>
-        </button>
-      </div>
-      <Show when={generatedContent()}>
-        <div class="mt-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">{`${contentType()} المُولد:`}</h3>
-          <div class="p-4 border border-gray-300 rounded-lg bg-white">
-            <p class="whitespace-pre-wrap text-gray-800">{generatedContent()}</p>
-          </div>
-        </div>
-      </Show>
+      <ContentGeneratorForm
+        topic={topic}
+        setTopic={setTopic}
+        contentType={contentType}
+        setContentType={setContentType}
+        contentTypes={contentTypes}
+        handleGenerateContent={handleGenerateContent}
+        loading={loading}
+      />
+      <GeneratedContent
+        generatedContent={generatedContent}
+        contentType={contentType}
+      />
     </div>
   );
 }
