@@ -9,10 +9,24 @@ const servicesCategories = [
         description: 'انضم إلى دوراتنا التدريبية المجانية وطور مهاراتك في مختلف المجالات!',
         link: '/services/free-courses',
       },
-      // أضف المزيد من الخدمات هنا
+      {
+        name: 'المدونة',
+        description: 'اقرأ أحدث المقالات في مختلف المجالات.',
+        link: '/blog',
+      },
+      {
+        name: 'المتجر',
+        description: 'تصفح المنتجات والخدمات المتاحة.',
+        link: '/store',
+      },
+      {
+        name: 'المنتدى',
+        description: 'شارك في النقاشات وتواصل مع المجتمع.',
+        link: '/forum',
+      },
     ],
   },
-  // أضف فئات أخرى إذا لزم الأمر
+  // يمكنك إضافة المزيد من فئات الخدمات هنا إذا لزم الأمر
 ];
 
 export default servicesCategories;
