@@ -1,4 +1,4 @@
-import { createSignal, onMount } from 'solid-js';
+import { createSignal, onMount, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import categories from '../data/categories';
 import servicesCategories from '../data/servicesCategories';
@@ -17,7 +17,7 @@ function AdvertisementBanner() {
         title: tool.name,
         description: tool.description,
         buttonText: 'جرب الآن',
-        link: tool.link || `/tools/${tool.name}`,
+        link: tool.link || `/tools/${encodeURIComponent(tool.name)}`,
       });
     });
   });
@@ -29,7 +29,7 @@ function AdvertisementBanner() {
         title: service.name,
         description: service.description,
         buttonText: 'عرض الخدمة',
-        link: service.link || `/services/${service.name}`,
+        link: service.link || `/services/${encodeURIComponent(service.name)}`,
       });
     });
   });
@@ -47,6 +47,10 @@ function AdvertisementBanner() {
   });
 
   const getRandomAd = () => {
+    if (ads.length === 0) {
+      setAd(null);
+      return;
+    }
     const randomIndex = Math.floor(Math.random() * ads.length);
     setAd(ads[randomIndex]);
   };
@@ -56,24 +60,28 @@ function AdvertisementBanner() {
   });
 
   const handleButtonClick = () => {
-    if (ad().link.startsWith('http')) {
-      window.open(ad().link, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(ad().link);
+    if (ad() && ad().link) {
+      if (ad().link.startsWith('http')) {
+        window.open(ad().link, '_blank', 'noopener,noreferrer');
+      } else {
+        navigate(encodeURI(ad().link));
+      }
     }
   };
 
   return (
-    <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 p-6 rounded-lg mb-8">
-      <h3 class="text-2xl font-bold mb-2">{ad()?.title}</h3>
-      <p class="text-lg mb-4">{ad()?.description}</p>
-      <button
-        class="cursor-pointer px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
-        onClick={handleButtonClick}
-      >
-        {ad()?.buttonText}
-      </button>
-    </div>
+    <Show when={ad()}>
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 p-6 rounded-lg mb-8">
+        <h3 class="text-2xl font-bold mb-2">{ad().title}</h3>
+        <p class="text-lg mb-4">{ad().description}</p>
+        <button
+          class="cursor-pointer px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
+          onClick={handleButtonClick}
+        >
+          {ad().buttonText}
+        </button>
+      </div>
+    </Show>
   );
 }
 
