@@ -11,7 +11,6 @@ import Footer from './components/Footer';
 import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
-import ShareApp from './components/ShareApp';
 import ImportantApps from './components/ImportantApps';
 import { useAuth } from './hooks/useAuth';
 
@@ -24,7 +23,7 @@ function App() {
     <div class="h-full flex flex-col" dir="rtl">
       <div class="flex-grow mx-auto w-full h-full">
         <Header user={user} navigate={location.navigate} />
-        <Show when={location.pathname !== '/share' && location.pathname !== '/login'}>
+        <Show when={location.pathname !== '/login'}>
           <AnnouncementBanner />
         </Show>
         <div class="px-4 sm:px-6 lg:px-8">
@@ -36,7 +35,6 @@ function App() {
             <Route path="/tools/:toolName/*" element={<ToolPage user={user} />} />
             <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
             <Route path="/login" element={<AuthPage />} />
-            <Route path="/share" element={<ShareApp user={user} />} />
             <Route path="/important-apps" element={<ImportantApps />} />
           </Routes>
           <SocialMediaLinks />

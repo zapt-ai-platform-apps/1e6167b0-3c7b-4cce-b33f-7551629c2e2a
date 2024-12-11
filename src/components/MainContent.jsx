@@ -22,14 +22,6 @@ function MainContent() {
         </p>
       </div>
       <div class="mb-8 flex justify-center">
-        <button
-          class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
-          onClick={() => navigate('/share')}
-        >
-          شارك التطبيق
-        </button>
-      </div>
-      <div class="mb-8 flex justify-center">
         <select
           value={selectedOption()}
           onInput={handleSelectionChange}
