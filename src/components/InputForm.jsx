@@ -8,10 +8,7 @@ function InputForm(props) {
     setDescription,
     size,
     setSize,
-    format,
-    setFormat,
     sizes,
-    formats,
     handleGenerateImage,
     loading,
   } = props;
@@ -38,16 +35,6 @@ function InputForm(props) {
       >
         <option value="">اختر حجم الصورة</option>
         <For each={sizes}>{(item) => (
-          <option value={item}>{item}</option>
-        )}</For>
-      </select>
-      <select
-        value={format()}
-        onInput={(e) => setFormat(e.target.value)}
-        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
-      >
-        <option value="">اختر صيغة الصورة</option>
-        <For each={formats}>{(item) => (
           <option value={item}>{item}</option>
         )}</For>
       </select>
