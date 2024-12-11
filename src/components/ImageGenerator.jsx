@@ -34,11 +34,24 @@ function ImageGenerator() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setGeneratedImage(data.imageUrl);
+        try {
+          const data = await response.json();
+          setGeneratedImage(data.imageUrl);
+        } catch (err) {
+          console.error('Error parsing JSON:', err);
+          Sentry.captureException(err);
+          alert('حدث خطأ أثناء معالجة الاستجابة.');
+        }
       } else {
-        const errorData = await response.json();
-        alert(errorData.error || 'حدث خطأ أثناء توليد الصورة.');
+        let errorMessage = 'حدث خطأ أثناء توليد الصورة.';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError);
+          Sentry.captureException(parseError);
+        }
+        alert(errorMessage);
       }
     } catch (error) {
       console.error('Error generating image:', error);

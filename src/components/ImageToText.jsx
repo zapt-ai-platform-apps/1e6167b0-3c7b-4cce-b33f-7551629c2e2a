@@ -1,5 +1,6 @@
 import { createSignal, Show, onCleanup } from 'solid-js';
-import { createEvent } from '../supabaseClient';
+import { extractTextFromImage } from '../utils/ocrApi';
+import { processTextWithAI } from '../utils/aiApi';
 
 function ImageToText() {
   const [selectedFile, setSelectedFile] = createSignal(null);
@@ -41,61 +42,33 @@ function ImageToText() {
     setProcessedText('');
     setError('');
 
-    const formData = new FormData();
-    formData.append('language', 'ara');
-    formData.append('isOverlayRequired', 'false');
-    formData.append('file', selectedFile());
+    const extracted = await extractTextFromImage(selectedFile(), setError);
+    setLoadingOCR(false);
 
-    try {
-      // OCR processing
-      const response = await fetch('https://api.ocr.space/parse/image', {
-        method: 'POST',
-        headers: {
-          'apikey': import.meta.env.VITE_PUBLIC_OCRSPACE_API_KEY,
-        },
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.IsErroredOnProcessing) {
-        setError('حدث خطأ أثناء معالجة الصورة: ' + data.ErrorMessage[0]);
-      } else if (data.ParsedResults && data.ParsedResults.length > 0) {
-        const extracted = data.ParsedResults[0].ParsedText;
-        setExtractedText(extracted);
+    if (extracted) {
+      setExtractedText(extracted);
 
-        // AI processing
-        setLoadingAI(true);
-        const prompt = `قم بتصحيح النص العربي التالي، وتنسيقه بطريقة احترافية، مع إضافة علامات الترقيم والفقرات المناسبة، وتصحيح أي أخطاء، وقدم النص المنسق فقط:
-
-النص:
-${extracted}`;
-
-        const aiResponse = await createEvent('chatgpt_request', {
-          prompt: prompt,
-          response_type: 'text',
-        });
-
-        setProcessedText(aiResponse);
-
-      } else {
-        setError('لم يتم العثور على نص في الصورة.');
-      }
-    } catch (error) {
-      console.error('Error extracting text:', error);
-      setError('حدث خطأ أثناء استخراج النص. يرجى المحاولة مرة أخرى.');
-    } finally {
-      setLoadingOCR(false);
+      setLoadingAI(true);
+      const processed = await processTextWithAI(extracted, setError);
       setLoadingAI(false);
+
+      if (processed) {
+        setProcessedText(processed);
+      }
     }
   };
 
   const handleCopyText = () => {
     const text = processedText() || extractedText();
     if (text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('تم نسخ النص إلى الحافظة.');
-      }, () => {
-        alert('حدث خطأ أثناء نسخ النص.');
-      });
+      navigator.clipboard.writeText(text).then(
+        () => {
+          alert('تم نسخ النص إلى الحافظة.');
+        },
+        () => {
+          alert('حدث خطأ أثناء نسخ النص.');
+        }
+      );
     }
   };
 
@@ -123,7 +96,6 @@ ${extracted}`;
     }
   };
 
-  // Clean up
   onCleanup(() => {
     if (imagePreview()) {
       URL.revokeObjectURL(imagePreview());
@@ -134,7 +106,9 @@ ${extracted}`;
     <div class="flex flex-col flex-grow px-4 h-full">
       <div class="flex flex-col items-center mb-4">
         <h2 class="text-2xl font-bold text-purple-600 mb-2">أداة استخراج النص من الصورة</h2>
-        <p class="text-lg text-center text-gray-700">قم بتحميل صورة تحتوي على نص ليتم استخراج نص صحيح ومنسق احترافيًا باستخدام تقنية OCR والذكاء الاصطناعي</p>
+        <p class="text-lg text-center text-gray-700">
+          قم بتحميل صورة تحتوي على نص ليتم استخراج نص صحيح ومنسق احترافيًا باستخدام تقنية OCR والذكاء الاصطناعي
+        </p>
       </div>
       <div class="flex flex-col items-center">
         <label class="cursor-pointer flex flex-col items-center bg-white rounded-lg border border-gray-300 p-4 mb-4 hover:bg-gray-100 transition">
@@ -168,7 +142,11 @@ ${extracted}`;
             onClick={handleExtractText}
             disabled={loadingOCR() || loadingAI()}
           >
-            {loadingOCR() ? 'جار استخراج النص...' : loadingAI() ? 'جار معالجة النص...' : 'استخراج النص'}
+            {loadingOCR()
+              ? 'جار استخراج النص...'
+              : loadingAI()
+              ? 'جار معالجة النص...'
+              : 'استخراج النص'}
           </button>
           <button
             class={`cursor-pointer px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out transform`}
@@ -179,15 +157,16 @@ ${extracted}`;
         </div>
       </div>
       <Show when={error()}>
-        <div class="mt-4 text-red-600 font-semibold text-center">
-          {error()}
-        </div>
+        <div class="mt-4 text-red-600 font-semibold text-center">{error()}</div>
       </Show>
       <Show when={processedText() || extractedText()}>
         <div class="mt-4">
           <h3 class="text-lg font-bold mb-2 text-purple-600">النص الناتج:</h3>
           <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
-            <p class="whitespace-pre-wrap text-gray-800" style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}>
+            <p
+              class="whitespace-pre-wrap text-gray-800"
+              style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}
+            >
               {processedText() || extractedText()}
             </p>
           </div>

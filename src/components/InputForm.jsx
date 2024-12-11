@@ -1,55 +1,56 @@
-import { For, Show } from 'solid-js';
+import { For } from 'solid-js';
 
 function InputForm(props) {
-  const {
-    title,
-    setTitle,
-    description,
-    setDescription,
-    size,
-    setSize,
-    sizes,
-    handleGenerateImage,
-    loading,
-  } = props;
-
   return (
-    <div class="flex flex-col mb-8 space-y-4 w-full max-w-md">
-      <input
-        type="text"
-        value={title()}
-        onInput={(e) => setTitle(e.target.value)}
-        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
-        placeholder="عنوان الصورة (اختياري)"
-      />
-      <textarea
-        value={description()}
-        onInput={(e) => setDescription(e.target.value)}
-        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border resize-none h-32"
-        placeholder="وصف تفصيلي للصورة..."
-      ></textarea>
-      <select
-        value={size()}
-        onInput={(e) => setSize(e.target.value)}
-        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
-      >
-        <option value="">اختر حجم الصورة</option>
-        <For each={sizes}>{(item) => (
-          <option value={item}>{item}</option>
-        )}</For>
-      </select>
-      <button
-        class={`cursor-pointer px-6 py-3 bg-purple-600 text-white rounded-full transition duration-300 ease-in-out transform box-border ${
-          loading() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700 hover:scale-105'
-        }`}
-        onClick={handleGenerateImage}
-        disabled={loading()}
-      >
-        <Show when={!loading()} fallback="جاري التوليد...">
-          إنشاء
-        </Show>
-      </button>
-    </div>
+    <form class="w-full max-w-md">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          العنوان
+        </label>
+        <input
+          type="text"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={props.title()}
+          onInput={(e) => props.setTitle(e.target.value)}
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          الوصف
+        </label>
+        <textarea
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={props.description()}
+          onInput={(e) => props.setDescription(e.target.value)}
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          الحجم
+        </label>
+        <select
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value={props.size()}
+          onChange={(e) => props.setSize(e.target.value)}
+        >
+          <For each={props.sizes}>
+            {(sizeOption) => (
+              <option value={sizeOption}>{sizeOption}</option>
+            )}
+          </For>
+        </select>
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+          type="button"
+          class={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${props.loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={props.loading()}
+          onClick={props.handleGenerateImage}
+        >
+          {props.loading() ? 'جارٍ التوليد...' : 'توليد الصورة'}
+        </button>
+      </div>
+    </form>
   );
 }
 

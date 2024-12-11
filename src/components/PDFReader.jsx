@@ -1,5 +1,5 @@
 import { createSignal, Show } from 'solid-js';
-import { createEvent } from '../supabaseClient';
+import { extractAndProcessText } from '../helpers/ocrProcess';
 import TextDisplay from './TextDisplay';
 
 function PDFReader() {
@@ -35,45 +35,16 @@ function PDFReader() {
     setAudioUrl('');
     setError('');
 
-    const formData = new FormData();
-    formData.append('language', 'ara');
-    formData.append('isOverlayRequired', 'false');
-    formData.append('isSearchablePdfHideTextLayer', 'true');
-    formData.append('file', selectedFile());
-
     try {
-      const response = await fetch('https://api.ocr.space/parse/image', {
-        method: 'POST',
-        headers: {
-          'apikey': import.meta.env.VITE_PUBLIC_OCRSPACE_API_KEY,
-        },
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.IsErroredOnProcessing) {
-        setError('حدث خطأ أثناء معالجة الملف: ' + data.ErrorMessage[0]);
-      } else if (data.ParsedResults && data.ParsedResults.length > 0) {
-        const extracted = data.ParsedResults.map(result => result.ParsedText).join('\n');
-        setExtractedText(extracted);
-
-        setLoadingAI(true);
-        const prompt = `قم بتصحيح النص العربي التالي، وتنسيقه بطريقة احترافية، مع إضافة علامات الترقيم والفقرات المناسبة، وتصحيح أي أخطاء، وقدم النص المنسق فقط:
-
-النص:
-${extracted}`;
-
-        const aiResponse = await createEvent('chatgpt_request', {
-          prompt: prompt,
-          response_type: 'text',
-        });
-
-        setProcessedText(aiResponse);
-
+      const { extracted, processed, error: extractError } = await extractAndProcessText(selectedFile());
+      if (extractError) {
+        setError(extractError);
       } else {
-        setError('لم يتم العثور على نص في الملف.');
+        setExtractedText(extracted);
+        setProcessedText(processed);
       }
-    } catch (error) {
-      console.error('Error extracting text:', error);
+    } catch (err) {
+      console.error('Error:', err);
       setError('حدث خطأ أثناء استخراج النص. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoadingOCR(false);
