@@ -21,7 +21,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div class="min-h-screen h-full flex flex-col" dir="rtl">
+    <div class="h-full flex flex-col" dir="rtl">
       <div class="flex-grow mx-auto w-full h-full">
         <Header user={user} navigate={location.navigate} />
         <Show when={location.pathname !== '/share' && location.pathname !== '/login'}>

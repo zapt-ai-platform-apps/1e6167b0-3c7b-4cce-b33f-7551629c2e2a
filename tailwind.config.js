@@ -26,6 +26,9 @@ export default {
         background: {
           DEFAULT: '#f9fafb',
         },
+        text: {
+          DEFAULT: '#4a4a4a',
+        },
       },
       fontFamily: {
         sans: ['Noto Kufi Arabic', 'Tahoma', 'Arial', 'sans-serif'],

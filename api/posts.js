@@ -1,6 +1,12 @@
 import supabaseAdmin from './_supabaseAdminClient';
 import * as Sentry from "@sentry/node";
-import jwt from 'jsonwebtoken';
+import authenticateUser from './utils/authenticate';
+import {
+  fetchPosts,
+  createPost,
+  updatePost,
+  deletePost
+} from './utils/postsOperations';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -17,35 +23,11 @@ export default async function handler(req, res) {
   try {
     const { authorization } = req.headers;
 
-    let user = null;
-    if (authorization) {
-      const token = authorization.split(' ')[1];
-      const SECRET = process.env.SUPABASE_JWT_SECRET;
-
-      try {
-        user = jwt.verify(token, SECRET);
-      } catch (err) {
-        console.error('Token verification failed:', err);
-        Sentry.captureException(err);
-      }
-    }
+    const user = await authenticateUser(authorization);
 
     if (req.method === 'GET') {
-      // Fetch posts
-      const { data, error } = await supabaseAdmin
-        .from('posts')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching posts:', error);
-        Sentry.captureException(error);
-        return res.status(500).json({ error: 'حدث خطأ أثناء جلب المقالات.' });
-      }
-
-      return res.status(200).json({ posts: data });
-    } else if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
-      // Ensure the user is authenticated and is the admin
+      return await fetchPosts(req, res, supabaseAdmin);
+    } else if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
       if (!user) {
         return res.status(401).json({ error: 'غير مصرح' });
       }
@@ -55,62 +37,11 @@ export default async function handler(req, res) {
       }
 
       if (req.method === 'POST') {
-        const { title, description, content, category } = req.body;
-
-        const { data, error } = await supabaseAdmin
-          .from('posts')
-          .insert([
-            {
-              title,
-              description,
-              content,
-              category,
-              created_at: new Date(),
-            },
-          ]);
-
-        if (error) {
-          console.error('Error creating post:', error);
-          Sentry.captureException(error);
-          return res.status(500).json({ error: 'حدث خطأ أثناء إنشاء المقال.' });
-        }
-
-        return res.status(200).json({ message: 'تم إنشاء المقال بنجاح.', post: data[0] });
+        return await createPost(req, res, supabaseAdmin);
       } else if (req.method === 'PUT') {
-        const { id, title, description, content, category } = req.body;
-
-        const { data, error } = await supabaseAdmin
-          .from('posts')
-          .update({
-            title,
-            description,
-            content,
-            category,
-          })
-          .eq('id', id);
-
-        if (error) {
-          console.error('Error updating post:', error);
-          Sentry.captureException(error);
-          return res.status(500).json({ error: 'حدث خطأ أثناء تحديث المقال.' });
-        }
-
-        return res.status(200).json({ message: 'تم تحديث المقال بنجاح.', post: data[0] });
+        return await updatePost(req, res, supabaseAdmin);
       } else if (req.method === 'DELETE') {
-        const { id } = req.body;
-
-        const { error } = await supabaseAdmin
-          .from('posts')
-          .delete()
-          .eq('id', id);
-
-        if (error) {
-          console.error('Error deleting post:', error);
-          Sentry.captureException(error);
-          return res.status(500).json({ error: 'حدث خطأ أثناء حذف المقال.' });
-        }
-
-        return res.status(200).json({ message: 'تم حذف المقال بنجاح.' });
+        return await deletePost(req, res, supabaseAdmin);
       }
     } else {
       res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
