@@ -1,4 +1,5 @@
 import { Show } from 'solid-js';
+import { SolidMarkdown } from 'solid-markdown';
 
 function AdviceAndResults(props) {
   const { age, zodiacSign, advice } = props;
@@ -15,7 +16,7 @@ function AdviceAndResults(props) {
       <Show when={advice()}>
         <div class="mt-6 p-6 bg-white rounded-lg shadow-md">
           <h3 class="text-2xl font-bold mb-4 text-purple-600">نصائح وإرشادات</h3>
-          <p class="whitespace-pre-wrap text-gray-800 leading-relaxed">{advice()}</p>
+          <SolidMarkdown class="prose text-gray-800 leading-relaxed" children={advice()} />
         </div>
       </Show>
     </>

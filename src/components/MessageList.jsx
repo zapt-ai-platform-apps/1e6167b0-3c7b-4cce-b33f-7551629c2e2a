@@ -1,4 +1,5 @@
 import { For } from 'solid-js';
+import { SolidMarkdown } from 'solid-markdown';
 
 function MessageList(props) {
   return (
@@ -13,7 +14,11 @@ function MessageList(props) {
                   : 'bg-gray-100 text-gray-800'
               }`}
             >
-              {msg.content}
+              {msg.role === 'user' ? (
+                msg.content
+              ) : (
+                <SolidMarkdown class="prose text-gray-800 leading-relaxed" children={msg.content} />
+              )}
             </div>
           </div>
         )}
