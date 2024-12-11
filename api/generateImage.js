@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { Configuration, OpenAIApi } from 'openai';
+import getRawBody from 'raw-body';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -19,7 +20,17 @@ export default async function handler(req, res) {
       return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 
-    const { prompt, size } = req.body;
+    // Parse the request body
+    const rawBody = await getRawBody(req);
+    let body;
+    try {
+      body = JSON.parse(rawBody.toString('utf-8'));
+    } catch (err) {
+      res.status(400).json({ error: 'البيانات المرسلة غير صحيحة' });
+      return;
+    }
+
+    const { prompt, size } = body;
 
     if (!prompt || !size) {
       return res.status(400).json({ error: 'الطلب والوصف والحجم مطلوبان' });

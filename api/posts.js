@@ -7,6 +7,7 @@ import {
   updatePost,
   deletePost
 } from './utils/postsOperations';
+import getRawBody from 'raw-body';
 
 Sentry.init({
   dsn: process.env.VITE_PUBLIC_SENTRY_DSN,
@@ -34,6 +35,15 @@ export default async function handler(req, res) {
 
       if (user.email !== 'daoudi.abdennour@gmail.com') {
         return res.status(403).json({ error: 'ممنوع' });
+      }
+
+      // Parse the request body
+      const rawBody = await getRawBody(req);
+      try {
+        req.body = JSON.parse(rawBody.toString('utf-8'));
+      } catch (err) {
+        res.status(400).json({ error: 'البيانات المرسلة غير صحيحة' });
+        return;
       }
 
       if (req.method === 'POST') {
