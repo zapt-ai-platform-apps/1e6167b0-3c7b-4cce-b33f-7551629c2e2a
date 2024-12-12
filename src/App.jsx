@@ -11,7 +11,6 @@ import Footer from './components/Footer';
 import Account from './components/Account';
 import AuthPage from './components/AuthPage';
 import FreeCourses from './components/FreeCourses';
-import ImportantApps from './components/ImportantApps';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
             <Route path="/tools/:toolName/*" element={<ToolPage user={user} />} />
             <Route path="/account" element={user() ? <Account /> : <Navigate href="/login" />} />
             <Route path="/login" element={<AuthPage />} />
-            <Route path="/important-apps" element={<ImportantApps />} />
+            {/* Removed 'important-apps' route */}
           </Routes>
           <SocialMediaLinks />
         </div>
