@@ -30,10 +30,10 @@ export default async function handler(req, res) {
       return;
     }
 
-    const { prompt, size } = body;
+    const { prompt, size, n } = body;
 
-    if (!prompt || !size) {
-      return res.status(400).json({ error: 'الطلب والوصف والحجم مطلوبان' });
+    if (!prompt || !size || !n) {
+      return res.status(400).json({ error: 'الطلب والوصف والحجم وعدد الصور مطلوب' });
     }
 
     const configuration = new Configuration({
@@ -43,13 +43,14 @@ export default async function handler(req, res) {
 
     const response = await openai.createImage({
       prompt: prompt,
-      n: 1,
+      n: n,
       size: size,
       response_format: 'url',
     });
 
-    const imageUrl = response.data.data[0].url;
-    res.status(200).json({ imageUrl });
+    const imageUrls = response.data.data.map(img => img.url);
+
+    res.status(200).json({ imageUrls });
   } catch (error) {
     console.error('Error generating image:', error);
     Sentry.captureException(error);
