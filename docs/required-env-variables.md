@@ -5,7 +5,6 @@
 - `VITE_PUBLIC_APP_ID`: Your ZAPT App ID.
 - `VITE_PUBLIC_UMAMI_WEBSITE_ID`: Your Umami Website ID for analytics.
 - `VITE_PUBLIC_OCRSPACE_API_KEY`: Your OCR.space API Key.
-- `OPENAI_API_KEY`: Your OpenAI API Key.
 - `SUPABASE_URL`: Your Supabase Project URL.
 - `SUPABASE_ANON_KEY`: Your Supabase Anonymous Public API Key.
 - `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase Service Role API Key.

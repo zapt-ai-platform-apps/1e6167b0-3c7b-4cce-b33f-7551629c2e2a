@@ -11,8 +11,7 @@ export function handleToolClick(toolName, navigate) {
     navigate('/tools/arabic-radio');
   } else if (toolName === 'منشئ المحتوى النصي') {
     navigate('/tools/article-generator');
-  } else if (toolName === 'منشئ الصور بالذكاء الاصطناعي') {
-    navigate('/tools/image-generator');
+  // تمت إزالة شرط 'منشئ الصور بالذكاء الاصطناعي'
   } else if (toolName === 'منشئ المواقع الذكي') {
     navigate('/tools/website-builder');
   } else if (toolName === 'أداة استخراج النص من الصورة') {
