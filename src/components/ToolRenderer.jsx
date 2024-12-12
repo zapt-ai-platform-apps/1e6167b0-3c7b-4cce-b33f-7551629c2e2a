@@ -3,8 +3,6 @@ import SmartWritingAssistant from './SmartWritingAssistant';
 import SmartVoiceAssistant from './SmartVoiceAssistant';
 import ArabicRadio from './ArabicRadio';
 import ArticleGenerator from './ArticleGenerator';
-// تمت إزالة import ImageGenerator
-import WebsiteBuilder from './WebsiteBuilder';
 import CVGenerator from './CVGenerator';
 import ImageToText from './ImageToText';
 import AgeHoroscopeCalculator from './AgeHoroscopeCalculator';
@@ -14,7 +12,6 @@ function ToolRenderer(props) {
   const {
     toolName,
     navigate,
-    setGeneratedSite,
     user,
   } = props;
 
@@ -29,9 +26,6 @@ function ToolRenderer(props) {
       return <ArabicRadio />;
     case 'article-generator':
       return <ArticleGenerator />;
-    // تمت إزالة حالة 'image-generator'
-    case 'website-builder':
-      return <WebsiteBuilder setGeneratedSite={setGeneratedSite} user={user} />;
     case 'cv-generator':
       return <CVGenerator />;
     case 'image-to-text':

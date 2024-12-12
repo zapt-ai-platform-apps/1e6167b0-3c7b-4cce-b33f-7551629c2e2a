@@ -4,7 +4,6 @@ function ToolContent(props) {
   const {
     toolName,
     navigate,
-    setGeneratedSite,
     user,
   } = props;
 
@@ -19,7 +18,6 @@ function ToolContent(props) {
       <ToolRenderer
         toolName={toolName}
         navigate={navigate}
-        setGeneratedSite={setGeneratedSite}
         user={user}
       />
     </>
