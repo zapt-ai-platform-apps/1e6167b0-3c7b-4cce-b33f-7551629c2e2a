@@ -9,7 +9,9 @@ function MainContent() {
   const handleSelectionChange = (e) => {
     const value = e.target.value;
     setSelectedOption(value);
-    if (value) {
+    if (value === 'blog') {
+      window.open('https://blindaccessibility0.blogspot.com/', '_blank', 'noopener,noreferrer');
+    } else if (value) {
       navigate(`/${value}`);
     }
   };
@@ -28,7 +30,9 @@ function MainContent() {
           class="box-border p-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary-dark focus:border-transparent cursor-pointer"
         >
           <option value="">اختر وجهتك...</option>
-          {/* Removed 'أهم التطبيقات' option */}
+          <option value="services">خدمات</option>
+          <option value="tools">أدوات</option>
+          <option value="blog">المدونة</option>
         </select>
       </div>
       <AdvertisementBanner />
