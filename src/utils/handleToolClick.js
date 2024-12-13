@@ -19,6 +19,8 @@ export function handleToolClick(toolName, navigate) {
     navigate('/tools/age-horoscope-calculator');
   } else if (toolName === 'أداة تجربة الأكواد البرمجية') {
     navigate('/tools/code-playground');
+  } else if (toolName === 'أداة وصف الصورة') {
+    navigate('/tools/image-description');
   } else {
     alert('هذه الأداة غير متوفرة حاليًا.');
   }

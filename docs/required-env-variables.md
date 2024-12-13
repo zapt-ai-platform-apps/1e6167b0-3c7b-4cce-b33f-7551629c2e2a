@@ -9,5 +9,6 @@
 - `SUPABASE_ANON_KEY`: Your Supabase Anonymous Public API Key.
 - `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase Service Role API Key.
 - `SUPABASE_JWT_SECRET`: Your Supabase JWT Secret.
+- `DEEPAI_API_KEY`: Your DeepAI API Key.
 
 **ملاحظة:** تأكد من إضافة قيم المتغيرات البيئية في ملف `.env` لضمان عمل التطبيق بشكل صحيح.

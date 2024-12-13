@@ -8,6 +8,7 @@ import ImageToText from './ImageToText';
 import AgeHoroscopeCalculator from './AgeHoroscopeCalculator';
 import PDFReader from './PDFReader';
 import CodePlayground from './CodePlayground';
+import ImageDescription from './ImageDescription';
 import ToolNotAvailable from './ToolNotAvailable';
 
 function ToolRenderer(props) {
@@ -38,6 +39,8 @@ function ToolRenderer(props) {
       return <PDFReader />;
     case 'code-playground':
       return <CodePlayground />;
+    case 'image-description':
+      return <ImageDescription />;
     default:
       return <ToolNotAvailable navigate={navigate} />;
   }
