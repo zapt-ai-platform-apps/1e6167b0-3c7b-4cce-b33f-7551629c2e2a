@@ -32,6 +32,7 @@ function MainContent() {
           <option value="">اختر وجهتك...</option>
           <option value="services">خدمات</option>
           <option value="tools">أدوات</option>
+          <option value="important-apps">أهم التطبيقات</option>
           <option value="blog">المدونة</option>
         </select>
       </div>
