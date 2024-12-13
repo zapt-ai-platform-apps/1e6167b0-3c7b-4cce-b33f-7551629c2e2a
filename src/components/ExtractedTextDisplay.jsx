@@ -1,36 +1,34 @@
+import TextActions from './TextActions';
+import AudioPlayer from './AudioPlayer';
+import { Show } from 'solid-js';
+
 function ExtractedTextDisplay(props) {
+  const { processedText, extractedText, setAudioUrl, audioUrl, loadingTTS, setLoadingTTS } = props;
+
   return (
-    <div class="mt-4">
-      <h3 class="text-lg font-bold mb-2 text-purple-600">النص الناتج:</h3>
-      <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
-        <p
-          class="whitespace-pre-wrap text-gray-800"
-          style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}
-        >
-          {props.processedText() || props.extractedText()}
-        </p>
+    <Show when={processedText() || extractedText()}>
+      <div class="mt-4">
+        <TextActions
+          processedText={processedText}
+          extractedText={extractedText}
+          setAudioUrl={setAudioUrl}
+          loadingTTS={loadingTTS}
+          setLoadingTTS={setLoadingTTS}
+        />
+        <div class="mt-4 p-6 bg-white rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold mb-4 text-purple-600">النص الناتج</h3>
+          <div class="p-4 border border-gray-300 rounded-lg bg-white" dir="rtl">
+            <div
+              class="whitespace-pre-wrap text-gray-800"
+              style={{ 'font-family': "'Noto Kufi Arabic', 'Tahoma', sans-serif" }}
+            >
+              {processedText() || extractedText()}
+            </div>
+          </div>
+          <AudioPlayer audioUrl={audioUrl} />
+        </div>
       </div>
-      <div class="mt-4 flex flex-wrap space-x-4 space-x-reverse">
-        <button
-          class="cursor-pointer px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 ease-in-out transform mt-2"
-          onClick={props.handleCopyText}
-        >
-          نسخ النص
-        </button>
-        <button
-          class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform mt-2"
-          onClick={props.handleDownloadText}
-        >
-          تنزيل كنص
-        </button>
-        <button
-          class="cursor-pointer px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition duration-300 ease-in-out transform mt-2"
-          onClick={props.handleDownloadDocx}
-        >
-          تنزيل كملف Word
-        </button>
-      </div>
-    </div>
+    </Show>
   );
 }
 

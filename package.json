@@ -1,3 +1,4 @@
+```json
 {
   "name": "blind-accessibility",
   "version": "1.0.9",
@@ -27,7 +28,8 @@
     "docx": "^7.7.0",
     "node-fetch": "^2.6.7",
     "raw-body": "^2.5.1",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.0",
+    "pdfjs-dist": "^3.6.172"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
@@ -38,3 +40,4 @@
     "vite-plugin-solid": "^2.7.0"
   }
 }
+```
