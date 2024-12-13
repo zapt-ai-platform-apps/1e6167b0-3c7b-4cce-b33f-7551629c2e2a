@@ -7,6 +7,7 @@ import CVGenerator from './CVGenerator';
 import ImageToText from './ImageToText';
 import AgeHoroscopeCalculator from './AgeHoroscopeCalculator';
 import PDFReader from './PDFReader';
+import CodePlayground from './CodePlayground';
 import ToolNotAvailable from './ToolNotAvailable';
 
 function ToolRenderer(props) {
@@ -35,6 +36,8 @@ function ToolRenderer(props) {
       return <AgeHoroscopeCalculator />;
     case 'pdf-reader':
       return <PDFReader />;
+    case 'code-playground':
+      return <CodePlayground />;
     default:
       return <ToolNotAvailable navigate={navigate} />;
   }

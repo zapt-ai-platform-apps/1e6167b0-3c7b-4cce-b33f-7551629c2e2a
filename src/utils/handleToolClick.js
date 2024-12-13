@@ -17,6 +17,8 @@ export function handleToolClick(toolName, navigate) {
     navigate('/tools/pdf-reader');
   } else if (toolName === 'حاسبة العمر والأبراج') {
     navigate('/tools/age-horoscope-calculator');
+  } else if (toolName === 'أداة تجربة الأكواد البرمجية') {
+    navigate('/tools/code-playground');
   } else {
     alert('هذه الأداة غير متوفرة حاليًا.');
   }

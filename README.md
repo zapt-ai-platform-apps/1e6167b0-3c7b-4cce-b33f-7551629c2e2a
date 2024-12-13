@@ -16,6 +16,7 @@
 8. [استخدام أداة استخراج النص من الصورة](docs/journeys/use-image-to-text-tool.md) - استخراج نص صحيح ومنسق احترافيًا من الصور باستخدام تقنية OCR المتقدمة والذكاء الاصطناعي.
 9. [استخدام قارئ PDF الاحترافي](docs/journeys/use-pdf-reader.md) - استخدام تقنية OCR والذكاء الاصطناعي لقراءة ملفات PDF وعرض النصوص المنسقة.
 10. [متابعتنا على وسائل التواصل الاجتماعي](docs/journeys/follow-social-media.md) - تواصل معنا عبر منصات التواصل الاجتماعي.
+11. [استخدام أداة تجربة الأكواد البرمجية](docs/journeys/use-code-playground.md) - جرب الأكواد البرمجية HTML وCSS وJS مباشرة وشاهد النتائج.
 
 [External APIs Used](docs/external-apis-used.md)
 
