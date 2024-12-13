@@ -7,10 +7,19 @@ Sentry.init({
   initialScope: {
     tags: {
       type: 'backend',
-      projectId: process.env.VITE_PUBLIC_APP_ID
-    }
-  }
+      projectId: process.env.VITE_PUBLIC_APP_ID,
+    },
+  },
 });
+
+// Allow parsing of JSON bodies up to 10MB
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -28,51 +37,44 @@ export default async function handler(req, res) {
     const token = authorization.split(' ')[1];
     // يمكنك التحقق من صحة التوكن هنا إذا لزم الأمر
 
-    const form = new FormData();
+    const { image } = req.body;
 
-    // استخراج الصورة من الطلب
-    const buffers = [];
-    req.on('data', (chunk) => {
-      buffers.push(chunk);
+    if (!image) {
+      res.status(400).json({ error: 'لم يتم توفير صورة' });
+      return;
+    }
+
+    // Decode base64 image
+    const buffer = Buffer.from(image, 'base64');
+
+    const form = new FormData();
+    form.append('image', buffer, {
+      filename: 'image.jpg',
     });
 
-    req.on('end', async () => {
-      const buffer = Buffer.concat(buffers);
-      form.append('image', buffer, {
-        contentType: req.headers['content-type'],
-        filename: 'image.jpg',
+    try {
+      const response = await fetch('https://api.deepai.org/api/image-captioning', {
+        method: 'POST',
+        headers: {
+          'Api-Key': process.env.DEEPAI_API_KEY,
+          ...form.getHeaders(),
+        },
+        body: form,
       });
 
-      try {
-        const response = await fetch('https://api.deepai.org/api/image-captioning', {
-          method: 'POST',
-          headers: {
-            'Api-Key': process.env.DEEPAI_API_KEY,
-            ...form.getHeaders(),
-          },
-          body: form,
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          res.status(response.status).json({ error: errorData.error || 'حدث خطأ أثناء معالجة الصورة' });
-          return;
-        }
-
-        const data = await response.json();
-        res.status(200).json({ description: data.output });
-      } catch (error) {
-        console.error('Error calling DeepAI API:', error);
-        Sentry.captureException(error);
-        res.status(500).json({ error: 'خطأ داخلي في الخادم' });
+      if (!response.ok) {
+        const errorData = await response.json();
+        res.status(response.status).json({ error: errorData.error || 'حدث خطأ أثناء معالجة الصورة' });
+        return;
       }
-    });
 
-    req.on('error', (error) => {
-      console.error('Error in request:', error);
+      const data = await response.json();
+      res.status(200).json({ description: data.output });
+    } catch (error) {
+      console.error('Error calling DeepAI API:', error);
       Sentry.captureException(error);
-      res.status(500).json({ error: 'خطأ في الطلب' });
-    });
+      res.status(500).json({ error: 'خطأ داخلي في الخادم' });
+    }
   } catch (error) {
     console.error('Error in describeImage handler:', error);
     Sentry.captureException(error);
