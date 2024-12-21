@@ -17,4 +17,4 @@
   onInput={(e) => setInputValue(e.target.value)}
   class="box-border w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
   placeholder="أدخل نصًا"
->
+/>
