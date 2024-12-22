@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
 
 function Footer(props) {
-  const isAdmin = props.user && props.user().email === 'daoudi.abdennour@gmail.com';
+  const isAdmin = props.user() && props.user().email === 'daoudi.abdennour@gmail.com';
   return (
     <footer class="mt-8 text-center text-gray-700 p-4 bg-white shadow-inner">
       <p>جميع الحقوق محفوظة © 2023 Blind Accessibility</p>
